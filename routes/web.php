@@ -41,3 +41,17 @@ Route::get('/agregarContrata/{id}' , 'ClientesController@vista_agregarContrata')
 |           FIN    ADMINISTRACION DE CONTRATAS Y DE CLIENTES
 |--------------------------------------------------------------------------
 */
+
+/*
+|--------------------------------------------------------------------------
+|               ADMINISTRACION DE USUARIOS
+|--------------------------------------------------------------------------
+*/
+Route::get('/usuarios' , 'UsuariosController@index')->name('vista.usuarios');
+Route::get('/agregarUsuario' , 'UsuariosController@agregarUsuario')->name('vista.agregarUsuario');
+Route::post('/agregarUsuario' , 'UsuariosController@create')->name('create.agregarUsuario');
+/*
+|--------------------------------------------------------------------------
+|           FIN    ADMINISTRACION USUARIOS
+|--------------------------------------------------------------------------
+*/

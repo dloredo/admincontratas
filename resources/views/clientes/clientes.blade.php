@@ -1,7 +1,7 @@
 @extends('layouts.layout')
 
 @section('main')
-<h2 class="content-heading">Control de Clientes y Contratas</h2>
+<h2 class="content-heading">Control de Usuarios</h2>
     <div class="block">
         <div class="block-header block-header-default">
             <h3 class="block-title">Clientes</h3>
