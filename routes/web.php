@@ -18,7 +18,24 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/prueba2', function () {
+    return view('prueba');
+});
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/prueba', 'Prueba@index')->name('prueba');
+
+/*
+|--------------------------------------------------------------------------
+|               ADMINISTRACION DE CONTRATAS Y DE CLIENTES
+|--------------------------------------------------------------------------
+*/
+Route::get('/clientes' , 'ClientesController@index')->name('vista.clientes');
+Route::get('/agregarCliente' , 'ClientesController@vista_agregarCliente')->name('vista.agregarCliente');
+/*
+|--------------------------------------------------------------------------
+|           FIN    ADMINISTRACION DE CONTRATAS Y DE CLIENTES
+|--------------------------------------------------------------------------
+*/
