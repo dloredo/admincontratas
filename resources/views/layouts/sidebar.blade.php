@@ -78,10 +78,14 @@
                             <li>
                                 <a href="{{ route('vista.clientes') }}"><i class="fa fa-address-book-o"></i><span class="sidebar-mini-hide">Clientes</span></a>
                             </li>
+
+                            <li>
+                                <a href="{{ route('vista.usuarios') }}"><i class="fa fa-users"></i><span class="sidebar-mini-hide">Usuarios</span></a>
+                            </li>
                             <li>
                                 <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-badge"></i><span class="sidebar-mini-hide">Control</span></a>
                                 <ul>
-                                    <!--<li>
+                                    <li>
                                         <a class="nav-submenu" data-toggle="nav-submenu" href="#"><span class="sidebar-mini-hide">Dashboards</span></a>
                                         <ul>
                                             <li>
@@ -94,176 +98,8 @@
                                                 <a href="be_pages_dashboard4.html"><span class="sidebar-mini-hide">Dashboard 4</span></a>
                                             </li>
                                         </ul>
-                                    </li>-->
-                                    <li>
-                                        <a class="nav-submenu" data-toggle="nav-submenu" href="#"><span class="sidebar-mini-hide">Hosting</span></a>
-                                        <ul>
-                                            <li>
-                                                <a href="be_pages_hosting_dashboard.html">Dashboard</a>
-                                            </li>
-                                            <li>
-                                                <a href="be_pages_hosting_emails.html">Emails</a>
-                                            </li>
-                                            <li>
-                                                <a href="be_pages_hosting_account.html">Account</a>
-                                            </li>
-                                            <li>
-                                                <a href="be_pages_hosting_support.html">Support</a>
-                                            </li>
-                                        </ul>
                                     </li>
-                                    <li>
-                                        <a class="nav-submenu" data-toggle="nav-submenu" href="#"><span class="sidebar-mini-hide">Real Estate</span></a>
-                                        <ul>
-                                            <li>
-                                                <a href="be_pages_real_estate_dashboard.html">Dashboard</a>
-                                            </li>
-                                            <li>
-                                                <a href="be_pages_real_estate_listing.html">Listing</a>
-                                            </li>
-                                            <li>
-                                                <a href="be_pages_real_estate_listing_new.html">Add New Listing</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a class="nav-submenu" data-toggle="nav-submenu" href="#"><span class="sidebar-mini-hide">Crypto</span></a>
-                                        <ul>
-                                            <li>
-                                                <a href="be_pages_crypto_dashboard.html">Dashboard</a>
-                                            </li>
-                                            <li>
-                                                <a href="be_pages_crypto_buy_sell.html">Buy/Sell</a>
-                                            </li>
-                                            <li>
-                                                <a href="be_pages_crypto_wallets.html">Wallets</a>
-                                            </li>
-                                            <li>
-                                                <a href="be_pages_crypto_settings.html">Settings</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a class="nav-submenu" data-toggle="nav-submenu" href="#"><span class="sidebar-mini-hide">e-Commerce</span></a>
-                                        <ul>
-                                            <li>
-                                                <a href="be_pages_ecom_dashboard.html">Dashboard</a>
-                                            </li>
-                                            <li>
-                                                <a href="be_pages_ecom_orders.html">Orders</a>
-                                            </li>
-                                            <li>
-                                                <a href="be_pages_ecom_order.html">Order</a>
-                                            </li>
-                                            <li>
-                                                <a href="be_pages_ecom_products.html">Products</a>
-                                            </li>
-                                            <li>
-                                                <a href="be_pages_ecom_product_edit.html">Product Edit</a>
-                                            </li>
-                                            <li>
-                                                <a href="be_pages_ecom_customer.html">Customer</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a class="nav-submenu" data-toggle="nav-submenu" href="#"><span class="sidebar-mini-hide">e-Learning</span></a>
-                                        <ul>
-                                            <li>
-                                                <a href="be_pages_elearning_courses.html">Courses</a>
-                                            </li>
-                                            <li>
-                                                <a href="be_pages_elearning_course.html">Course</a>
-                                            </li>
-                                            <li>
-                                                <a href="be_pages_elearning_lesson.html">Lesson</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a class="nav-submenu" data-toggle="nav-submenu" href="#"><span class="sidebar-mini-hide">Forum</span></a>
-                                        <ul>
-                                            <li>
-                                                <a href="be_pages_forum_categories.html">Categories</a>
-                                            </li>
-                                            <li>
-                                                <a href="be_pages_forum_topics.html">Topics</a>
-                                            </li>
-                                            <li>
-                                                <a href="be_pages_forum_discussion.html">Discussion</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a class="nav-submenu" data-toggle="nav-submenu" href="#"><span class="sidebar-mini-hide">Alternative Dashboards</span></a>
-                                        <ul>
-                                            <li>
-                                                <a href="db_classic.html"><span class="sidebar-mini-hide">Classic</span></a>
-                                            </li>
-                                            <li>
-                                                <a href="db_clean.html"><span class="sidebar-mini-hide">Clean</span></a>
-                                            </li>
-                                            <li>
-                                                <a href="db_social.html"><span class="sidebar-mini-hide">Social</span></a>
-                                            </li>
-                                            <li>
-                                                <a href="db_corporate.html"><span class="sidebar-mini-hide">Corporate</span></a>
-                                            </li>
-                                            <li>
-                                                <a href="db_minimal.html"><span class="sidebar-mini-hide">Minimal</span></a>
-                                            </li>
-                                            <li>
-                                                <a href="db_pop.html"><span class="sidebar-mini-hide">Pop</span></a>
-                                            </li>
-                                            <li>
-                                                <a href="db_dark.html"><span class="sidebar-mini-hide">Dark</span></a>
-                                            </li>
-                                            <li>
-                                                <a href="db_medical.html"><span class="sidebar-mini-hide">Medical</span></a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a class="nav-submenu" data-toggle="nav-submenu" href="#"><span class="sidebar-mini-hide">Boxed Backend</span></a>
-                                        <ul>
-                                            <li>
-                                                <a href="bd_dashboard.html">Dashboard</a>
-                                            </li>
-                                            <li>
-                                                <a href="bd_search.html">Search</a>
-                                            </li>
-                                            <li>
-                                                <a href="bd_variations_hero_simple_1.html">Hero Simple 1</a>
-                                            </li>
-                                            <li>
-                                                <a href="bd_variations_hero_simple_2.html">Hero Simple 2</a>
-                                            </li>
-                                            <li>
-                                                <a href="bd_variations_hero_simple_3.html">Hero Simple 3</a>
-                                            </li>
-                                            <li>
-                                                <a href="bd_variations_hero_simple_4.html">Hero Simple 4</a>
-                                            </li>
-                                            <li>
-                                                <a href="bd_variations_hero_image_1.html">Hero Image 1</a>
-                                            </li>
-                                            <li>
-                                                <a href="bd_variations_hero_image_2.html">Hero Image 2</a>
-                                            </li>
-                                            <li>
-                                                <a href="bd_variations_hero_image_3.html">Hero Image 3</a>
-                                            </li>
-                                            <li>
-                                                <a href="bd_variations_hero_image_4.html">Hero Image 4</a>
-                                            </li>
-                                            <li>
-                                                <a href="bd_variations_hero_video_1.html">Hero Video 1</a>
-                                            </li>
-                                            <li>
-                                                <a href="bd_variations_hero_video_2.html">Hero Video 2</a>
-                                            </li>
-                                        </ul>
-                                    </li>
+                                    
                                 </ul>
                             </li>
                             <li class="nav-main-heading"><span class="sidebar-mini-visible">UI</span><span class="sidebar-mini-hidden">User Interface</span></li>
