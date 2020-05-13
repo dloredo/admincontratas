@@ -34,6 +34,8 @@ Route::get('/prueba', 'Prueba@index')->name('prueba');
 */
 Route::get('/clientes' , 'ClientesController@index')->name('vista.clientes');
 Route::get('/agregarCliente' , 'ClientesController@vista_agregarCliente')->name('vista.agregarCliente');
+Route::post('/agregarCliente' , 'ClientesController@agregarClienteNuevo')->name('agregarClienteNuevo');
+Route::get('/agregarContrata/{id}' , 'ClientesController@vista_agregarContrata')->name('vista.agregarContrata');
 /*
 |--------------------------------------------------------------------------
 |           FIN    ADMINISTRACION DE CONTRATAS Y DE CLIENTES

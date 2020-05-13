@@ -15,39 +15,25 @@
                 <thead>
                     <tr>
                         <th class="text-center">ID</th>
-                        <th>NOMBRE</th>
-                        <th class="d-none d-sm-table-cell">Email</th>
-                        <th class="d-none d-sm-table-cell" style="width: 15%;">Access</th>
-                        <th class="text-center" style="width: 15%;">Profile</th>
+                        <th class="text-center">NOMBRE</th>
+                        <th class="text-center">Telefono</th>
+                        <th class="text-center">Direccion</th>
+                        <th class="text-center">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
+                @foreach ($clientes as $cliente)
                     <tr>
-                        <td class="text-center">1</td>
-                        <td class="font-w600">Justin Hunt</td>
-                        <td class="d-none d-sm-table-cell">customer1@example.com</td>
-                        <td class="d-none d-sm-table-cell">
-                            <span class="badge badge-primary">Personal</span>
-                        </td>
+                        <td class="text-center">{{ $cliente->id }}</td>
+                        <td class="font-w600">{{ $cliente->nombres }}  {{ $cliente->apellidos }}</td>
+                        <td class="d-none d-sm-table-cell">{{ $cliente->telefono }}</td>
+                        <td class="d-none d-sm-table-cell">{{ $cliente->direccion }}</td>
                         <td class="text-center">
-                            <button type="button" class="btn btn-sm btn-secondary" data-toggle="tooltip" title="View Customer">
-                                <i class="fa fa-user"></i>
-                            </button>
+                            <a href="{{ route('vista.agregarContrata' , $cliente->id) }}"><button type="button" class="btn btn-sm btn-success" data-toggle="tooltip" title="Dar contrata">Dar contrata</button></a>
+                            <button type="button" class="btn btn-sm btn-success" data-toggle="tooltip" title="Dar contrata">Ver pagos</button>
                         </td>
                     </tr>
-                    <tr>
-                        <td class="text-center">2</td>
-                        <td class="font-w600">Carol White</td>
-                        <td class="d-none d-sm-table-cell">customer2@example.com</td>
-                        <td class="d-none d-sm-table-cell">
-                            <span class="badge badge-info">Business</span>
-                        </td>
-                        <td class="text-center">
-                            <button type="button" class="btn btn-sm btn-secondary" data-toggle="tooltip" title="View Customer">
-                                <i class="fa fa-user"></i>
-                            </button>
-                        </td>
-                    </tr>
+                @endforeach
                 </tbody>
             </table>
         </div>

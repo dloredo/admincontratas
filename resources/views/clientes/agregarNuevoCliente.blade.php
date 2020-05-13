@@ -4,53 +4,61 @@
 <h2 class="content-heading">Añadir nuevo cliente</h2>
 <div class="block">
     <div class="block-content">
-    <form>
+
+    <form action="{{ route('agregarClienteNuevo') }}" method="post">
+    @csrf
         <div class="form-row">
             <div class="form-group col-md-6">
-            <label for="inputEmail4">Nombre(s)*</label>
-            <input type="text" class="form-control" id="nombres" placeholder="Email">
+                <label>Nombre(s)*</label>
+                <input type="text" class="form-control @error('nombres') is-invalid @enderror" id="nombres" name="nombres" value="{{ old('nombres') }}" autocomplete="nombres" autofocus placeholder="Nombre(s)">
+                @error('nombres')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
             </div>
             <div class="form-group col-md-6">
-            <label for="inputPassword4">Apellido(s)*</label>
-            <input type="text" class="form-control" id="apellidos" placeholder="Password">
+                <label>Apellido(s)*</label>
+                <input type="text" class="form-control @error('apellidos') is-invalid @enderror" id="apellidos" name="apellidos" value="{{ old('apellidos') }}" autocomplete="apellidos" placeholder="Apellido(s)">
+                @error('apellidos')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
             </div>
         </div>
         <div class="form-group">
-            <label for="inputAddress">Dirección</label>
-            <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-        </div>
-
-        <div class="form-group">
-            <label for="inputAddress2">Telefóno</label>
-            <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+            <label>Dirección</label>
+            <input type="text" class="form-control @error('direccion') is-invalid @enderror" id="direccion" name="direccion" value="{{ old('direccion') }}" autocomplete="direccion" placeholder="Av. Pablo Silva #555">
+            @error('direccion')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>
 
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label for="inputCity">City</label>
-                <input type="text" class="form-control" id="inputCity">
+                <label>Telefóno</label>
+                <input type="text" class="form-control @error('telefono') is-invalid @enderror" id="telefono" name="telefono" value="{{ old('telefono') }}" autocomplete="telefono" placeholder="+52 3124567891">
+                @error('telefono')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
             </div>
-            <div class="form-group col-md-4">
-                <label for="inputState">State</label>
-                <select id="inputState" class="form-control">
-                    <option selected>Choose...</option>
-                    <option>...</option>
-                </select>
-            </div>
-                <div class="form-group col-md-2">
-                <label for="inputZip">Zip</label>
-                <input type="text" class="form-control" id="inputZip">
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="gridCheck">
-                <label class="form-check-label" for="gridCheck">
-                    Check me out
-                </label>
+            <div class="form-group col-lg-6">
+                <label>Fecha de registro</label>
+                <input type="date" class="form-control @error('fecha_registro') is-invalid @enderror" id="fecha_registro" name="fecha_registro" value="{{ old('fecha_registro') }}" autocomplete="fecha_registro">
+                @error('fecha_registro')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
             </div>
         </div>
-        <button type="submit" class="btn btn-primary">Sign in</button>
+        <button type="submit" class="btn btn-primary">Agregar cliente nuevo</button>
+         <a href="{{ route('vista.clientes') }}"><button type="button" class="btn btn-danger">Cancelar</button></a>
     </form>
 
     <br>
