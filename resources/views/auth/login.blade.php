@@ -49,8 +49,15 @@
                                                     @enderror
                                                 </div>
                                             </div>
+                                            @if($errors->has('inactive'))
+                                            <div class="form-group row">
+                                                <div class="col-12">
+                                                    <span style="color:red;">{{ $errors->first('inactive') }}</span>    
+                                                </div>
+                                            </div>
+                                            @endif
                                             <div class="form-group row mb-0">
-                                                
+                                            
                                                 <div class="col-sm-12 text-sm-right push">
                                                     <button type="submit" class="btn btn-alt-primary">
                                                         <i class="si si-login mr-10"></i> Entrar
