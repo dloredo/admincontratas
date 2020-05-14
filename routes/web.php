@@ -15,7 +15,7 @@ use App\Http;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect("/login");
 });
 
 Route::get('/prueba2', function () {
@@ -50,6 +50,9 @@ Route::get('/agregarContrata/{id}' , 'ClientesController@vista_agregarContrata')
 Route::get('/usuarios' , 'UsuariosController@index')->name('vista.usuarios');
 Route::get('/agregarUsuario' , 'UsuariosController@agregarUsuario')->name('vista.agregarUsuario');
 Route::post('/agregarUsuario' , 'UsuariosController@create')->name('create.agregarUsuario');
+Route::get('/cambiarEstatusUsuario/{id}/{estatus}' , 'UsuariosController@cambiarEstatus')->name('edit.cambiarEstatus');
+Route::get('/eliminarUsuario/{id}' , 'UsuariosController@eliminarUsuario')->name('delete.usuario');
+
 /*
 |--------------------------------------------------------------------------
 |           FIN    ADMINISTRACION USUARIOS

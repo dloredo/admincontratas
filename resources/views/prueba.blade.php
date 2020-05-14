@@ -36,7 +36,7 @@
 @section('scripts')
 
     <script>
-        alert("Seccion de scripts")
+ 
     </script>
 
 @endsection

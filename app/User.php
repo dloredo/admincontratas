@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',"nombres","apellidos","direccion","telefono","id_rol"
+        'name', 'password',"nombres","apellidos","direccion","telefono","id_rol","activo"
     ];
 
     /**
@@ -43,5 +43,13 @@ class User extends Authenticatable
     function rol()
     {
         return $this->belongsTo('App\Rol',"id_rol");
+    }
+
+    function getActivoAttribute($value)
+    {
+        if($value)
+            return "Activo";
+
+        return "Inactivo";
     }
 }

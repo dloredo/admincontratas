@@ -29,6 +29,7 @@
                     <th class="d-none d-sm-table-cell">Direccion</th>
                     <th class="d-none d-sm-table-cell" style="width: 15%;">Telefono</th>
                     <th class="d-none d-sm-table-cell" style="width: 15%;">Rol</th>
+                    <th class="d-none d-sm-table-cell" style="width: 15%;">Estatus</th>
                     <th class="text-center" style="width: 15%;">Acciones</th>
                 </tr>
             </thead>
@@ -39,10 +40,10 @@
                         <td class="d-none d-sm-table-cell">{{$usuario->direccion}}</td>
                         <td class="d-none d-sm-table-cell">{{$usuario->telefono}}</td>
                         <td class="d-none d-sm-table-cell">{{$usuario->rol->rol}}</td>
+                        <td class="d-none d-sm-table-cell">{{$usuario->activo}}</td>
                         <td class="text-center">
-                            <button type="button" class="btn btn-sm btn-secondary" data-toggle="tooltip" title="View Customer">
-                                <i class="fa fa-user"></i>
-                            </button>
+                            <a href="{{ route('edit.cambiarEstatus' , [ 'id' => $usuario->id, 'estatus' => $usuario->activo]) }}" type="button" class="btn btn-sm {{($usuario->activo == 'Activo')? 'btn-warning' : 'btn-success' }}">{{($usuario->activo == 'Activo')? 'Inactivar' : 'Activar' }}</a>
+                            <button style="margin-top:10px;" type="button" class="btn btn-sm btn-danger"  onclick="showModal({{$usuario->id}}, '{{$usuario->nombres}}')">Eliminar</button>
                         </td>
                     </tr>
                 @endforeach
@@ -50,6 +51,33 @@
         </table>
     </div>
 </div>
+
+
+<div class="modal fade" id="modal-popin" tabindex="-1" role="dialog" aria-labelledby="modal-popin" aria-modal="true">
+            <div class="modal-dialog modal-dialog-popin" role="document">
+                <div class="modal-content">
+                    <div class="block block-themed block-transparent mb-0">
+                        <div class="block-header bg-primary-dark">
+                            <h3 class="block-title">Eliminar este usuario</h3>
+                            <div class="block-options">
+                                <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+                                    <i class="si si-close"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="block-content">
+                            <p id="modalTextContent">¿Esta seguro de eliminar a este usuario?</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-alt-secondary" data-dismiss="modal">Cancelar</button>
+                        <a id="linkEliminar" type="button" class="btn btn-alt-danger">
+                            <i class="fa fa-check"></i> Eliminar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
 @endsection
 
 @section('styles')
@@ -61,6 +89,12 @@
 
 <script>
 
+    function showModal(idUsuario,nombre)
+    {
+        $('#modalTextContent').html(`¿Esta seguro de eliminar al usuario ${nombre}?`)
+        $("#linkEliminar").attr("href", "/eliminarUsuario/"+idUsuario)
+        $('#modal-popin').modal('show');
+    }
 </script>
 
 @endsection
