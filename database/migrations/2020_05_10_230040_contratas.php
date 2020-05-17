@@ -22,7 +22,8 @@ class Contratas extends Migration
             $table->integer('comision');
             $table->float('comision_porcentaje');
             $table->integer('cantidad_pagar');
-            $table->integer('cantidad_plan_contrata');
+            $table->integer('dias_plan_contrata'); //modifique de "cantidad_plan_contrata" a "dias_plan_contrata"
+            $table->integer('pagos_contrata');   //agrege
             $table->string('tipo_plan_contrata');
             $table->date('fecha_inicio');
             $table->integer('estatus');

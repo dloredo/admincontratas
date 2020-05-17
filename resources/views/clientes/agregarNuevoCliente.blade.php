@@ -47,15 +47,6 @@
                     </span>
                 @enderror
             </div>
-            <div class="form-group col-lg-6">
-                <label>Fecha de registro</label>
-                <input type="date" class="form-control @error('fecha_registro') is-invalid @enderror" id="fecha_registro" name="fecha_registro" value="{{ old('fecha_registro') }}" autocomplete="fecha_registro">
-                @error('fecha_registro')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-            </div>
         </div>
         <button type="submit" class="btn btn-primary">Agregar cliente nuevo</button>
          <a href="{{ route('vista.clientes') }}"><button type="button" class="btn btn-danger">Cancelar</button></a>
