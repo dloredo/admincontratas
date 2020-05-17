@@ -43,7 +43,7 @@
                         <td class="d-none d-sm-table-cell">{{$usuario->activo}}</td>
                         <td class="text-center">
                             <a href="{{ route('edit.cambiarEstatus' , [ 'id' => $usuario->id, 'estatus' => $usuario->activo]) }}" type="button" class="btn btn-sm {{($usuario->activo == 'Activo')? 'btn-warning' : 'btn-success' }}">{{($usuario->activo == 'Activo')? 'Inactivar' : 'Activar' }}</a>
-                            <button style="margin-top:10px;" type="button" class="btn btn-sm btn-danger"  onclick="showModal({{$usuario->id}}, '{{$usuario->nombres}}')">Eliminar</button>
+                            <button style="margin-top:10px;" type="button" class="btn btn-sm btn-danger"  onclick="showModal( {{$usuario->id}}, '{{$usuario->nombres}}')">Eliminar</button>
                         </td>
                     </tr>
                 @endforeach

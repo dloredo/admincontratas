@@ -21,6 +21,7 @@ class Clientes extends Migration
             $table->string('apellidos');
             $table->string('direccion');
             $table->string('telefono');
+            $table->boolean('activo');
             $table->date('fecha_registro');
         });
     }

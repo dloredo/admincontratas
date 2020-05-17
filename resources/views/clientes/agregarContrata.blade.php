@@ -49,8 +49,7 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label>Fecha de inicio</label> <br>
-                <label> Fecha recomendada: {{ $fecha->format('d/m/Y') }} </label>    
-                <input type="date" class="form-control @error('fecha_inicio') is-invalid @enderror" id="fecha_inicio" name="fecha_inicio" value="{{ old('fecha_inicio') }}" autocomplete="fecha_inicio">
+                <input type="date" class="form-control @error('fecha_inicio') is-invalid @enderror" id="fecha_inicio" name="fecha_inicio" value="{{ $fecha->format('Y-m-d') }}" autocomplete="fecha_inicio">
                 @error('fecha_inicio')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -60,8 +59,7 @@
 
             <div class="form-group col-md-6">
                 <label>Fecha de termino</label> <br>
-                <label>Fecha de termino recomendada: {{ $fecha_finalizacion->format('d/m/Y') }}</label>
-                <input type="date" class="form-control @error('fecha_termino') is-invalid @enderror" id="fecha_termino" name="fecha_termino" value="{{ old('fecha_termino') }}" autocomplete="fecha_termino">
+                <input type="date" class="form-control @error('fecha_termino') is-invalid @enderror" id="fecha_termino" name="fecha_termino"  value="{{ $fecha_finalizacion->format('Y-m-d') }}" autocomplete="fecha_termino">
                 @error('fecha_termino')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>

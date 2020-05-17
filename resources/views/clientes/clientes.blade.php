@@ -1,7 +1,15 @@
 @extends('layouts.layout')
-
 @section('main')
-<h2 class="content-heading">Control de Usuarios</h2>
+@if($message = Session::get('message'))
+<div class="alert alert-success alert-dismissable" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">×</span>
+    </button>
+    <h3 class="alert-heading font-size-h4 font-w400">Correcto</h3>
+    <p class="mb-0">{{ $message }}</p>
+</div>
+@endif
+<h2 class="content-heading">Control de clientes</h2>
     <div class="block">
         <div class="block-header block-header-default">
             <h3 class="block-title">Clientes</h3>
@@ -31,11 +39,39 @@
                         <td class="text-center">
                             <a href="{{ route('vista.agregarContrata' , $cliente->id) }}"><button type="button" class="btn btn-sm btn-success" data-toggle="tooltip" title="Dar contrata">Dar contrata</button></a>
                             <button type="button" class="btn btn-sm btn-success" data-toggle="tooltip" title="Dar contrata">Ver pagos</button>
+                            <a href="{{ route('edit.cambiarEstatusCliente' , [ 'id' => $cliente->id, 'estatus' => $cliente->activo]) }}" type="button" class="btn btn-sm {{($cliente->activo == 'Activo')? 'btn-warning' : 'btn-success' }}">{{($cliente->activo == 'Activo')? 'Inactivar' : 'Activar' }}</a>
                         </td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="modal-popin" tabindex="-1" role="dialog" aria-labelledby="modal-popin" aria-modal="true">
+        <div class="modal-dialog modal-dialog-popin" role="document">
+            <div class="modal-content">
+                <div class="block block-themed block-transparent mb-0">
+                    <div class="block-header bg-primary-dark">
+                        <h3 class="block-title">Eliminar este cliente</h3>
+                        <div class="block-options">
+                            <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+                                <i class="si si-close"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="block-content">
+                        <p id="modalTextContent">¿Esta seguro de eliminar a este cliente?</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-alt-secondary" data-dismiss="modal">Cancelar</button>
+                    <a id="linkEliminar" type="button" class="btn btn-alt-danger">
+                        <i class="fa fa-check"></i> Eliminar
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
