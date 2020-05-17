@@ -79,7 +79,8 @@ Route::get('/principal' , 'PrincipalController@index')->name('vista.principal');
 |               PAGINA CAPITAL
 |--------------------------------------------------------------------------
 */
-Route::get('/capital-corte' , 'CapitalController@index')->name('vista.capital');
+Route::get('/capital-corte' , 'CapitalController@index')->name('vista.capital.cortes');
+Route::get('/capital-movimientos' , 'CapitalController@index')->name('vista.capital.movimientos');
 /*
 |--------------------------------------------------------------------------
 |           FIN PAGINA CAPITAL

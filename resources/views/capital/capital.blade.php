@@ -13,20 +13,20 @@
 @endif
 
 
-<div class="block" >
-<ul class="nav nav-tabs nav-tabs-block js-tabs-enabled" data-toggle="tabs" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" href="#btabs-static-home">Cortes</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#btabs-static-profile">Movimientos</a>
-                                    </li>
-                                    <li class="nav-item ml-auto">
-                                        <a class="nav-link" href="#btabs-static-settings">
-                                            <i class="si si-settings"></i>
-                                        </a>
-                                    </li>
-                                </ul>
+<div class="block">
+    <ul class="nav nav-tabs nav-tabs-block js-tabs-enabled" data-toggle="tabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link  {{ (Request::is('capital-corte'))? 'active' : '' }}" href="{{ route('vista.capital.cortes') }}">Cortes</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {{ (Request::is('capital-movimientos'))? 'active' : '' }}" href="{{ route('vista.capital.movimientos') }}">Movimientos</a>
+        </li>
+        <li class="nav-item ml-auto">
+            <a class="nav-link" href="#btabs-static-settings">
+                <i class="si si-settings"></i>
+            </a>
+        </li>
+    </ul>
     <div class="block-content block-content-full">
 
         <div class="row gutters-tiny js-appear-enabled animated fadeIn" data-toggle="appear">
@@ -72,23 +72,26 @@
                 </div>
             </div>
             <!-- Row #3 -->
-            <div class="col-xl-8 d-flex align-items-stretch" >
-                <div class="block block-themed block-mode-loading-inverse block-transparen w-100" >
+            <div class="col-xl-8 d-flex align-items-stretch">
+                <div class="block block-themed block-mode-loading-inverse block-transparen w-100">
                     <div class="block-header ">
                         <h3 class="block-title">
-                            Información de movimientos
+                            {{ (Request::is('capital-corte'))? 'Información de cortes' : 'Información de movimientos' }}
                         </h3>
                         <div class="block-options">
+
+
+
                             <button type="button" class="btn-block-option" data-toggle="block-option" data-action="state_toggle" data-action-mode="demo">
-                                <i class="si si-plus"></i> Agregar movimiento
+                                <i class="si si-plus"></i> {{ (Request::is('capital-corte'))? 'Generar Corte' : 'Agregar movimiento' }}
                             </button>
                         </div>
                     </div>
                     <div class="block-content " style="overflow-y: scroll; max-height:400px;">
-                        @if(Route::has('/capital-corte'))
-                            @include('capital._tablaCortes')
+                        @if(Request::is('capital-corte'))
+                        @include('capital._tablaCortes')
                         @else
-                            @include('capital._tablaMovimientos')
+                        @include('capital._tablaMovimientos')
                         @endif
                     </div>
                 </div>

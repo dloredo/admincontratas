@@ -85,7 +85,7 @@
                                         <a href="{{ route('vista.principal') }}"><i class="si si-home"></i><span class="sidebar-mini-hide">Principal</span></a>
                                     </li>
                                     <li>
-                                        <a href="{{ route('vista.capital') }}"><i class="fa fa-money"></i><span class="sidebar-mini-hide">Capital</span></a>
+                                        <a href="{{ route('vista.capital.cortes') }}"><i class="fa fa-money"></i><span class="sidebar-mini-hide">Capital</span></a>
                                     </li>
                                     <li>
                                         <a href="{{ route('vista.clientes') }}"><i class="fa fa-address-book-o"></i><span class="sidebar-mini-hide">Clientes</span></a>
