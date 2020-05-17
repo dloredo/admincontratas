@@ -82,10 +82,10 @@
                                     <li class="nav-main-heading"><span class="sidebar-mini-visible">UI</span><span class="sidebar-mini-hidden">MENU</span></li>
 
                                     <li>
-                                        <a href="be_pages_dashboard.html"><i class="si si-home"></i><span class="sidebar-mini-hide">Principal</span></a>
+                                        <a href="{{ route('vista.principal') }}"><i class="si si-home"></i><span class="sidebar-mini-hide">Principal</span></a>
                                     </li>
                                     <li>
-                                        <a href="be_pages_dashboard.html"><i class="fa fa-money"></i><span class="sidebar-mini-hide">Capital</span></a>
+                                        <a href="{{ route('vista.capital') }}"><i class="fa fa-money"></i><span class="sidebar-mini-hide">Capital</span></a>
                                     </li>
                                     <li>
                                         <a href="{{ route('vista.clientes') }}"><i class="fa fa-address-book-o"></i><span class="sidebar-mini-hide">Clientes</span></a>
