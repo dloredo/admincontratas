@@ -88,7 +88,6 @@
 @section('scripts')
 
 <script>
-
     function showModal(idUsuario,nombre)
     {
         $('#modalTextContent').html(`¿Esta seguro de eliminar al usuario ${nombre}?`)

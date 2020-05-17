@@ -35,9 +35,10 @@ class ClientesController extends Controller
             'apellidos'       => $request['apellidos'],
             'direccion'       => $request['direccion'],
             'telefono'        => $request['telefono'],
+            'activo'          => true,
             'fecha_registro'  => $fecha->format('Y-m-d'),
         ]);
-        return redirect()->route('vista.clientes')->with('agregar', 'El cliente fue agregado correctamente');
+        return redirect()->route('vista.clientes')->with('message', 'El cliente fue agregado correctamente');
     }
 
     public function vista_agregarContrata($id)
@@ -71,7 +72,7 @@ class ClientesController extends Controller
             'id_cliente'            => $id,
             'cantidad_prestada'     => $request['cantidad_prestada'],
             'comision'              => $comision,
-            'comision_procentaje'   => round($comision_procentaje,2),
+            'comision_porcentaje'   => round($comision_procentaje,2),
             'cantidad_pagar'        => $cantidad_pagar,
             'dias_plan_contrata'    => $request['dias_plan_contrata'],
             'pagos_contrata'        => $request['pagos_contrata'],
@@ -82,6 +83,21 @@ class ClientesController extends Controller
             'bonificacion'          => 0,    
             'control_pago'          => 0,
         ]);
-        return redirect()->route('vista.clientes')->with('agregar', 'Se le añadio una contrata con éxito');
+        return redirect()->route('vista.clientes')->with('message', 'Se le añadio una contrata con éxito');
+    }
+
+    function cambiarEstatusCliente($id,$estatus)
+    {
+        $cliente = Clientes::find($id);
+        $cliente->activo = ($estatus == 'Activo')? false : true ;
+        
+        if($cliente->save())
+        {
+            return redirect()->route('vista.clientes')->with('message', 'Se le desactivo con éxito');
+        }
+        else
+        {
+            return redirect()->route('vista.clientes')->with('message', 'Hubo un error al cambiar el estatus del cliente');
+        }
     }
 }
