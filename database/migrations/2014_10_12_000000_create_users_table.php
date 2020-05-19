@@ -3,6 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class CreateUsersTable extends Migration
 {
@@ -31,6 +33,15 @@ class CreateUsersTable extends Migration
 
             $table->foreign("id_rol")->references("id")->on("roles");
         });
+
+        DB::table("usuarios")->insert(["name" => "admin",
+                                    "nombres" => "Administrador",
+                                    "apellidos" => "Pruebas",
+                                    "id_rol" => 1,
+                                    'password' => Hash::make("admin.123"),
+                                    'direccion' => "pruebas",
+                                    'telefono' => "3121234567",
+                                    'activo' => true]);
     }
 
     /**

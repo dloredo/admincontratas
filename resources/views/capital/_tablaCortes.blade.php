@@ -4,19 +4,21 @@
                                     <th>Capital total</th>
                                     <th class="d-none d-sm-table-cell">Capital neto</th>
                                     <th class="d-none d-sm-table-cell">Capital prestado</th>
+                                    <th class="d-none d-sm-table-cell">Comision global</th>
                                     <th class="d-none d-sm-table-cell">Fecha de corte</th>
                                 </tr>
                             </thead>
                             <tbody>
 
-                            @for($i = 0; $i< 20; $i++)
+                            @foreach($cortes as $corte)
 
                                 <tr>
-                                    <td>Abono</td>
-                                    <td>1000</td>
-                                    <td>10/10/2020</td>
-                                    <td>10/10/2020</td>
+                                    <td>{{$corte->capital_total}}</td>
+                                    <td>{{$corte->capital_neto}}</td>
+                                    <td>{{$corte->capital_en_prestamo}}</td>
+                                    <td>{{$corte->comisiones}}</td>
+                                    <td>{{$corte->created_at}}</td>
                                 </tr>
-                            @endfor
+                            @endforeach
                             </tbody>
                         </table>

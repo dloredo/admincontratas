@@ -80,7 +80,9 @@ Route::get('/principal' , 'PrincipalController@index')->name('vista.principal');
 |--------------------------------------------------------------------------
 */
 Route::get('/capital-corte' , 'CapitalController@index')->name('vista.capital.cortes');
-Route::get('/capital-movimientos' , 'CapitalController@index')->name('vista.capital.movimientos');
+Route::get('/generarCorte' , 'CapitalController@generarCorte')->name('generar.corte');
+Route::get('/capital-movimientos' , 'CapitalController@movimientosCapital')->name('vista.capital.movimientos');
+Route::post('/crearMovimientoCapital' , 'CapitalController@crearMovimientoCapital')->name('create.movimientoCapital');
 /*
 |--------------------------------------------------------------------------
 |           FIN PAGINA CAPITAL
