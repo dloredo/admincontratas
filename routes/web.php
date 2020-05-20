@@ -37,6 +37,13 @@ Route::get('/agregarCliente' , 'ClientesController@vista_agregarCliente')->name(
 Route::post('/agregarCliente' , 'ClientesController@agregarClienteNuevo')->name('agregarClienteNuevo');
 Route::get('/agregarContrata/{id}' , 'ClientesController@vista_agregarContrata')->name('vista.agregarContrata');
 Route::post('/añadirContrata/{id}' , 'ClientesController@agregarContrataNueva')->name('agregarContrataNueva');
+
+Route::get('/verContratas/{id}' , 'ClientesController@verContratas')->name('verContratas');
+Route::get('/imprimirPagosDiarios/{id}' , 'ClientesController@imprimirPagosDiarios')->name('imprimirPagosDiarios');
+Route::get('/imprimirPagosSemanales/{id}' , 'ClientesController@imprimirPagosSemanales')->name('imprimirPagosSemanales');
+
+Route::get('/BoletaPagosDiarios/{id}' , 'ClientesController@BoletaPagosDiarios')->name('BoletaPagosDiarios');
+
 Route::get('/cambiarEstatusCliente/{id}/{estatus}' , 'ClientesController@cambiarEstatusCliente')->name('edit.cambiarEstatusCliente');
 /*
 |--------------------------------------------------------------------------

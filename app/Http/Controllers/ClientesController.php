@@ -6,14 +6,17 @@ use Illuminate\Http\Request;
 use App\Clientes;
 use Carbon\Carbon;
 use App\Contratas;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Redirect;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class ClientesController extends Controller
 {
     public function index()
     {
         $clientes = Clientes::all();
-        return view('clientes.clientes' , compact('clientes'));
+        $contratas = Contratas::all();
+        return view('clientes.clientes' , compact('clientes','contratas'));
     }
 
     public function vista_agregarCliente()
@@ -49,6 +52,38 @@ class ClientesController extends Controller
         $fecha_finalizacion = $fecha_aux->addDays(80);
         return view('clientes.agregarContrata', ['cliente' => $cliente , 'fecha' => $fecha , 'fecha_finalizacion' => $fecha_finalizacion]);
     }
+
+    public function verContratas($id)
+    {
+        $cliente = Clientes::where('id', $id)->firstOrFail();
+        $contratas = Contratas::all();
+        return view('clientes.verContratas', ['cliente' => $cliente] , compact('contratas'));
+    }
+    //IMPRIMIR
+    public function imprimirPagosDiarios($id)
+    {
+        $contrata = Contratas::where('id', $id)->firstOrFail();
+        $clientes = Clientes::all();
+        $pdf = \PDF::loadView('clientes.PDF.generarPagosDiarios' , ['contrata' => $contrata] , compact('clientes'));
+        return $pdf->stream('Pagos-Diarios.pdf');
+    }
+    public function imprimirPagosSemanales($id)
+    {
+        $contrata = Contratas::where('id', $id)->firstOrFail();
+        $clientes = Clientes::all();
+        return view('clientes.PDF.generarPagosDiarios', ['contrata' => $contrata] , compact('clientes'));
+    }
+
+    public function BoletaPagosDiarios($id)
+    {
+
+        $contrata = Contratas::where('id', $id)->firstOrFail();
+        $clientes = Clientes::all();
+        $pdf = \PDF::loadView('clientes.PDF.generarPagosDiarios' , ['contrata' => $contrata] , compact('clientes'));
+        //$pdf->loadView('clientes.PDF.generarPagosDiarios' , ['contrata' => $contrata] , compact('clientes'));
+        return $pdf->download('Pagos-Diarios.pdf');
+    }
+    //FIN
 
     public function agregarContrataNueva($id,Request $request)
     {

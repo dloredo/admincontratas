@@ -38,6 +38,7 @@
                         <td class="d-none d-sm-table-cell">{{ $cliente->direccion }}</td>
                         <td class="text-center">
                             <a href="{{ route('vista.agregarContrata' , $cliente->id) }}"><button type="button" class="btn btn-sm btn-success" data-toggle="tooltip" title="Dar contrata">Dar contrata</button></a>
+                            <a href="{{ route('verContratas' , $cliente->id) }}" type="button" class="btn btn-sm btn-primary">Ver contratas</a>
                             <button type="button" class="btn btn-sm btn-success" data-toggle="tooltip" title="Dar contrata">Ver pagos</button>
                             <a href="{{ route('edit.cambiarEstatusCliente' , [ 'id' => $cliente->id, 'estatus' => $cliente->activo]) }}" type="button" class="btn btn-sm {{($cliente->activo == 'Activo')? 'btn-warning' : 'btn-success' }}">{{($cliente->activo == 'Activo')? 'Inactivar' : 'Activar' }}</a>
                         </td>
