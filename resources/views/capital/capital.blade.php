@@ -19,7 +19,7 @@
             <a class="nav-link  {{ (Request::is('capital-corte'))? 'active' : '' }}" href="{{ route('vista.capital.cortes') }}">Cortes</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{ (Request::is('capital-movimientos'))? 'active' : '' }}" href="{{ route('vista.capital.movimientos') }}">Movimientos</a>
+            <a class="nav-link {{ (Request::is('capital-movimientos'))? 'active' : '' }}" href="{{ route('vista.capital.movimientos') }}">Movimientos de capital</a>
         </li>
         <li class="nav-item ml-auto">
             <a class="nav-link" href="#btabs-static-settings">
@@ -37,37 +37,37 @@
                             <div class="float-right mt-15 d-none d-sm-block">
                                 <i class="si si-book-open fa-2x text-success"></i>
                             </div>
-                            <div class="font-size-h3 font-w600 text-success js-count-to-enabled" data-toggle="countTo" data-speed="1000" data-to="750">750</div>
+                            <div class="font-size-h3 font-w600 text-success js-count-to-enabled" data-toggle="countTo" data-speed="1000" data-to="{{$capital->capital_total}}">${{$capital->capital_total}}</div>
                             <div class="font-size-sm font-w600 text-uppercase text-success-light">Capital total</div>
                         </div>
                         <div class="py-15 px-20 clearfix border-black-op-b">
                             <div class="float-right mt-15 d-none d-sm-block">
                                 <i class="si si-wallet fa-2x text-danger"></i>
                             </div>
-                            <div class="font-size-h3 font-w600 text-danger">$<span data-toggle="countTo" data-speed="1000" data-to="980" class="js-count-to-enabled">980</span></div>
+                            <div class="font-size-h3 font-w600 text-danger">$<span data-toggle="countTo" data-speed="1000" data-to="{{$capital->capital_neto}}" class="js-count-to-enabled">{{$capital->capital_neto}}</span></div>
                             <div class="font-size-sm font-w600 text-uppercase text-danger-light">Capital neto</div>
                         </div>
                         <div class="py-15 px-20 clearfix border-black-op-b">
                             <div class="float-right mt-15 d-none d-sm-block">
                                 <i class="si si-envelope-open fa-2x text-warning"></i>
                             </div>
-                            <div class="font-size-h3 font-w600 text-warning js-count-to-enabled" data-toggle="countTo" data-speed="1000" data-to="38">38</div>
+                            <div class="font-size-h3 font-w600 text-warning js-count-to-enabled" data-toggle="countTo" data-speed="1000" data-to="{{$capital->capital_en_prestamo}}">${{$capital->capital_en_prestamo}}</div>
                             <div class="font-size-sm font-w600 text-uppercase text-warning-light">Capital en prestamo</div>
                         </div>
                         <div class="py-15 px-20 clearfix border-black-op-b">
                             <div class="float-right mt-15 d-none d-sm-block">
                                 <i class="si si-users fa-2x text-info"></i>
                             </div>
-                            <div class="font-size-h3 font-w600 text-info js-count-to-enabled" data-toggle="countTo" data-speed="1000" data-to="260">0</div>
+                            <div class="font-size-h3 font-w600 text-info js-count-to-enabled" data-toggle="countTo" data-speed="1000" data-to="{{$capital->comisiones}}">${{$capital->comisiones}}</div>
                             <div class="font-size-sm font-w600 text-uppercase text-info-light">Ganancia por comisiones</div>
                         </div>
-                        <div class="py-15 px-20 clearfix">
+                        <!-- <div class="py-15 px-20 clearfix">
                             <div class="float-right mt-15 d-none d-sm-block">
                                 <i class="si si-drop fa-2x text-elegance"></i>
                             </div>
                             <div class="font-size-h3 font-w600 text-elegance js-count-to-enabled" data-toggle="countTo" data-speed="1000" data-to="59">0</div>
                             <div class="font-size-sm font-w600 text-uppercase text-elegance-light">Retiros</div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -81,13 +81,19 @@
                         <div class="block-options">
 
 
-
-                            <button type="button" class="btn-block-option" data-toggle="block-option" data-action="state_toggle" data-action-mode="demo">
-                                <i class="si si-plus"></i> {{ (Request::is('capital-corte'))? 'Generar Corte' : 'Agregar movimiento' }}
+                            @if(Request::is('capital-corte'))
+                            <a type="button" href="{{route('generar.corte')}}" class="btn-block-option" data-toggle="block-option" data-action="state_toggle" data-action-mode="demo">
+                                <i class="si si-plus"></i> Generar corte
+                            </a>
+                            @else
+                            <button type="button" class="btn-block-option" onclick="showForm()">
+                                <i class="si si-plus"></i> Agregar movimiento
                             </button>
+                            @endif
+
                         </div>
                     </div>
-                    <div class="block-content " style="overflow-y: scroll; max-height:400px;">
+                    <div class="block-content " style="overflow-y: scroll; max-height:350px;">
                         @if(Request::is('capital-corte'))
                         @include('capital._tablaCortes')
                         @else
@@ -109,7 +115,7 @@
         <div class="modal-content">
             <div class="block block-themed block-transparent mb-0">
                 <div class="block-header bg-primary-dark">
-                    <h3 class="block-title">Eliminar este usuario</h3>
+                    <h3 class="block-title">Agregar movimiento</h3>
                     <div class="block-options">
                         <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
                             <i class="si si-close"></i>
@@ -117,14 +123,44 @@
                     </div>
                 </div>
                 <div class="block-content">
-                    <p id="modalTextContent">¿Esta seguro de eliminar a este usuario?</p>
+                    <form action="{{ route('create.movimientoCapital') }}" method="POST" id="saveMoviento">
+                        @csrf
+                        <div class="form-row">
+
+                            <div class="form-group col-md-6">
+                                <label for="tipo_movimiento">Tipo de movimiento</label>
+                                <select id="tipo_movimiento" name="tipo_movimiento" class="form-control @error('tipo_movimiento') is-invalid @enderror">
+                                    <option value="">Elija el tipo de movimiento</option>
+                                    <option @if(old('tipo_movimiento')==1) selected @endif value="Abono">Abono</option>
+                                    <option @if(old('tipo_movimiento')==2) selected @endif value="Retiro">Retiro</option>
+                                </select>
+                                @error('id_rol')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="total">Cantidad</label>
+                                <input type="number" class="form-control @error('total') is-invalid @enderror" value="{{ old('total') }}" id="total" name="total" placeholder="">
+                                @error('total')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+
+                        </div>
+
+                    </form>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-alt-secondary" data-dismiss="modal">Cancelar</button>
-                <a id="linkEliminar" type="button" class="btn btn-alt-danger">
-                    <i class="fa fa-check"></i> Eliminar
-                </a>
+                <button id="linkEliminar" onclick="submitForm()" type="button" class="btn btn-alt-success">
+                    <i class="fa fa-check"></i> Generar movimiento
+                </button>
             </div>
         </div>
     </div>
@@ -138,9 +174,17 @@
 
 @section('scripts')
 
+@if(Request::is('capital-movimientos'))
 <script>
+    function showForm() {
+        $('#modal-popin').modal('show');
+    }
 
-
+    function submitForm() {
+        document.getElementById("saveMoviento").submit();
+    }
 </script>
+@endif
+
 
 @endsection

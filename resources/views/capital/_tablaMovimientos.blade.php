@@ -8,76 +8,14 @@
                             </thead>
                             <tbody>
 
+                                
+                            @foreach($movimientos as $movimiento)
                                 <tr>
-                                    <td>Abono</td>
-                                    <td>1000</td>
-                                    <td>10/10/2020</td>
+                                    <td>{{$movimiento->tipo_movimiento}}</td>
+                                    <td>{{$movimiento->total}}</td>
+                                    <td>{{$movimiento->created_at}}</td>
                                 </tr>
-                                <tr>
-                                    <td>Abono</td>
-                                    <td>1000</td>
-                                    <td>10/10/2020</td>
-                                </tr>
-                                <tr>
-                                    <td>Abono</td>
-                                    <td>1000</td>
-                                    <td>10/10/2020</td>
-                                </tr>
-                                <tr>
-                                    <td>Abono</td>
-                                    <td>1000</td>
-                                    <td>10/10/2020</td>
-                                </tr>
-                                <tr>
-                                    <td>Abono</td>
-                                    <td>1000</td>
-                                    <td>10/10/2020</td>
-                                </tr>
-                                <tr>
-                                    <td>Abono</td>
-                                    <td>1000</td>
-                                    <td>10/10/2020</td>
-                                </tr>
-                                <tr>
-                                    <td>Abono</td>
-                                    <td>1000</td>
-                                    <td>10/10/2020</td>
-                                </tr>
-                                <tr>
-                                    <td>Abono</td>
-                                    <td>1000</td>
-                                    <td>10/10/2020</td>
-                                </tr>
-                                <tr>
-                                    <td>Abono</td>
-                                    <td>1000</td>
-                                    <td>10/10/2020</td>
-                                </tr>
-                                <tr>
-                                    <td>Abono</td>
-                                    <td>1000</td>
-                                    <td>10/10/2020</td>
-                                </tr>
-                                <tr>
-                                    <td>Abono</td>
-                                    <td>1000</td>
-                                    <td>10/10/2020</td>
-                                </tr>
-                                <tr>
-                                    <td>Abono</td>
-                                    <td>1000</td>
-                                    <td>10/10/2020</td>
-                                </tr>
-                                <tr>
-                                    <td>Abono</td>
-                                    <td>1000</td>
-                                    <td>10/10/2020</td>
-                                </tr>
-                                <tr>
-                                    <td>Abono</td>
-                                    <td>1000</td>
-                                    <td>10/10/2020</td>
-                                </tr>
+                            @endforeach
 
                             </tbody>
                         </table>
