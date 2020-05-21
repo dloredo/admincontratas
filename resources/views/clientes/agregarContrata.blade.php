@@ -49,6 +49,8 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label>Fecha de inicio</label> <br>
+                <label>Fecha de inicio por pagos diarios recomendada: {{ $fecha->format('d/m/Y') }}</label>
+                <label>Fecha de inicio por pagos semanales recomendada: {{ $fecha->format('d/m/Y') }}</label>
                 <input type="date" class="form-control @error('fecha_inicio') is-invalid @enderror" id="fecha_inicio" name="fecha_inicio" value="{{ $fecha->format('Y-m-d') }}" autocomplete="fecha_inicio">
                 @error('fecha_inicio')
                     <span class="invalid-feedback" role="alert">
@@ -59,6 +61,8 @@
 
             <div class="form-group col-md-6">
                 <label>Fecha de termino</label> <br>
+                <label>Fecha de termino por pagos diarios recomendada: {{ $fecha_finalizacion->format('d/m/Y') }}</label>
+                <label>Fecha de termino por pagos semanales recomendada: {{ $fecha_finalizacion_semana->format('d/m/Y') }}</label>
                 <input type="date" class="form-control @error('fecha_termino') is-invalid @enderror" id="fecha_termino" name="fecha_termino"  value="{{ $fecha_finalizacion->format('Y-m-d') }}" autocomplete="fecha_termino">
                 @error('fecha_termino')
                     <span class="invalid-feedback" role="alert">

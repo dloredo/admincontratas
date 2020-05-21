@@ -42,8 +42,6 @@ Route::get('/verContratas/{id}' , 'ClientesController@verContratas')->name('verC
 Route::get('/imprimirPagosDiarios/{id}' , 'ClientesController@imprimirPagosDiarios')->name('imprimirPagosDiarios');
 Route::get('/imprimirPagosSemanales/{id}' , 'ClientesController@imprimirPagosSemanales')->name('imprimirPagosSemanales');
 
-Route::get('/BoletaPagosDiarios/{id}' , 'ClientesController@BoletaPagosDiarios')->name('BoletaPagosDiarios');
-
 Route::get('/cambiarEstatusCliente/{id}/{estatus}' , 'ClientesController@cambiarEstatusCliente')->name('edit.cambiarEstatusCliente');
 /*
 |--------------------------------------------------------------------------

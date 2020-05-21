@@ -50,7 +50,9 @@ class ClientesController extends Controller
         $fecha = Carbon::now();
         $fecha_aux = Carbon::now();
         $fecha_finalizacion = $fecha_aux->addDays(80);
-        return view('clientes.agregarContrata', ['cliente' => $cliente , 'fecha' => $fecha , 'fecha_finalizacion' => $fecha_finalizacion]);
+        $fecha_aux_semana = Carbon::now();
+        $fecha_finalizacion_semana = $fecha_aux_semana->addWeeks(10);
+        return view('clientes.agregarContrata', ['cliente' => $cliente , 'fecha' => $fecha , 'fecha_finalizacion' => $fecha_finalizacion, 'fecha_finalizacion_semana' => $fecha_finalizacion_semana]);
     }
 
     public function verContratas($id)
@@ -65,23 +67,16 @@ class ClientesController extends Controller
         $contrata = Contratas::where('id', $id)->firstOrFail();
         $clientes = Clientes::all();
         $pdf = \PDF::loadView('clientes.PDF.generarPagosDiarios' , ['contrata' => $contrata] , compact('clientes'));
+        //$pdf->setPaper('A4', 'landscape');
         return $pdf->stream('Pagos-Diarios.pdf');
     }
     public function imprimirPagosSemanales($id)
     {
         $contrata = Contratas::where('id', $id)->firstOrFail();
         $clientes = Clientes::all();
-        return view('clientes.PDF.generarPagosDiarios', ['contrata' => $contrata] , compact('clientes'));
-    }
-
-    public function BoletaPagosDiarios($id)
-    {
-
-        $contrata = Contratas::where('id', $id)->firstOrFail();
-        $clientes = Clientes::all();
-        $pdf = \PDF::loadView('clientes.PDF.generarPagosDiarios' , ['contrata' => $contrata] , compact('clientes'));
-        //$pdf->loadView('clientes.PDF.generarPagosDiarios' , ['contrata' => $contrata] , compact('clientes'));
-        return $pdf->download('Pagos-Diarios.pdf');
+        $pdf = \PDF::loadView('clientes.PDF.generarPagosSemanales' , ['contrata' => $contrata] , compact('clientes'));
+        //$pdf->setPaper('A4', 'landscape');
+        return $pdf->stream('Pagos-Semana.pdf');
     }
     //FIN
 
