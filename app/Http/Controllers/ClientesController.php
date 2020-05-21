@@ -21,11 +21,9 @@ class ClientesController extends Controller
     
     public function index()
     {
-<<<<<<< HEAD
         $clientes = Clientes::all();
         $contratas = Contratas::all();
         return view('clientes.clientes' , compact('clientes','contratas'));
-=======
         $clientes = Clientes::with("cobrador")->get();
         $usuarios = User::activo()->cobrador()->get();
         return view('clientes.clientes' , compact('clientes','usuarios'));
@@ -43,7 +41,6 @@ class ClientesController extends Controller
         }
        
         return back()->with('message', 'Hubo un error al asignar el cobrador')->with('estatus',false);
->>>>>>> ce1c54f741841a2b2851f8685276ca863eba1b93
     }
 
     public function vista_agregarCliente()
