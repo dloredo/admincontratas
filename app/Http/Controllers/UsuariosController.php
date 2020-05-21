@@ -74,7 +74,7 @@ class UsuariosController extends Controller
             'apellidos' => ['required', 'string', 'max:255'],
             'id_rol' => ['required'],
             'direccion' => ['required', 'string', 'max:255'],
-            'telefono' => ['required'],
+            'telefono' => ['required','numeric'],
         ]);
     }
     
