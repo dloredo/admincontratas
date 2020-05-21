@@ -35,7 +35,7 @@ class ClientesController extends Controller
             return back()->with('message', 'Se asigno el cobrador con éxito')->with('estatus',true);
         }
        
-        return back()->with('message', 'Hubo un error al asignar el cobrador')->with('estatus',true);
+        return back()->with('message', 'Hubo un error al asignar el cobrador')->with('estatus',false);
     }
 
     public function vista_agregarCliente()
