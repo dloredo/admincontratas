@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Clientes;
+use App\User;
 use Carbon\Carbon;
 use App\Contratas;
 use Illuminate\Support\Facades\App;
@@ -12,11 +13,37 @@ use Barryvdh\DomPDF\Facade as PDF;
 
 class ClientesController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth.admin');
+    }
+    
     public function index()
     {
+<<<<<<< HEAD
         $clientes = Clientes::all();
         $contratas = Contratas::all();
         return view('clientes.clientes' , compact('clientes','contratas'));
+=======
+        $clientes = Clientes::with("cobrador")->get();
+        $usuarios = User::activo()->cobrador()->get();
+        return view('clientes.clientes' , compact('clientes','usuarios'));
+    }
+
+    function asignarCobrador(Request $request)
+    {
+        $data = $request->all();
+        $cliente = Clientes::find($data['cliente_id']);
+        $cliente->cobrador_id = $data['cobrador_id'];
+
+        if($cliente->save())
+        {
+            return back()->with('message', 'Se asigno el cobrador con éxito')->with('estatus',true);
+        }
+       
+        return back()->with('message', 'Hubo un error al asignar el cobrador')->with('estatus',false);
+>>>>>>> ce1c54f741841a2b2851f8685276ca863eba1b93
     }
 
     public function vista_agregarCliente()

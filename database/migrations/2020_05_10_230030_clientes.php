@@ -22,8 +22,12 @@ class Clientes extends Migration
             $table->string('direccion');
             $table->string('telefono');
             $table->boolean('activo');
+            $table->integer('cobrador_id')->unsigned()->nullable();
             $table->date('fecha_registro');
+
+            $table->foreign("cobrador_id")->references("id")->on("usuarios");
         });
+
     }
 
     /**
