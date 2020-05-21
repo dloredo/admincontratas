@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Redirect;
 
 class ClientesController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth.admin');
+    }
+    
     public function index()
     {
         $clientes = Clientes::all();
