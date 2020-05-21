@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Clientes;
+use App\User;
 use Carbon\Carbon;
 use App\Contratas;
 use Illuminate\Support\Facades\Redirect;
@@ -18,8 +19,23 @@ class ClientesController extends Controller
     
     public function index()
     {
-        $clientes = Clientes::all();
-        return view('clientes.clientes' , compact('clientes'));
+        $clientes = Clientes::with("cobrador")->get();
+        $usuarios = User::activo()->cobrador()->get();
+        return view('clientes.clientes' , compact('clientes','usuarios'));
+    }
+
+    function asignarCobrador(Request $request)
+    {
+        $data = $request->all();
+        $cliente = Clientes::find($data['cliente_id']);
+        $cliente->cobrador_id = $data['cobrador_id'];
+
+        if($cliente->save())
+        {
+            return back()->with('message', 'Se asigno el cobrador con éxito')->with('estatus',true);
+        }
+       
+        return back()->with('message', 'Hubo un error al asignar el cobrador')->with('estatus',true);
     }
 
     public function vista_agregarCliente()

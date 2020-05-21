@@ -42,6 +42,15 @@ class CreateUsersTable extends Migration
                                     'direccion' => "pruebas",
                                     'telefono' => "3121234567",
                                     'activo' => true]);
+
+        DB::table("usuarios")->insert(["name" => "cobrador",
+                                    "nombres" => "Cobrador",
+                                    "apellidos" => "Pruebas",
+                                    "id_rol" => 2,
+                                    'password' => Hash::make("cobrador.123"),
+                                    'direccion' => "pruebas",
+                                    'telefono' => "3121234567",
+                                    'activo' => true]);                           
     }
 
     /**

@@ -9,8 +9,14 @@ class Clientes extends Model
     public $timestamps = false;
     protected $table = "clientes";
     protected $fillable = [
-        'nombres' , 'apellidos' , 'direccion' , 'telefono' , 'fecha_registro','activo'
+        'nombres' , 'apellidos' , 'direccion' , 'telefono' , 'fecha_registro','activo','cobrador_id'
     ];
+
+    function cobrador()
+    {
+        return $this->belongsTo('App\User',"cobrador_id");
+    }
+
 
     function getActivoAttribute($value)
     {

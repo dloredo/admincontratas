@@ -38,6 +38,8 @@ Route::post('/agregarCliente' , 'ClientesController@agregarClienteNuevo')->name(
 Route::get('/agregarContrata/{id}' , 'ClientesController@vista_agregarContrata')->name('vista.agregarContrata');
 Route::post('/añadirContrata/{id}' , 'ClientesController@agregarContrataNueva')->name('agregarContrataNueva');
 Route::get('/cambiarEstatusCliente/{id}/{estatus}' , 'ClientesController@cambiarEstatusCliente')->name('edit.cambiarEstatusCliente');
+Route::post('/clientes/asignarCobrador' , 'ClientesController@asignarCobrador')->name('clientes.asignarCobrador');
+
 /*
 |--------------------------------------------------------------------------
 |           FIN    ADMINISTRACION DE CONTRATAS Y DE CLIENTES
