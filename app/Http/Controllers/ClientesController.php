@@ -21,12 +21,10 @@ class ClientesController extends Controller
     
     public function index()
     {
-        $clientes = Clientes::all();
         $contratas = Contratas::all();
-        return view('clientes.clientes' , compact('clientes','contratas'));
         $clientes = Clientes::with("cobrador")->get();
         $usuarios = User::activo()->cobrador()->get();
-        return view('clientes.clientes' , compact('clientes','usuarios'));
+        return view('clientes.clientes' , compact('clientes','usuarios','contratas'));
     }
 
     function asignarCobrador(Request $request)
@@ -92,7 +90,7 @@ class ClientesController extends Controller
         $clientes = Clientes::all();
         $pdf = \PDF::loadView('clientes.PDF.generarPagosDiarios' , ['contrata' => $contrata] , compact('clientes'));
         //$pdf->setPaper('A4', 'landscape');
-        return $pdf->stream('Pagos-Diarios.pdf');
+        return $pdf->download('Pagos-Diarios.pdf');
     }
     public function imprimirPagosSemanales($id)
     {

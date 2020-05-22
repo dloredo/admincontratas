@@ -32,20 +32,6 @@
             </thead>
             <tbody>
                 @foreach ($clientes as $cliente)
-<<<<<<< HEAD
-                    <tr>
-                        <td class="text-center">{{ $cliente->id }}</td>
-                        <td class="font-w600">{{ $cliente->nombres }}  {{ $cliente->apellidos }}</td>
-                        <td class="d-none d-sm-table-cell">{{ $cliente->telefono }}</td>
-                        <td class="d-none d-sm-table-cell">{{ $cliente->direccion }}</td>
-                        <td class="text-center">
-                            <a href="{{ route('vista.agregarContrata' , $cliente->id) }}"><button type="button" class="btn btn-sm btn-success" data-toggle="tooltip" title="Dar contrata">Dar contrata</button></a>
-                            <a href="{{ route('verContratas' , $cliente->id) }}" type="button" class="btn btn-sm btn-primary">Ver contratas</a>
-                            <button type="button" class="btn btn-sm btn-success" data-toggle="tooltip" title="Dar contrata">Ver pagos</button>
-                            <a href="{{ route('edit.cambiarEstatusCliente' , [ 'id' => $cliente->id, 'estatus' => $cliente->activo]) }}" type="button" class="btn btn-sm {{($cliente->activo == 'Activo')? 'btn-warning' : 'btn-success' }}">{{($cliente->activo == 'Activo')? 'Inactivar' : 'Activar' }}</a>
-                        </td>
-                    </tr>
-=======
                 <tr>
                     <td class="text-center">{{ $cliente->id }}</td>
                     <td class="font-w600">{{ $cliente->nombres }} {{ $cliente->apellidos }}</td>
@@ -64,6 +50,9 @@
                                 <h5 class="h6 text-center py-10 mb-5 border-b text-uppercase">Opciones</h5>
                                 <a class="dropdown-item" href="{{ route('vista.agregarContrata' , $cliente->id) }}">
                                     <i class="si si-user mr-5"></i> Dar contrata
+                                </a>
+                                <a class="dropdown-item" href="{{ route('verContratas' , $cliente->id) }}">
+                                    <i class="si si-printer mr-5"></i> Imprimir control
                                 </a>
 
                                 <a class="dropdown-item" href="">
@@ -88,7 +77,6 @@
 
                     </td>
                 </tr>
->>>>>>> ce1c54f741841a2b2851f8685276ca863eba1b93
                 @endforeach
             </tbody>
         </table>
