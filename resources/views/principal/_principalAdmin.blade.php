@@ -28,7 +28,7 @@
                 <div class="float-left mt-10 d-none d-sm-block">
                     <i class="si si-envelope-open fa-3x text-body-bg-dark"></i>
                 </div>
-                <div class="font-size-h3 font-w600 js-count-to-enabled" data-toggle="countTo" data-speed="1000" data-to="15">15</div>
+                <div class="font-size-h3 font-w600 js-count-to-enabled" data-toggle="countTo" data-speed="1000" data-to="15">{{ $total_contratas }}</div>
                 <div class="font-size-sm font-w600 text-uppercase text-muted">Contratas</div>
             </div>
         </a>
@@ -39,7 +39,7 @@
                 <div class="float-left mt-10 d-none d-sm-block">
                     <i class="si si-users fa-3x text-body-bg-dark"></i>
                 </div>
-                <div class="font-size-h3 font-w600 js-count-to-enabled" data-toggle="countTo" data-speed="1000" data-to="4252">4252</div>
+                <div class="font-size-h3 font-w600 js-count-to-enabled" data-toggle="countTo" data-speed="1000" data-to="4252">{{ $total_cobradores }}</div>
                 <div class="font-size-sm font-w600 text-uppercase text-muted">Cobradores</div>
             </div>
         </a>

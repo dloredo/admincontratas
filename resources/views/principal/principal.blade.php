@@ -28,12 +28,18 @@
             <thead>
                 <tr>
                     <th>Cliente</th>
-                    <th class="d-none d-sm-table-cell">Contrata</th>
-                    <th class="d-none d-sm-table-cell">Total del pago</th>
+                    <th class="d-none d-sm-table-cell">Dirección</th>
                     <th class="d-none d-sm-table-cell">Estatus</th>
                 </tr>
             </thead>
             <tbody>
+            @foreach ($clientes as $cliente)
+                <tr>
+                    <td>{{ $cliente->nombres }} {{ $cliente->apellidos }}</td>
+                    <td>{{ $cliente->direccion }}</td>
+                    <td></td>
+                </tr>
+            @endforeach
             </tbody>
         </table>
     </div>

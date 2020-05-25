@@ -18,20 +18,16 @@
             </thead>
             <tbody>
             @foreach ($clientes as $cliente)
-                @foreach ($contratas as $contrata)
-                    @if($cliente->id == $contrata->id_cliente)
-                        <tr>
-                            <th scope="row">{{$cliente->id}}</th>
-                            <td>{{ $cliente->nombres }} {{ $cliente->apellidos }}</td>
-                            <td>{{ $cliente->direccion }}</td>
-                            <td>{{ $cliente->telefono }}</td>
-                            <td style="text-align: center;"><?php echo "$" . number_format(round(((float)$contrata->cantidad_prestada)),2,'.',',');?> </td>
-                            <td>
-                                <a href="" class="btn btn-primary" type="button">Ver pagos</a>
-                            </td>
-                        </tr>
-                    @endif
-                @endforeach
+                <tr>
+                    <th scope="row">{{ $cliente->id }}</th>
+                    <td>{{ $cliente->nombres }} {{ $cliente->apellidos }}</td>
+                    <td>{{ $cliente->direccion }}</td>
+                    <td>{{ $cliente->telefono }}</td>
+                    <td style="text-align: center;"><?php echo "$" . number_format(round(((float)$cliente->cantidad_prestada)),2,'.',',');?> </td>
+                    <td>
+                        <a href="" class="btn btn-primary" type="button">Ver pagos</a>
+                    </td>
+                </tr>
             @endforeach
             </tbody>
         </table>
