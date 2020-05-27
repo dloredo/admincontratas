@@ -13,9 +13,11 @@
 <div class="block">
     <div class="block-header block-header-default">
         <h3 class="block-title">Clientes</h3>
+        @if(Auth::user()->id_rol == 1)
         <div style="float: right">
             <a href="{{ route('vista.agregarCliente') }}"><button type="button" class="btn btn-primary">Añadir nuevo cliente</button></a>
         </div>
+        @endif
     </div>
     <div class="block-content block-content-full">
         <!-- DataTables functionality is initialized with .js-dataTable-full class in js/pages/be_tables_datatables.min.js which was auto compiled from _es6/pages/be_tables_datatables.js -->
@@ -48,15 +50,15 @@
                             </button>
                             <div class="dropdown-menu dropdown-menu-right min-width-200" aria-labelledby="page-header-user-dropdown">
                                 <h5 class="h6 text-center py-10 mb-5 border-b text-uppercase">Opciones</h5>
-                                <a class="dropdown-item" href="{{ route('vista.agregarContrata' , $cliente->id) }}">
-                                    <i class="si si-user mr-5"></i> Dar contrata
+                                <a class="dropdown-item" href="">
+                                    <i class="fa fa-money mr-5"></i> Ver pagos
                                 </a>
                                 <a class="dropdown-item" href="{{ route('verContratas' , $cliente->id) }}">
                                     <i class="si si-printer mr-5"></i> Imprimir control
                                 </a>
-
-                                <a class="dropdown-item" href="">
-                                    <i class="fa fa-money mr-5"></i> Ver pagos
+                                @if(Auth::user()->id_rol == 1)
+                                <a class="dropdown-item" href="{{ route('vista.agregarContrata' , $cliente->id) }}">
+                                    <i class="si si-user mr-5"></i> Dar contrata
                                 </a>
 
                                 <a class="dropdown-item" href="{{ route('edit.cambiarEstatusCliente' , [ 'id' => $cliente->id, 'estatus' => $cliente->activo]) }}">
@@ -70,6 +72,7 @@
                                 <a class="dropdown-item" href="javascript:void(0)" onclick="mostrarAgregarCobrador('{{$cliente->id}}')">
                                     <i class="fa fa-handshake-o mr-5"></i> Agregar cobrador
                                 </a>
+                                @endif
 
                             </div>
                         </div>

@@ -13,4 +13,17 @@ class Contratas extends Model
         'dias_plan_contrata' , 'pagos_contrata' , 'tipo_plan_contrata' , 'fecha_inicio',
         'estatus' , 'fecha_termino' , 'bonificacion' , 'control_pago'
     ];
+
+
+    function cliente()
+    {
+        return $this->belongsTo('App\Clientes',"id_cliente");
+    }
+
+    function scopeContratasAsignadas($query,$idCobrador)
+    {
+        return $query->whereHas('cliente' , function($query) use ($idCobrador){
+            $query->where('cobrador_id',$idCobrador);
+        })->with('cliente');
+    }
 }

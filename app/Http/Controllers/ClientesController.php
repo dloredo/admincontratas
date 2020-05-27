@@ -10,21 +10,28 @@ use App\Contratas;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Redirect;
 use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Support\Facades\Auth;
 
 class ClientesController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware('auth.admin');
+        $this->middleware('auth');
     }
     
     public function index()
     {
-        $contratas = Contratas::all();
-        $clientes = Clientes::with("cobrador")->get();
+        if(Auth::user()->id_rol != 1)
+        {
+            $clientes = Clientes::with("cobrador")->where("cobrador_id", Auth::user()->id)->get();
+        }
+        else
+        {
+            $clientes = Clientes::with("cobrador")->get();
+        }
         $usuarios = User::activo()->cobrador()->get();
-        return view('clientes.clientes' , compact('clientes','usuarios','contratas'));
+        return view('clientes.clientes' , compact('clientes','usuarios'));
     }
 
     function asignarCobrador(Request $request)
@@ -63,7 +70,7 @@ class ClientesController extends Controller
             'activo'          => true,
             'fecha_registro'  => $fecha->format('Y-m-d'),
         ]);
-        return redirect()->route('vista.clientes')->with('message', 'El cliente fue agregado correctamente');
+        return redirect()->route('vista.clientes')->with('estatus',true)->with('message', 'El cliente fue agregado correctamente');
     }
 
     public function vista_agregarContrata($id)
@@ -135,7 +142,7 @@ class ClientesController extends Controller
             'bonificacion'          => 0,    
             'control_pago'          => 0,
         ]);
-        return redirect()->route('vista.clientes')->with('message', 'Se le añadio una contrata con éxito');
+        return redirect()->route('vista.clientes')->with('estatus',true)->with('message', 'Se le añadio una contrata con éxito');
     }
 
     function cambiarEstatusCliente($id,$estatus)
@@ -145,11 +152,11 @@ class ClientesController extends Controller
         
         if($cliente->save())
         {
-            return redirect()->route('vista.clientes')->with('message', 'Se le desactivo con éxito');
+            return redirect()->route('vista.clientes')->with('estatus',true)->with('message', 'Se le desactivo con éxito');
         }
         else
         {
-            return redirect()->route('vista.clientes')->with('message', 'Hubo un error al cambiar el estatus del cliente');
+            return redirect()->route('vista.clientes')->with('estatus',false)->with('message', 'Hubo un error al cambiar el estatus del cliente');
         }
     }
 }
