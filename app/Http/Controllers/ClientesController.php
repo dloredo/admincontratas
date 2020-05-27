@@ -30,6 +30,7 @@ class ClientesController extends Controller
         {
             $clientes = Clientes::with("cobrador")->get();
         }
+        
         $usuarios = User::activo()->cobrador()->get();
         return view('clientes.clientes' , compact('clientes','usuarios'));
     }
