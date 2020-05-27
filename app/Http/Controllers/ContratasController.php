@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Contratas;
 use App\Clientes;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ContratasController extends Controller
 {
