@@ -20,25 +20,44 @@ new Vue({
           return (this.comisionPrestamo * 100 )/(this.prestamo)
         }
     },
-    watch:
-    {
-        
-        diasPlan: function (val) {
-            if(this.comisionPrestamo != 0 && this.comisionPrestamo  != '')
-                this.cantidadPago = (parseInt(this.prestamo) + parseInt(this.comisionPrestamo)) / (val);
-        },
-        comisionPrestamo: function (val) {
-            console.log(this.comisionPrestamo)
-            console.log(val)
-            
-            if(val != 0 && val != '' && this.cantidadPago != val)
-                this.cantidadPago = (parseInt(this.prestamo) + parseInt(val)) / (this.diasPlan);
-        },
-        /*cantidadPago: function (val) {
+    methods:{
+        diasPlanKeyUp: function()
+        {
 
-            if((this.comisionPrestamo != 0 && this.comisionPrestamo  != '') && (val != 0 && val != '0'))
-                this.comisionPrestamo = val * this.diasPlan;
-        },*/
-    },
+            if(this.comisionPrestamo != 0 && this.comisionPrestamo  != '')
+                this.cantidadPago = (parseInt(this.prestamo) + parseInt(this.comisionPrestamo)) / (this.diasPlan);
+
+            if(document.getElementById("fecha_inicio").value != '')
+                this.getEndTime({target:{value: document.getElementById("fecha_inicio").value}});
+        },
+        comisionPrestamoKeyUp:function()
+        {
+            if(this.comisionPrestamo != 0 && this.comisionPrestamo  != '')
+                this.cantidadPago = (parseInt(this.prestamo) + parseInt(this.comisionPrestamo)) / (this.diasPlan);
+        },
+        pagosContrataKeyUp: function()
+        {
+            this.comisionPrestamo = (this.cantidadPago * this.diasPlan) - this.prestamo;
+        },
+        getEndTime: function(e)
+        {
+            var strInitDate = e.target.value;
+            var splitedInitDate = strInitDate.split("-")
+            var initDate = new Date(splitedInitDate[0],splitedInitDate[1],splitedInitDate[2]);
+
+            var timeInitDate = initDate.getTime();
+            timeInitDate = timeInitDate + ((86400 * 1000) * this.diasPlan);
+            
+            var endTime = new Date(timeInitDate);
+            var endDay = (endTime.getDate() < 10)? "0" + endTime.getDate(): endTime.getDate() ;
+            var endMonth = (endTime.getMonth() < 10)? "0" + endTime.getMonth(): endTime.getMonth() ;
+            var endYear = endTime.getFullYear();
+            var strEndTime = endYear + "-" + endMonth + "-" + endDay;
+
+            document.getElementById("fecha_termino").value = strEndTime
+        }
+
+    }
+    
     
 });
