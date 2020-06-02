@@ -23,10 +23,9 @@ class PrincipalController extends Controller
 
         $total_clientes_asignados = Clientes::where('cobrador_id', Auth::user()->id)->count(); 
         $clientes = DB::table('clientes')
-        ->select('clientes.*' , 'contratas.*')
-        ->join('contratas' , 'clientes.id' , '=' , 'contratas.id_cliente' )
-        ->where('cobrador_id', Auth::user()->id)
-        ->get();
+            ->select('clientes.*' , 'contratas.*')
+            ->join('contratas' , 'clientes.id' , '=' , 'contratas.id_cliente' )
+            ->get();
         return view("principal.principal" , ['total_contratas' => $total_contratas 
                                           , 'total_cobradores' => $total_cobradores
                                           , 'total_clientes_asignados' => $total_clientes_asignados] , compact('clientes'));

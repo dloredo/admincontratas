@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http;
 
 /*
@@ -55,10 +56,14 @@ Route::post('/clientes/asignarCobrador' , 'ClientesController@asignarCobrador')-
 
 /*
 |--------------------------------------------------------------------------
-|               VER CONTRATAS Y HISTORIAL DE PAGOS
+|               VER CONTRATAS Y HISTORIAL DE PAGOS Y PAGOS
 |--------------------------------------------------------------------------
 */
 Route::get('/contratas' , 'ContratasController@index')->name('vista.contratas');
+
+Route::get('/cobranza' , 'CobranzaController@index')->name('vista.contratas_cobrar');
+Route::get('/cobranza/contratas/{id}' , 'CobranzaController@verContratasCliente')->name('verContratasCliente');
+Route::get('/cobranza/contratas/pagos/{id}' , 'CobranzaController@verPagosContrata')->name('verPagosContrata');
 
 
 /*

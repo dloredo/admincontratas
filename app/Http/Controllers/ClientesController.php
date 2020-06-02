@@ -60,7 +60,8 @@ class ClientesController extends Controller
             'nombres' => 'required',
             'apellidos' => 'required',
             'direccion' => 'required',
-            'telefono' => 'required',
+            'telefono' => 'required ',
+            'telefono' => 'numeric',
         ]);
         $fecha = Carbon::now();
         Clientes::create([

@@ -12,7 +12,7 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    use \Staudenmeir\EloquentHasManyDeep\HasRelationships;
+  
 
     protected $table = "usuarios";
 
