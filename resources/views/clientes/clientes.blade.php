@@ -50,11 +50,8 @@
                             </button>
                             <div class="dropdown-menu dropdown-menu-right min-width-200" aria-labelledby="page-header-user-dropdown">
                                 <h5 class="h6 text-center py-10 mb-5 border-b text-uppercase">Opciones</h5>
-                                <a class="dropdown-item" href="">
-                                    <i class="fa fa-money mr-5"></i> Ver pagos
-                                </a>
                                 <a class="dropdown-item" href="{{ route('verContratas' , $cliente->id) }}">
-                                    <i class="si si-printer mr-5"></i> Imprimir control
+                                    <i class="si si-printer mr-5"></i> Ver contratas
                                 </a>
                                 @if(Auth::user()->id_rol == 1)
                                 <a class="dropdown-item" href="{{ route('vista.agregarContrata' , $cliente->id) }}">

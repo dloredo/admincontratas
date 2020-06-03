@@ -27,6 +27,11 @@
     transform: rotate(360deg);
   }
 }
+
+.dt-buttons{
+  margin-bottom: 15px;
+}
+
 div.dt-button-info {
   position: fixed;
   top: 50%;

@@ -7,6 +7,7 @@ use App\Clientes;
 use App\User;
 use Carbon\Carbon;
 use App\Contratas;
+use App\PagosContratas;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Redirect;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -89,9 +90,19 @@ class ClientesController extends Controller
     public function verContratas($id)
     {
         $cliente = Clientes::where('id', $id)->firstOrFail();
-        $contratas = Contratas::all();
-        return view('clientes.verContratas', ['cliente' => $cliente] , compact('contratas'));
+        $contratas = Contratas::where("id_cliente",$id)->get();
+        return view('clientes.verContratas' , compact('cliente','contratas'));
     }
+
+    function detallesContrata($idCliente,$idContrata)
+    {
+        $cliente = Clientes::find($idCliente);
+        $contrata = Contratas::find($idContrata);
+        $pagos = PagosContratas::where("id_contrata", $idContrata)->get();
+
+        return view('clientes.detallesContrata',compact('cliente','contrata',"pagos"));
+    }
+
     //IMPRIMIR
     public function imprimirPagosDiarios($id)
     {

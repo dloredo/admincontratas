@@ -38,6 +38,7 @@ Route::get('/agregarCliente' , 'ClientesController@vista_agregarCliente')->name(
 Route::post('/agregarCliente' , 'ClientesController@agregarClienteNuevo')->name('agregarClienteNuevo');
 Route::get('/agregarContrata/{id}' , 'ClientesController@vista_agregarContrata')->name('vista.agregarContrata');
 Route::post('/añadirContrata/{id}' , 'ClientesController@agregarContrataNueva')->name('agregarContrataNueva');
+Route::get('/detallesContrata/{idCliente}/{idContrata}' , 'ClientesController@detallesContrata')->name('detallesContrata');
 
 Route::get('/verContratas/{id}' , 'ClientesController@verContratas')->name('verContratas');
 Route::get('/imprimirPagosDiarios/{id}' , 'ClientesController@imprimirPagosDiarios')->name('imprimirPagosDiarios');

@@ -13,25 +13,44 @@
                 <th style="text-align: center">Acciones</th>
             </tr>
         </thead>
+        <tbody>
         @foreach ($contratas as $contrata)
-        @if ($cliente->id == $contrata->id_cliente)
-            <tbody>
+            
                 <tr>
                     <td style="text-align: center">{{ $contrata->tipo_plan_contrata }}</td>
                     <td style="text-align: center">{{ $contrata->fecha_inicio }}</td>
                     <td style="text-align: center">{{ $contrata->fecha_termino }}</td>
                     <td style="text-align: center">
-                        @if ($contrata->tipo_plan_contrata == "Pagos diarios" )
-                            <a href="{{ route('imprimirPagosDiarios',$contrata->id) }}" type="button" class="btn btn-primary">Imprimir boleta a {{ $contrata->dias_plan_contrata }}</a>
-                        @elseif($contrata->tipo_plan_contrata == "Pagos por semana" )
-                            <a href="{{ route('imprimirPagosSemanales',$contrata->id) }}" type="button" class="btn btn-primary">Imprimir boleta a {{ $contrata->dias_plan_contrata }}</a>
-                        @endif
+
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-rounded btn-outline-primary" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-user d-sm-none"></i>
+                                <span class="d-none d-sm-inline-block">Opciones</span>
+                                <i class="fa fa-angle-down ml-5"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right min-width-200" aria-labelledby="page-header-user-dropdown">
+                                <h5 class="h6 text-center py-10 mb-5 border-b text-uppercase">Opciones</h5>
+                                <a class="dropdown-item" href="{{ route('detallesContrata',[$cliente->id,$contrata->id]) }}">
+                                    <i class="fa fa-money mr-5"></i> Ver detalles y pagos
+                                </a>
+                                
+                                @if ($contrata->tipo_plan_contrata == "Pagos diarios" )
+                                    <a class="dropdown-item" href="{{ route('imprimirPagosDiarios',$contrata->id) }}">
+                                        <i class="si si-printer mr-5"></i> Imprimir boleta a {{ $contrata->dias_plan_contrata }} dias
+                                    </a>
+                                @elseif($contrata->tipo_plan_contrata == "Pagos por semana" )
+                                    <a class="dropdown-item" href="{{ route('imprimirPagosSemanales',$contrata->id) }}">
+                                        <i class="si si-printer mr-5"></i> Imprimir boleta a {{ $contrata->dias_plan_contrata }} semanas
+                                    </a>
+                                @endif
+
+                            </div>
+                        </div>
                     </td>
                 </tr>
-            </tbody>
-        @endif
+            
         @endforeach
-        
+        </tbody>
     </table>
 
     </div>
