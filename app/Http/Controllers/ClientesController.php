@@ -7,6 +7,7 @@ use App\Clientes;
 use App\User;
 use Carbon\Carbon;
 use App\Contratas;
+use App\Capital;
 use App\PagosContratas;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Redirect;
@@ -155,6 +156,13 @@ class ClientesController extends Controller
             'bonificacion'          => 0,    
             'control_pago'          => 0,
         ]);
+
+
+        $capital = Capital::find(1);
+        $capital->capital_neto -= $request['cantidad_prestada'];
+        $capital->capital_en_prestamo += $request['cantidad_prestada'];
+        $capital->save();
+
         return redirect()->route('vista.clientes')->with('estatus',true)->with('message', 'Se le añadio una contrata con éxito');
     }
 

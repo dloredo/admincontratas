@@ -12589,7 +12589,8 @@ new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
     prestamo: '',
     diasPlan: '',
     comisionPrestamo: 0,
-    cantidadPago: '0'
+    cantidadPago: '0',
+    tipoPagos: 'Pagos diarios'
   },
   created: function created() {},
   mounted: function mounted() {},
@@ -12618,7 +12619,7 @@ new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
       var splitedInitDate = strInitDate.split("-");
       var initDate = new Date(splitedInitDate[0], splitedInitDate[1], splitedInitDate[2]);
       var timeInitDate = initDate.getTime();
-      timeInitDate = timeInitDate + 86400 * 1000 * this.diasPlan;
+      if (this.tipoPagos == "Pagos diarios") timeInitDate = timeInitDate + 86400 * 1000 * this.diasPlan;else timeInitDate = timeInitDate + 86400 * 1000 * 7 * this.diasPlan;
       var endTime = new Date(timeInitDate);
       var endDay = endTime.getDate() < 10 ? "0" + endTime.getDate() : endTime.getDate();
       var endMonth = endTime.getMonth() < 10 ? "0" + endTime.getMonth() : endTime.getMonth();

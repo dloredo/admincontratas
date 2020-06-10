@@ -7,6 +7,7 @@ new Vue({
         diasPlan:'',
         comisionPrestamo: 0,
         cantidadPago:'0',
+        tipoPagos: 'Pagos diarios'
     },
     created: function () {
         
@@ -46,8 +47,12 @@ new Vue({
             var initDate = new Date(splitedInitDate[0],splitedInitDate[1],splitedInitDate[2]);
 
             var timeInitDate = initDate.getTime();
-            timeInitDate = timeInitDate + ((86400 * 1000) * this.diasPlan);
-            
+
+            if(this.tipoPagos == "Pagos diarios")
+                timeInitDate = timeInitDate + ((86400 * 1000) * this.diasPlan);
+            else
+                timeInitDate = timeInitDate + (((86400 * 1000) * 7) * this.diasPlan);
+
             var endTime = new Date(timeInitDate);
             var endDay = (endTime.getDate() < 10)? "0" + endTime.getDate(): endTime.getDate() ;
             var endMonth = (endTime.getMonth() < 10)? "0" + endTime.getMonth(): endTime.getMonth() ;

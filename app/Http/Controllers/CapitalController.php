@@ -32,7 +32,12 @@ class CapitalController extends Controller
         $cortes->capital_en_prestamo = $capital->capital_en_prestamo;
         $cortes->comisiones = $capital->comisiones;
 
+        $capital->capital_total += $capital->comisiones;
+        $capital->capital_neto += $capital->comisiones;
+        $capital->comisiones = 0;
+
         $cortes->save();
+        $capital->save();
 
         return back();
     }

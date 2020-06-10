@@ -17,7 +17,7 @@
                 </div>
                 <div class="form-group col-md-4">
                     <label>Tipo de contrata</label>
-                    <select class="custom-select @error('tipo_plan_contrata') is-invalid @enderror" name="tipo_plan_contrata" id="tipo_plan_contrata" value="{{ old('tipo_plan_contrata') }}" autocomplete="tipo_plan_contrata">
+                    <select class="custom-select @error('tipo_plan_contrata') is-invalid @enderror" name="tipo_plan_contrata" id="tipo_plan_contrata" value="{{ old('tipo_plan_contrata') }}" v-model="tipoPagos" autocomplete="tipo_plan_contrata">
                         <option value="Pagos diarios">Pagos diarios</option>
                         <option value="Pagos por semana">Pagos por semana</option>
                     </select>

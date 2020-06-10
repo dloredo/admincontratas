@@ -38,14 +38,14 @@
                                 <i class="si si-book-open fa-2x text-success"></i>
                             </div>
                             <div class="font-size-h3 font-w600 text-success js-count-to-enabled" data-toggle="countTo" data-speed="1000" data-to="{{$capital->capital_total}}">${{$capital->capital_total}}</div>
-                            <div class="font-size-sm font-w600 text-uppercase text-success-light">Capital total</div>
+                            <div class="font-size-sm font-w600 text-uppercase text-success-light">Capital Acumulado</div>
                         </div>
                         <div class="py-15 px-20 clearfix border-black-op-b">
                             <div class="float-right mt-15 d-none d-sm-block">
                                 <i class="si si-wallet fa-2x text-danger"></i>
                             </div>
                             <div class="font-size-h3 font-w600 text-danger">$<span data-toggle="countTo" data-speed="1000" data-to="{{$capital->capital_neto}}" class="js-count-to-enabled">{{$capital->capital_neto}}</span></div>
-                            <div class="font-size-sm font-w600 text-uppercase text-danger-light">Capital neto</div>
+                            <div class="font-size-sm font-w600 text-uppercase text-danger-light">Capital Total</div>
                         </div>
                         <div class="py-15 px-20 clearfix border-black-op-b">
                             <div class="float-right mt-15 d-none d-sm-block">
