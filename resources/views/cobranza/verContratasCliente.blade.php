@@ -12,6 +12,7 @@
                 <table class="table table-bordered table-striped table-vcenter js-dataTable-full">
                     <thead>
                         <tr>
+                            <th style="text-align: center;">Plan</th>
                             <th style="text-align: center;">Cantidad prestada</th>
                             <th style="text-align: center;">Fecha de Inicio</th>
                             <th class="d-none d-sm-table-cell" style="text-align: center;">Fecha de Termino</th>
@@ -22,6 +23,7 @@
                     <tbody>
                     @foreach ($contratas as $contrata)
                         <tr>
+                            <td style="text-align: center;">{{ $contrata->tipo_plan_contrata }}</td>
                             <td style="text-align: center;"><?php echo "$" . number_format(round(((float)$contrata->cantidad_prestada)),2,'.',',');?></td>
                             <td style="text-align: center;">{{ $contrata->fecha_inicio }}</td>
                             <td style="text-align: center;">{{ $contrata->fecha_termino }}</td>

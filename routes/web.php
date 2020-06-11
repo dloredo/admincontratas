@@ -66,7 +66,7 @@ Route::get('/cobranza' , 'CobranzaController@index')->name('vista.contratas_cobr
 Route::get('/cobranza/contratas/{id}' , 'CobranzaController@verContratasCliente')->name('verContratasCliente');
 Route::get('/cobranza/contratas/pagos/{id}' , 'CobranzaController@verPagosContrata')->name('verPagosContrata');
 
-
+Route::post('/agregarPago/{id}' , 'CobranzaController@agregarPago')->name('agregarPago');
 /*
 |--------------------------------------------------------------------------
 |            FIN    VER CONTRATAS Y HISTORIAL DE PAGOS

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Contratas;
 use App\Clientes;
 use App\User;
+use App\PagosContratas;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -46,6 +48,28 @@ class CobranzaController extends Controller
             ->leftjoin('pagos_contratas' , 'contratas.id_cliente' , '=' , 'pagos_contratas.id_contrata' )
             ->where('contratas.id' , '=' , $id)
             ->get();
-        return view('cobranza.verPagosContrata' ,compact('contratas'));
+        $pagos = PagosContratas::where('id_contrata' , $id)->get();
+        $total_pagado = PagosContratas::where('id_contrata' , $id)->sum('cantidad_pagada');
+        $id_contrata = $id;  
+        return view('cobranza.verPagosContrata' , ['id_contrata' => $id_contrata , 'total_pagado' => $total_pagado] ,compact('contratas' , 'pagos'));
+    }
+
+    public function agregarPago($id,Request $request)
+    {
+        request()->validate([
+            'fecha_pago'           => 'required',
+            'cantidad_pagada'   => 'required',
+            'adeudo'        => 'required',
+            'adelanto'      => 'required'
+        ]);
+        PagosContratas::create([
+            'id_contrata'       => $id,
+            'fecha_pago'        => $request['fecha_pago'],
+            'cantidad_pagada'   => $request['cantidad_pagada'],
+            'adeudo'            => $request['adeudo'],
+            'adelanto'          => $request['adelanto'],
+        ]);
+        
+        return back();
     }
 }
