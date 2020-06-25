@@ -41,26 +41,26 @@ class CobranzaController extends Controller
 
     public function verPagosContrata($id)
     {
-        /*$contratas = DB::table('clientes')
-            ->select('clientes.*' , 'contratas.*' , 'pagos_contratas.*')
-            ->leftjoin('contratas' , 'clientes.id' , '=' , 'contratas.id_cliente' )
-            ->where('contratas.id' , '=' , $id)
-            ->leftjoin('pagos_contratas' , 'contratas.id_cliente' , '=' , 'pagos_contratas.id_contrata' )
-            ->where('contratas.id' , '=' , $id)
-            ->get();
-        $pagos = PagosContratas::where('id_contrata' , $id)->get();
-        $total_pagado = PagosContratas::where('id_contrata' , $id)->sum('cantidad_pagada');
         $id_contrata = $id;
-        return view('cobranza.verPagosContrata' , ['id_contrata' => $id_contrata , 'total_pagado' => $total_pagado] ,compact('contratas' , 'pagos'));*/
-        $id_contrata = $id;
-        $pagos = PagosContratas::where('id_contrata' , $id)->paginate(6);
+        $pagos = PagosContratas::where('id_contrata' , $id)->paginate(10);
         $fecha = Carbon::now();
         $fecha_anterior = $fecha->subDay(1);
-        $pago_anterior = PagosContratas::where('fecha_pago' , $fecha_anterior->format('Y-m-d'))->get();
-        $total_pagado = PagosContratas::where('id_contrata' , $id)->sum('cantidad_pagada');
-        $contrata = Contratas::where('id' , $id)->get();
-        //dd($contrata);
-        return view('cobranza.verPagos' , ['total_pagado' => $total_pagado , 'id_contrata' => $id_contrata] ,compact('pagos' , 'pago_anterior' , 'contrata'));
+        $pago_anterior = PagosContratas::where('fecha_pago' , $fecha_anterior->format('Y-m-d'))->where('id_contrata' , $id)->count();
+        if($pago_anterior > 0)
+        {
+            $pago_anterior = PagosContratas::where('fecha_pago' , $fecha_anterior->format('Y-m-d'))->where('id_contrata' , $id)->get();
+            $total_pagado = PagosContratas::where('id_contrata' , $id)->sum('cantidad_pagada');
+            $contrata = Contratas::where('id' , $id)->get();
+            $validar = 1;
+            return view('cobranza.verPagos' , ['total_pagado' => $total_pagado , 'id_contrata' => $id_contrata , 'validar' => $validar] ,compact('pagos' , 'contrata', 'pago_anterior'));
+        }
+        else
+        {
+            $total_pagado = PagosContratas::where('id_contrata' , $id)->sum('cantidad_pagada');
+            $contrata = Contratas::where('id' , $id)->get();
+            $validar = 2;
+            return view('cobranza.verPagos' , ['total_pagado' => $total_pagado , 'id_contrata' => $id_contrata , 'validar' => $validar] ,compact('pagos' , 'contrata'));
+        }
     }
 
     public function agregarPago($id,Request $request)
@@ -78,32 +78,39 @@ class CobranzaController extends Controller
             'adeudo'            => $request['adeudo'],
             'adelanto'          => $request['adelanto'],
         ]);
-        $fecha = Carbon::now();
+        $fecha = Carbon::parse($request['fecha_pago']);
         $adelanto = $request['adelanto'];
         if($adelanto > 0)
         {
             $pagar = $request['cantidad_pagar_dia'];
             $contador = $adelanto / $pagar;
             $aux = 1;
-            for( $i=0; $i<$contador; $i++)
+            for( $i=0; $i<intval($contador); $i++)
             {
-                if($pagar == $pagar)
-                {
-                    PagosContratas::create([
-                        'id_contrata'       => $id,
-                        'fecha_pago'        => $fecha->addDays($aux),
-                        'cantidad_pagada'   => 300,
-                        'adeudo'            => 0,
-                        'adelanto'          => 0,
-                    ]);
-                }
-                $adelanto = $adelanto - $pagar;
+                PagosContratas::create([
+                    'id_contrata'       => $id,
+                    'fecha_pago'        => $fecha->addDays($aux),
+                    'cantidad_pagada'   => $pagar,
+                    'adeudo'            => 0,
+                    'adelanto'          => 0,
+                ]);
+
                 $aux++;
-                $fecha = Carbon::now();
-            } 
+                $fecha = Carbon::parse($request['fecha_pago']); 
+            }
+            if($adelanto % $pagar)
+            {
+                $saldo = $adelanto % $pagar;
+                PagosContratas::create([
+                    'id_contrata'       => $id,
+                    'fecha_pago'        => $fecha->addDays($aux),
+                    'cantidad_pagada'   => $adelanto % $pagar,
+                    'adeudo'            => $pagar - $saldo,
+                    'adelanto'          => 0,
+                ]);
+            }
         }
            
-        
         return back();
     }
 }
