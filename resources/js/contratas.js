@@ -45,11 +45,12 @@ new Vue({
             var strInitDate = e.target.value;
             var splitedInitDate = strInitDate.split("-")
             var initDate = new Date(splitedInitDate[0],splitedInitDate[1],splitedInitDate[2]);
-
             var timeInitDate = initDate.getTime();
 
-            if(this.tipoPagos == "Pagos diarios")
+            if(this.tipoPagos == "Pagos diarios"){
+                this.calculateEndDate(initDate);
                 timeInitDate = timeInitDate + ((86400 * 1000) * this.diasPlan);
+            }
             else
                 timeInitDate = timeInitDate + (((86400 * 1000) * 7) * this.diasPlan);
 
@@ -60,6 +61,16 @@ new Vue({
             var strEndTime = endYear + "-" + endMonth + "-" + endDay;
 
             document.getElementById("fecha_termino").value = strEndTime
+        },
+        calculateEndDate: function(initDate)
+        {
+            for(let i = 0; i < 10; i++ )
+            {
+                console.log(initDate.getDay())
+
+                initDate.setDate(initDate.getDate() + 1)
+                "hola mundo"
+            }
         }
 
     }
