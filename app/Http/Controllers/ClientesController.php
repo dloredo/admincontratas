@@ -111,7 +111,7 @@ class ClientesController extends Controller
         $clientes = Clientes::all();
         $pdf = \PDF::loadView('clientes.PDF.generarPagosDiarios' , ['contrata' => $contrata] , compact('clientes'));
         //$pdf->setPaper('A4', 'landscape');
-        return $pdf->download('Pagos-Diarios.pdf');
+        return $pdf->stream('Pagos-Diarios.pdf');
     }
     public function imprimirPagosSemanales($id)
     {

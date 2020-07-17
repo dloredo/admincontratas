@@ -16,6 +16,19 @@
         @if(Auth::user()->id_rol == 1)
         <div style="float: right">
             <a href="{{ route('vista.agregarCliente') }}"><button type="button" class="btn btn-primary">Añadir nuevo cliente</button></a>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-rounded btn-outline-primary" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-user d-sm-none"></i>
+                    <span class="d-none d-sm-inline-block">Reportes</span>
+                    <i class="fa fa-angle-down ml-5"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right min-width-200" aria-labelledby="page-header-user-dropdown">
+                    <h5 class="h6 text-center py-10 mb-5 border-b text-uppercase">Tipo de reporte</h5>
+
+                    <a class="dropdown-item" href="{{ route('reporteDirectorios') }}"><i class="si si-printer mr-5"></i>Directorios de clientes</a>
+                    
+                </div>
+            </div>
         </div>
         @endif
     </div>
