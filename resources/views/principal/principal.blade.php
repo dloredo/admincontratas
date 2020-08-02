@@ -18,17 +18,17 @@
     @include('principal._principalCobrador')
 @endif
 
-<div class="block">
+<!--<div class="block">
     <div class="block-header block-header-default">
         <h3 class="block-title">Lista de pagos del dia</h3>
     </div>
     <div class="block-content block-content-full">
-        <!-- DataTables functionality is initialized with .js-dataTable-full class in js/pages/be_tables_datatables.min.js which was auto compiled from _es6/pages/be_tables_datatables.js -->
         <table class="table table-bordered table-striped table-vcenter js-dataTable-full">
             <thead>
                 <tr>
                     <th>Cliente</th>
                     <th class="d-none d-sm-table-cell">Dirección</th>
+                    <th class="d-none d-sm-table-cell">Pago</th>
                     <th class="d-none d-sm-table-cell">Estatus</th>
                 </tr>
             </thead>
@@ -38,12 +38,13 @@
                     <td>{{ $cliente->nombres }} {{ $cliente->apellidos }}</td>
                     <td>{{ $cliente->direccion }}</td>
                     <td></td>
+                    <td></td>
                 </tr>
             @endforeach
             </tbody>
         </table>
     </div>
-</div>
+</div> -->
 
 
 @endsection

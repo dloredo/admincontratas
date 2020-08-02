@@ -40,14 +40,14 @@
             <tbody>
             <?php $fechaInicio = strtotime($contrata->fecha_inicio); ?>
             <?php $fechaFin = strtotime($contrata->fecha_termino); ?>
-            <?php $contador = 1 ?>
-            <?php for( $i = $fechaInicio; $i <= $fechaFin; $i+=86400  ) {?>
+            <?php $contador = 0 ?>
+            @for ( $i = $fechaInicio; $i <= $fechaFin; $i+=86400 )
                 <tr>
-                    <th style="text-align: center"><?php echo $contador++  ?></th>
+                    <th style="text-align: center"><?php echo $contador += 1  ?></th>
                     <th style="text-align: center"><?php echo date("d-m-Y" , $i)  ?></th>
                     <td style="text-align: center"></td>
                 </tr>
-            <?php } ?>
+            @endfor
             </tbody>
         </table> 
     </div>  

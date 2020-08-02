@@ -22,9 +22,10 @@
                         <option value="Pagos por semana">Pagos por semana</option>
                     </select>
                 </div>
-
-                <div class="form-group col-md-4" v-if="(tipoPagos == 'Pagos diarios')">
+                <!--
+                 <div class="form-group col-md-4" v-if="(tipoPagos == 'Pagos diarios')">
                     <label class="col-12">Dias para cobrar</label>
+                    
                     <div class="col-12">
                         <div class="custom-control custom-checkbox custom-control-inline mb-5">
                             <input class="custom-control-input" type="checkbox" name="lunes" id="lunes" value="true" checked>
@@ -55,8 +56,8 @@
                             <label class="custom-control-label" for="domingo">D</label>
                         </div>
                     </div>
-                </div>
-
+                </div> 
+                -->
             </div>
             <div class="form-row">
                 <div class="form-group col-md-4">

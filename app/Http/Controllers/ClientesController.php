@@ -161,6 +161,7 @@ class ClientesController extends Controller
         $capital = Capital::find(1);
         $capital->capital_neto -= $request['cantidad_prestada'];
         $capital->capital_en_prestamo += $request['cantidad_prestada'];
+        $capital->comisiones += $comision;
         $capital->save();
 
         return redirect()->route('vista.clientes')->with('estatus',true)->with('message', 'Se le añadio una contrata con éxito');

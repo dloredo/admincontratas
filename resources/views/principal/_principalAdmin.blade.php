@@ -6,7 +6,9 @@
                 <div class="float-left mt-10 d-none d-sm-block">
                     <i class="si si-bag fa-3x text-body-bg-dark"></i>
                 </div>
-                <div class="font-size-h3 font-w600 js-count-to-enabled" data-toggle="countTo" data-speed="1000" data-to="1500">1500</div>
+                @foreach ($capital_total as $capital_total)
+                <div class="font-size-h3 font-w600">$<span data-toggle="countTo" data-speed="1000" data-to="780" class="js-count-to-enabled">{{ $capital_total->capital_neto }}</span></div>
+                @endforeach
                 <div class="font-size-sm font-w600 text-uppercase text-muted">Capital</div>
             </div>
         </a>
@@ -17,7 +19,7 @@
                 <div class="float-left mt-10 d-none d-sm-block">
                     <i class="si si-wallet fa-3x text-body-bg-dark"></i>
                 </div>
-                <div class="font-size-h3 font-w600">$<span data-toggle="countTo" data-speed="1000" data-to="780" class="js-count-to-enabled">780</span></div>
+                <div class="font-size-h3 font-w600"><span data-toggle="countTo" data-speed="1000" data-to="780" class="js-count-to-enabled">{{ $total_clientes }}</span></div>
                 <div class="font-size-sm font-w600 text-uppercase text-muted">Clientes</div>
             </div>
         </a>
