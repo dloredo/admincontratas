@@ -131,8 +131,8 @@
                                 <label for="tipo_movimiento">Tipo de movimiento</label>
                                 <select id="tipo_movimiento" name="tipo_movimiento" class="form-control @error('tipo_movimiento') is-invalid @enderror">
                                     <option value="">Elija el tipo de movimiento</option>
-                                    <option @if(old('tipo_movimiento')==1) selected @endif value="Abono">Abono</option>
-                                    <option @if(old('tipo_movimiento')==2) selected @endif value="Retiro">Retiro</option>
+                                    <option @if(old('tipo_movimiento')==1) selected @endif value="Abono">Aportación de capital</option>
+                                    <option @if(old('tipo_movimiento')==2) selected @endif value="Retiro">Retiro de capital</option>
                                 </select>
                                 @error('id_rol')
                                 <span class="invalid-feedback" role="alert">

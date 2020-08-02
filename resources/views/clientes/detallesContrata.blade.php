@@ -138,12 +138,12 @@
                             }   
 
                             doc.content[0].text += `
-                            Cantidad prestada:  \${!! $contrata->cantidad_prestada !!}`
+                            Prestamo total:  \${!! $contrata->cantidad_prestada + $contrata->comision !!} `
                         }  
                         },
                         {
                         extend: 'print',
-                        title: 'Historial de pagos de contrata de {!! $cliente->nombres !!} {!! $cliente->apellidos !!} \n Cantidad prestada:  \${!! $contrata->cantidad_prestada !!}',
+                        title: 'Historial de pagos de contrata de {!! $cliente->nombres !!} {!! $cliente->apellidos !!} \n Prestamo total:  \${!! $contrata->cantidad_prestada +$contrata->comision !!}',
                           
                         }
                     ]
