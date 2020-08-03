@@ -8,19 +8,10 @@
     <form action="{{ route('agregarClienteNuevo') }}" method="post">
     @csrf
         <div class="form-row">
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-12">
                 <label>Nombre(s)*</label>
                 <input type="text" class="form-control @error('nombres') is-invalid @enderror" id="nombres" name="nombres" value="{{ old('nombres') }}" autocomplete="nombres" autofocus placeholder="Nombre(s)">
                 @error('nombres')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-            </div>
-            <div class="form-group col-md-6">
-                <label>Apellido(s)*</label>
-                <input type="text" class="form-control @error('apellidos') is-invalid @enderror" id="apellidos" name="apellidos" value="{{ old('apellidos') }}" autocomplete="apellidos" placeholder="Apellido(s)">
-                @error('apellidos')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
@@ -42,6 +33,15 @@
                 <label>Telefóno</label>
                 <input type="text" class="form-control @error('telefono') is-invalid @enderror" id="telefono" name="telefono" value="{{ old('telefono') }}" autocomplete="telefono" placeholder="+52 3124567891">
                 @error('telefono')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </div>
+            <div class="form-group col-md-6">
+                <label>Fecha de cobro</label>
+                <input type="time" class="form-control @error('hora_cobro') is-invalid @enderror" id="hora_cobro" name="hora_cobro" value="{{ old('hora_cobro') }}" autocomplete="hora_cobro" placeholder="+52 3124567891">
+                @error('hora_cobro')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>

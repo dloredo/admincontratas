@@ -18,13 +18,12 @@ class Clientes extends Migration
 
             $table->increments("id");;
             $table->string('nombres');
-            $table->string('apellidos');
             $table->string('direccion');
             $table->string('telefono');
             $table->boolean('activo');
             $table->integer('cobrador_id')->unsigned()->nullable();
             $table->date('fecha_registro');
-
+            $table->string('hora_cobro');
             $table->foreign("cobrador_id")->references("id")->on("usuarios");
         });
 
@@ -33,7 +32,8 @@ class Clientes extends Migration
     /**
      * Reverse the migrations.
      *
-     * @return void
+     * @re
+     * turn void
      */
     public function down()
     {
