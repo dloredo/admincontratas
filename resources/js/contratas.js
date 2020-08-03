@@ -8,7 +8,9 @@ new Vue({
         diasPlan: '',
         comisionPrestamo: 0,
         cantidadPago: '0',
-        tipoPagos: 'Pagos diarios'
+        tipoPagos: 'Pagos diarios',
+        opcionesPago:1,
+        daysOfWeek:[]
     },
     created: function() {
 
@@ -38,16 +40,24 @@ new Vue({
         pagosContrataKeyUp: function() {
             this.comisionPrestamo = (this.cantidadPago * this.diasPlan) - this.prestamo;
         },
+        resetEndDate:function(){
+            document.getElementById("fecha_termino").value = "";
+        },
         getEndTime: function(e) {
 
             if(this.diasPlan == "")
+                return;
+
+            if(this.tipoPagos == "Pagos diarios" && this.opcionesPago == 2 && this.daysOfWeek.length == 0)
                 return;
 
             let strInitDate = e.target.value;
             let sendDataObject = {
                 initDate:strInitDate,
                 tipoPagos:this.tipoPagos,
-                diasPlan: this.diasPlan
+                diasPlan: this.diasPlan,
+                opcionesPago:this.opcionesPago,
+                daysOfWeek:this.daysOfWeek
             }
 
             axios.post("/obtenerFechasPagos",sendDataObject)

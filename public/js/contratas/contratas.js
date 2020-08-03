@@ -14406,7 +14406,9 @@ new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
     diasPlan: '',
     comisionPrestamo: 0,
     cantidadPago: '0',
-    tipoPagos: 'Pagos diarios'
+    tipoPagos: 'Pagos diarios',
+    opcionesPago: 1,
+    daysOfWeek: []
   },
   created: function created() {},
   mounted: function mounted() {},
@@ -14430,13 +14432,19 @@ new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
     pagosContrataKeyUp: function pagosContrataKeyUp() {
       this.comisionPrestamo = this.cantidadPago * this.diasPlan - this.prestamo;
     },
+    resetEndDate: function resetEndDate() {
+      document.getElementById("fecha_termino").value = "";
+    },
     getEndTime: function getEndTime(e) {
       if (this.diasPlan == "") return;
+      if (this.tipoPagos == "Pagos diarios" && this.opcionesPago == 2 && this.daysOfWeek.length == 0) return;
       var strInitDate = e.target.value;
       var sendDataObject = {
         initDate: strInitDate,
         tipoPagos: this.tipoPagos,
-        diasPlan: this.diasPlan
+        diasPlan: this.diasPlan,
+        opcionesPago: this.opcionesPago,
+        daysOfWeek: this.daysOfWeek
       };
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("/obtenerFechasPagos", sendDataObject).then(function (response) {
         document.getElementById("fecha_termino").value = response.data.endTime;

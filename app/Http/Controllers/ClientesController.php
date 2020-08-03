@@ -94,11 +94,41 @@ class ClientesController extends Controller
         $date = Carbon::createFromFormat('Y-m-d', $request->input("initDate"));
 
         if($request->input("tipoPagos") == "Pagos diarios")
-            $date->addDays($request->input("diasPlan"));
+        {
+
+
+            if($request->input("opcionesPago") == 1)
+                $date->addDays($request->input("diasPlan"));
+            
+            else
+            {
+                $initDate = Carbon::createFromFormat('Y-m-d', $request->input("initDate"));
+                $days = $this->getDays($request->input("diasPlan"), $initDate , $request->input("daysOfWeek"));
+
+                $date->addDays($days);
+            }
+        }
         else
             $date->addWeeks($request->input("diasPlan"));
 
         return ["endTime" => $date->format("Y-m-d")];
+    }
+
+    function getDays($days,$date, $daysOfWeek)
+    {
+
+        for($i=0;$i<$days;$i++){
+            $date->addDay(1);
+            $day = $date->dayOfWeek;
+            
+            if(!in_array($day,$daysOfWeek))
+            {
+                $days++;
+            }
+               
+        }
+        
+        return $days;
     }
 
     public function verContratas($id)
