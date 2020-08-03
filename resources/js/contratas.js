@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import axios from "axios";
 
 new Vue({
     el: '#app',
@@ -38,32 +39,21 @@ new Vue({
             this.comisionPrestamo = (this.cantidadPago * this.diasPlan) - this.prestamo;
         },
         getEndTime: function(e) {
-            var strInitDate = e.target.value;
-            var splitedInitDate = strInitDate.split("-")
-            var initDate = new Date(splitedInitDate[0], splitedInitDate[1], splitedInitDate[2]);
-            var timeInitDate = initDate.getTime();
 
-            if (this.tipoPagos == "Pagos diarios") {
-                this.calculateEndDate(initDate);
-                timeInitDate = timeInitDate + ((86400 * 1000) * this.diasPlan);
-            } else
-                timeInitDate = timeInitDate + (((86400 * 1000) * 7) * this.diasPlan);
+            if(this.diasPlan == "")
+                return;
 
-            var endTime = new Date(timeInitDate);
-            var endDay = (endTime.getDate() < 10) ? "0" + endTime.getDate() : endTime.getDate();
-            var endMonth = (endTime.getMonth() < 10) ? "0" + endTime.getMonth() : endTime.getMonth();
-            var endYear = endTime.getFullYear();
-            var strEndTime = endYear + "-" + endMonth + "-" + endDay;
-
-            document.getElementById("fecha_termino").value = strEndTime
-        },
-        calculateEndDate: function(initDate) {
-            for (let i = 0; i < 10; i++) {
-                console.log(initDate.getDay())
-
-                initDate.setDate(initDate.getDate() + 1)
-                "hola mundo"
+            let strInitDate = e.target.value;
+            let sendDataObject = {
+                initDate:strInitDate,
+                tipoPagos:this.tipoPagos,
+                diasPlan: this.diasPlan
             }
+
+            axios.post("/obtenerFechasPagos",sendDataObject)
+                 .then(response => {
+                    document.getElementById("fecha_termino").value = response.data.endTime
+                 })
         }
 
     }

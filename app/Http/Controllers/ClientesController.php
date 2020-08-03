@@ -88,6 +88,19 @@ class ClientesController extends Controller
         return view('clientes.agregarContrata', ['cliente' => $cliente , 'fecha' => $fecha , 'fecha_finalizacion' => $fecha_finalizacion, 'fecha_finalizacion_semana' => $fecha_finalizacion_semana]);
     }
 
+    function obtenerFechasPagos(Request $request)
+    {
+     
+        $date = Carbon::createFromFormat('Y-m-d', $request->input("initDate"));
+
+        if($request->input("tipoPagos") == "Pagos diarios")
+            $date->addDays($request->input("diasPlan"));
+        else
+            $date->addWeeks($request->input("diasPlan"));
+
+        return ["endTime" => $date->format("Y-m-d")];
+    }
+
     public function verContratas($id)
     {
         $cliente = Clientes::where('id', $id)->firstOrFail();

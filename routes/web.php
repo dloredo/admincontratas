@@ -47,6 +47,9 @@ Route::get('/imprimirPagosSemanales/{id}' , 'ClientesController@imprimirPagosSem
 Route::get('/cambiarEstatusCliente/{id}/{estatus}' , 'ClientesController@cambiarEstatusCliente')->name('edit.cambiarEstatusCliente');
 Route::post('/clientes/asignarCobrador' , 'ClientesController@asignarCobrador')->name('clientes.asignarCobrador');
 
+
+Route::post('obtenerFechasPagos' , 'ClientesController@obtenerFechasPagos')->name('clientes.obtenerFechasPagos');
+
 /*
 |--------------------------------------------------------------------------
 |           FIN    ADMINISTRACION DE CONTRATAS Y DE CLIENTES
