@@ -27,6 +27,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('direccion');
             $table->string('telefono');
+            $table->integer('saldo');
             $table->boolean('activo');
             $table->rememberToken();
             $table->timestamps();
@@ -41,6 +42,7 @@ class CreateUsersTable extends Migration
                                     'password' => Hash::make("admin.123"),
                                     'direccion' => "pruebas",
                                     'telefono' => "3121234567",
+                                    'saldo' => 0,
                                     'activo' => true]);
 
         DB::table("usuarios")->insert(["name" => "cobrador",
@@ -50,6 +52,7 @@ class CreateUsersTable extends Migration
                                     'password' => Hash::make("cobrador.123"),
                                     'direccion' => "pruebas",
                                     'telefono' => "3121234567",
+                                    'saldo' => 0,
                                     'activo' => true]);                           
     }
 

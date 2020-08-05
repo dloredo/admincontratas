@@ -15,6 +15,10 @@
         <a href="{{ route('vista.contratas') }}"><i class="fa fa-clipboard"></i><span class="sidebar-mini-hide">Contratas</span></a>
     </li>
 
+    <li>
+        <a href="{{ route('vista.listados') }}"><i class="fa fa-clipboard"></i><span class="sidebar-mini-hide">Listados</span></a>
+    </li>
+
     <li class="nav-main-heading"><span class="sidebar-mini-visible">UI</span><span class="sidebar-mini-hidden">Sistema</span></li>
     <li>
         <a href="{{ route('vista.usuarios') }}"><i class="fa fa-users"></i><span class="sidebar-mini-hide">Usuarios</span></a>

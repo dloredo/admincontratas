@@ -10,6 +10,7 @@ use App\PagosContratas;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Capital;
 
 class CobranzaController extends Controller
 {
@@ -110,7 +111,6 @@ class CobranzaController extends Controller
                 ]);
             }
         }
-           
         return back();
     }
 }

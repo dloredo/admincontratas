@@ -105,6 +105,15 @@
                     </div>
                 </div>
                 <div class="form-group col-md-4">
+                    <label>Fecha de entrega</label> <br>
+                    <input type="date" class="form-control @error('fecha_entrega') is-invalid @enderror" id="fecha_entrega" name="fecha_entrega" value="{{ date('Y-m-d') }}" value="{{ old('fecha_entrega') }}" @change="getEndTime" autocomplete="fecha_entrega">
+                    @error('fecha_entrega')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
+                </div>
+                <div class="form-group col-md-4">
                     <label>Fecha de inicio</label> <br>
                     <input type="date" class="form-control @error('fecha_inicio') is-invalid @enderror" id="fecha_inicio" name="fecha_inicio" value="{{ old('fecha_inicio') }}" @change="getEndTime" autocomplete="fecha_inicio">
                     @error('fecha_inicio')

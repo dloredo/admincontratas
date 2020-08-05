@@ -37,7 +37,7 @@
                             <div class="float-right mt-15 d-none d-sm-block">
                                 <i class="si si-users fa-2x text-info"></i>
                             </div>
-                            <div class="font-size-h3 font-w600 text-info js-count-to-enabled" data-toggle="countTo" data-speed="1000" data-to="{{$capital->comisiones}}"><?php echo "$" . number_format(round(((float)$capital->comisiones)),2,'.',',');?></div>
+                            <div class="font-size-h3 font-w600 text-info js-count-to-enabled" data-toggle="countTo" data-speed="1000" data-to="{{$capital->comisiones}}"><?php echo "$" . number_format(round(((float)$prestamos_totales)),2,'.',',');?></div>
                             <div class="font-size-sm font-w600 text-uppercase text-info-light">Prestamos totales</div>
                         </div>
                         <div class="py-15 px-20 clearfix border-black-op-b">
@@ -65,14 +65,14 @@
                             <div class="float-right mt-15 d-none d-sm-block">
                                 <i class="si si-envelope-open fa-2x text-warning"></i>
                             </div>
-                            <div class="font-size-h3 font-w600 text-warning js-count-to-enabled" data-toggle="countTo" data-speed="1000" data-to="{{$capital->capital_en_prestamo}}"><?php echo "$" . number_format(round(((float)$capital->capital_en_prestamo)),2,'.',',');?></div>
+                            <div class="font-size-h3 font-w600 text-warning js-count-to-enabled" data-toggle="countTo" data-speed="1000" data-to="{{$capital->capital_en_prestamo}}"><?php echo "$" . number_format(round(((float)$capital->capital_en_prestamo-$pagos_totales)),2,'.',',');?></div>
                             <div class="font-size-sm font-w600 text-uppercase text-warning-light">Capital parcial</div>
                         </div>
                         <div class="py-15 px-20 clearfix border-black-op-b">
                             <div class="float-right mt-15 d-none d-sm-block">
                                 <i class="si si-wallet fa-2x text-warning"></i>
                             </div>
-                            <div class="font-size-h3 font-w600 text-warning"><span data-toggle="countTo" data-speed="1000" data-to="{{$capital->capital_neto}}" class="js-count-to-enabled"><?php echo "$" . number_format(round(((float)$capital->capital_neto+$capital->comisiones)),2,'.',',');?></span></div>
+                            <div class="font-size-h3 font-w600 text-warning"><span data-toggle="countTo" data-speed="1000" data-to="{{$capital->capital_neto}}" class="js-count-to-enabled"><?php echo "$" . number_format(round(((float)$capital->capital_neto+$capital->comisiones+$pagos_totales)),2,'.',',');?></span></div>
                             <div class="font-size-sm font-w600 text-uppercase text-warning-light">Saldo efectivo</div>
                         </div>
                         <div class="py-15 px-20 clearfix border-black-op-b">

@@ -7,19 +7,10 @@
         <form action="{{ route('create.agregarUsuario') }}" method="POST">
             @csrf
             <div class="form-row">
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-12">
                     <label for="nombres">Nombre(s)*</label>
                     <input type="text" class="form-control @error('nombres') is-invalid @enderror" value="{{ old('nombres') }}" id="nombres" name="nombres" placeholder="">
                     @error('nombres')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="apellidos">Apellido(s)*</label>
-                    <input type="text" class="form-control @error('apellidos') is-invalid @enderror" value="{{ old('apellidos') }}" id="apellidos" name="apellidos" placeholder="">
-                    @error('apellidos')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>

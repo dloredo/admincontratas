@@ -26,6 +26,7 @@ class Contratas extends Migration
             $table->integer('pagos_contrata');   //agrege
             $table->string('tipo_plan_contrata');
             $table->date('fecha_inicio');
+            $table->date('fecha_entrega');
             $table->integer('estatus');
             $table->date('fecha_termino');
             $table->float('bonificacion');

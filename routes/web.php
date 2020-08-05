@@ -133,3 +133,5 @@ Route::post('/crearMovimientoCapital' , 'CapitalController@crearMovimientoCapita
 |           FIN PAGINA CAPITAL
 |--------------------------------------------------------------------------
 */
+
+Route::get('/listados' , 'ListadosController@index')->name('vista.listados');

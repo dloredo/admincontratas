@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Capital;
 use App\Cortes;
 use App\Movimiento;
+use App\Contratas;
+use App\PagosContratas;
 use Illuminate\Support\Facades\Validator;
 
 class CapitalController extends Controller
@@ -19,7 +21,10 @@ class CapitalController extends Controller
     {
         $capital = Capital::find(1);
         $cortes = Cortes::all();
-        return view("capital.capital", compact("capital","cortes"));
+        $prestamos_totales = Contratas::where('estatus' , 0)->sum('cantidad_prestada');
+        $pagos_totales = PagosContratas::sum('cantidad_pagada');
+        //dd($pagos_totales);
+        return view("capital.capital", ['prestamos_totales' => $prestamos_totales ,'pagos_totales' => $pagos_totales], compact("capital","cortes"));
     }
 
     function generarCorte()
@@ -47,7 +52,9 @@ class CapitalController extends Controller
     {
         $capital = Capital::find(1);
         $movimientos = Movimiento::all();
-        return view("capital.capital", compact("capital","movimientos"));
+        $prestamos_totales = Contratas::where('estatus' , 0)->sum('cantidad_prestada');
+        $pagos_totales = PagosContratas::sum('cantidad_pagada');
+        return view("capital.capital" ,['prestamos_totales' => $prestamos_totales ,'pagos_totales' => $pagos_totales], compact("capital","movimientos"));
     }
 
     function crearMovimientoCapital(Request $request)

@@ -194,6 +194,7 @@ class ClientesController extends Controller
             'pagos_contrata'        => $request['pagos_contrata'],
             'tipo_plan_contrata'    => $request['tipo_plan_contrata'],
             'fecha_inicio'          => $request['fecha_inicio'],
+            'fecha_entrega'         => $request['fecha_entrega'],
             'estatus'               => 0,
             'fecha_termino'         => $request['fecha_termino'],
             'bonificacion'          => 0,    

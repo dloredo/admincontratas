@@ -39,8 +39,8 @@
                 @enderror
             </div>
             <div class="form-group col-md-6">
-                <label>Fecha de cobro</label>
-                <input type="text" class="form-control @error('hora_cobro') is-invalid @enderror" id="hora_cobro" name="hora_cobro" value="{{ old('hora_cobro') }}" autocomplete="hora_cobro" placeholder="+52 3124567891">
+                <label>Hora de cobro</label>
+                <input type="text" class="form-control @error('hora_cobro') is-invalid @enderror" id="hora_cobro" name="hora_cobro" value="{{ old('hora_cobro') }}" autocomplete="hora_cobro" placeholder="De 3 a 4 de la tarde">
                 @error('hora_cobro')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>

@@ -35,11 +35,11 @@ class UsuariosController extends Controller
         User::create([
             'name' => $data['name'],
             'nombres' => $data['nombres'],
-            'apellidos' => $data['apellidos'],
             'id_rol' => $data['id_rol'],
             'password' => Hash::make($data['name'].".123"),
             'direccion' => $data['direccion'],
             'telefono' => $data['telefono'],
+            'saldo' => 0,
             'activo' => true,
         ]);
 
