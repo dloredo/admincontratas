@@ -91,27 +91,31 @@ class ClientesController extends Controller
     function obtenerFechasPagos(Request $request)
     {
      
+        $data = [];
+
         $date = Carbon::createFromFormat('Y-m-d', $request->input("initDate"));
 
         if($request->input("tipoPagos") == "Pagos diarios")
         {
 
+        
+            $date->addDays($request->input("diasPlan"));
 
-            if($request->input("opcionesPago") == 1)
-                $date->addDays($request->input("diasPlan"));
-            
-            else
+            if($request->input("opcionesPago") != 1)
             {
                 $initDate = Carbon::createFromFormat('Y-m-d', $request->input("initDate"));
                 $days = $this->getDays($request->input("diasPlan"), $initDate , $request->input("daysOfWeek"));
-
-                $date->addDays($days);
+                $data["diasRestantes"] = $days;
             }
+
         }
         else
             $date->addWeeks($request->input("diasPlan"));
 
-        return ["endTime" => $date->format("Y-m-d")];
+
+        $data["endTime"] = $date->format("Y-m-d");
+
+        return $data;
     }
 
     function getDays($days,$date, $daysOfWeek)
@@ -123,7 +127,7 @@ class ClientesController extends Controller
             
             if(!in_array($day,$daysOfWeek))
             {
-                $days++;
+                $days--;
             }
                
         }

@@ -27,23 +27,70 @@ new Vue({
     methods: {
         diasPlanKeyUp: function() {
 
-            if (this.comisionPrestamo != 0 && this.comisionPrestamo != '')
-                this.cantidadPago = (parseInt(this.prestamo) + parseInt(this.comisionPrestamo)) / (this.diasPlan);
-
             if (document.getElementById("fecha_inicio").value != '')
-                this.getEndTime({ target: { value: document.getElementById("fecha_inicio").value } });
+                this.getEndTime({ target: { value: document.getElementById("fecha_inicio").value } },1);
         },
         comisionPrestamoKeyUp: function() {
-            if (this.comisionPrestamo != 0 && this.comisionPrestamo != '')
-                this.cantidadPago = (parseInt(this.prestamo) + parseInt(this.comisionPrestamo)) / (this.diasPlan);
+            if (document.getElementById("fecha_inicio").value != '')
+                this.getEndTime({ target: { value: document.getElementById("fecha_inicio").value } },2);
         },
         pagosContrataKeyUp: function() {
-            this.comisionPrestamo = (this.cantidadPago * this.diasPlan) - this.prestamo;
+            if (document.getElementById("fecha_inicio").value != '')
+                this.getEndTime({ target: { value: document.getElementById("fecha_inicio").value } },3);
         },
+
         resetEndDate:function(){
             document.getElementById("fecha_termino").value = "";
         },
-        getEndTime: function(e) {
+        calcularDatos: function(diasRestantes,type){
+            let dias = (this.tipoPagos == "Pagos diarios" && this.opcionesPago == 2)? diasRestantes : this.diasPlan
+
+
+            if(typeof(type) == "undefined" || type == 1)
+            {
+                if((this.cantidadPago == 0 || this.cantidadPago == "" ) && 
+                    (this.comisionPrestamo == 0 || this.comisionPrestamo =="")) 
+                    return;
+
+                    if((this.cantidadPago != 0 || this.cantidadPago != "" ) && 
+                    (this.comisionPrestamo != 0 || this.comisionPrestamo !=""))
+                    {
+                        this.cantidadPago = (parseInt(this.prestamo) + parseInt(this.comisionPrestamo)) / (dias);
+                        this.comisionPrestamo = (this.cantidadPago * dias) - this.prestamo;
+                        return;
+                    } 
+
+                if((this.cantidadPago == 0 || this.cantidadPago == "" )) 
+                {
+                    this.cantidadPago = (parseInt(this.prestamo) + parseInt(this.comisionPrestamo)) / (dias);
+                    return;
+                }
+
+                if((this.comisionPrestamo == 0 || this.comisionPrestamo ==""))
+                {
+                    this.comisionPrestamo = (this.cantidadPago * dias) - this.prestamo;
+                    return;
+                }
+                
+            }
+
+            if(type == 2)
+            {
+                this.cantidadPago = (parseInt(this.prestamo) + parseInt(this.comisionPrestamo)) / (dias);
+                return;
+            }
+
+            if(type == 3)
+            {
+                this.comisionPrestamo = (this.cantidadPago * dias) - this.prestamo;
+                return;
+            }
+
+        
+               
+        },
+        getEndTime: function(e,type) {
+            console.log()
 
             if(this.diasPlan == "")
                 return;
@@ -62,6 +109,12 @@ new Vue({
 
             axios.post("/obtenerFechasPagos",sendDataObject)
                  .then(response => {
+                     console.log(response.data)
+                     if(this.tipoPagos == "Pagos diarios" && this.opcionesPago == 2)
+                        this.calcularDatos(response.data.diasRestantes,type)
+                    else
+                        this.calcularDatos(0,type)
+
                     document.getElementById("fecha_termino").value = response.data.endTime
                  })
         }
