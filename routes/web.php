@@ -134,4 +134,5 @@ Route::post('/crearMovimientoCapital' , 'CapitalController@crearMovimientoCapita
 |--------------------------------------------------------------------------
 */
 
-Route::get('/listados' , 'ListadosController@index')->name('vista.listados');
+Route::get('/contratas-no-pagadas' , 'ListadosController@index')->name('vista.noPagadas');
+Route::get('/contratas-pagadas' , 'ListadosController@Pagadas')->name('vista.Pagadas');

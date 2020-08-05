@@ -40,7 +40,7 @@
             <tbody>
             <?php $fechaInicio = strtotime($contrata->fecha_inicio); ?>
             <?php $fechaFin = strtotime($contrata->fecha_termino); ?>
-            <?php $contador = 0 ?>
+            <?php $contador = 0?>
             <?php $dia = 86400; ?>
             @for ( $i = $fechaInicio; $i <= $fechaFin; $i+=$dia )
                 <tr>
