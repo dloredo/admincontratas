@@ -117,7 +117,7 @@ class ClientesController extends Controller
     function getDays($days,$date, $daysOfWeek)
     {
 
-        for($i=0;$i<$days;$i++){
+        for($i=0;$i<=$days;$i++){
             $date->addDay(1);
             $day = $date->dayOfWeek;
             

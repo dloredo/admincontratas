@@ -2,7 +2,7 @@
 
 @section('main')
 @foreach ($nombre as $nombre)
-<h2 class="content-heading">Contratas de {{ $nombre->nombres }} {{ $nombre->apellidos }}</h2>
+<h2 class="content-heading">Contratas de {{ $nombre->nombres }}</h2>
 @endforeach
 <div class="block">
     <div class="block-content">

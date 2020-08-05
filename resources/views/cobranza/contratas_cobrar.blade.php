@@ -37,7 +37,7 @@
                     @foreach ($clientes as $cliente)
                         <tr>
                             <td style="text-align: center;">{{ $cliente->id }}</td>
-                            <td style="text-align: center;">{{ $cliente->nombres }} {{ $cliente->apellidos }}</td>
+                            <td style="text-align: center;">{{ $cliente->nombres }}</td>
                             <td style="text-align: center;">{{ $cliente->direccion }}</td>
                             <td style="text-align: center;">{{ $cliente->telefono }}</td>
                             <td style="text-align: center;">

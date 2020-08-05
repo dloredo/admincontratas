@@ -33,14 +33,7 @@
                 </tr>
             </thead>
             <tbody>
-            @foreach ($clientes as $cliente)
-                <tr>
-                    <td>{{ $cliente->nombres }} {{ $cliente->apellidos }}</td>
-                    <td>{{ $cliente->direccion }}</td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            @endforeach
+            
             </tbody>
         </table>
     </div>

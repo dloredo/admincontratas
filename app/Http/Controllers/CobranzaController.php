@@ -35,7 +35,7 @@ class CobranzaController extends Controller
             ->join('contratas' , 'clientes.id' , '=' , 'contratas.id_cliente' )
             ->where('contratas.id_cliente' , '=' , $id)
             ->get();
-        $nombre =  Clientes::where('id', $id)->select('nombres' , 'apellidos')->get(); 
+        $nombre =  Clientes::where('id', $id)->select('nombres')->get(); 
         return view('cobranza.verContratasCliente' , ['nombre' => $nombre] , compact('contratas'));
     }
 
