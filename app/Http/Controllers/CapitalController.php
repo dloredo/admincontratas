@@ -23,8 +23,9 @@ class CapitalController extends Controller
         $cortes = Cortes::all();
         $prestamos_totales = Contratas::where('estatus' , 0)->sum('cantidad_prestada');
         $pagos_totales = PagosContratas::sum('cantidad_pagada');
+        $comisiones = Contratas::sum('comision');
         //dd($pagos_totales);
-        return view("capital.capital", ['prestamos_totales' => $prestamos_totales ,'pagos_totales' => $pagos_totales], compact("capital","cortes"));
+        return view("capital.capital", ['prestamos_totales' => $prestamos_totales ,'pagos_totales' => $pagos_totales, 'comisiones' => $comisiones], compact("capital","cortes"));
     }
 
     function generarCorte()
@@ -54,7 +55,8 @@ class CapitalController extends Controller
         $movimientos = Movimiento::all();
         $prestamos_totales = Contratas::where('estatus' , 0)->sum('cantidad_prestada');
         $pagos_totales = PagosContratas::sum('cantidad_pagada');
-        return view("capital.capital" ,['prestamos_totales' => $prestamos_totales ,'pagos_totales' => $pagos_totales], compact("capital","movimientos"));
+        $comisiones = Contratas::sum('comision');
+        return view("capital.capital" ,['prestamos_totales' => $prestamos_totales ,'pagos_totales' => $pagos_totales, 'comisiones' => $comisiones], compact("capital","movimientos"));
     }
 
     function crearMovimientoCapital(Request $request)

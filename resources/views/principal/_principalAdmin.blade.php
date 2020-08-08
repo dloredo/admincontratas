@@ -6,10 +6,8 @@
                 <div class="float-left mt-10 d-none d-sm-block">
                     <i class="si si-bag fa-3x text-body-bg-dark"></i>
                 </div>
-                @foreach ($capital_total as $capital_total)
-                <div class="font-size-h3 font-w600">$<span data-toggle="countTo" data-speed="1000" data-to="780" class="js-count-to-enabled">{{ $capital_total->capital_neto }}</span></div>
-                @endforeach
-                <div class="font-size-sm font-w600 text-uppercase text-muted">Capital</div>
+                <div class="font-size-h3 font-w600"><span data-toggle="countTo" data-speed="1000" data-to="780" class="js-count-to-enabled"><?php echo "$" . number_format(round(((float)$saldo_esperado)),2,'.',',');?></span></div>
+                <div class="font-size-sm font-w600 text-uppercase text-muted">SALDO ESPERADO</div>
             </div>
         </a>
     </div>

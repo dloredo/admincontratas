@@ -28,9 +28,13 @@ class PrincipalController extends Controller
             ->select('clientes.*' , 'contratas.*')
             ->join('contratas' , 'clientes.id' , '=' , 'contratas.id_cliente' )
             ->get();
+        $cobradores = User::where('id_rol' , 2)->get();
+        $saldo_esperado = User::where('id_rol' , 2)->sum('saldo');
+        //dd($saldo_esperado);
         return view("principal.principal" , ['total_contratas' => $total_contratas 
                                           , 'total_cobradores' => $total_cobradores
                                           , 'total_clientes_asignados' => $total_clientes_asignados
-                                          , 'total_clientes' => $total_clientes] , compact('clientes' , 'capital_total'));
+                                          , 'total_clientes' => $total_clientes
+                                          , 'saldo_esperado' => $saldo_esperado] , compact('clientes' , 'capital_total','cobradores'));
     }
 }

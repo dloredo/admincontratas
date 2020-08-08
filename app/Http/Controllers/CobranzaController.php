@@ -66,6 +66,8 @@ class CobranzaController extends Controller
 
     public function agregarPago($id,Request $request)
     {
+        $id_cobrador = User::findOrFail(Auth::user()->id);
+        $saldo_cobrador = $request['cantidad_pagada']+$request['adelanto'];
         request()->validate([
             'fecha_pago'        => 'required',
             'cantidad_pagada'   => 'required',
@@ -111,6 +113,9 @@ class CobranzaController extends Controller
                 ]);
             }
         }
+        $id_cobrador->update([
+            'saldo' => $id_cobrador->saldo+=$saldo_cobrador,
+        ]);
         return back();
     }
 }

@@ -22,7 +22,7 @@
 
         <div class="row gutters-tiny js-appear-enabled animated fadeIn" data-toggle="appear">
             <!-- Row #3 -->
-            <div class="col-xl-8 d-flex align-items-stretch">
+            <div class="block-content tab-content">
                 <div class="block block-themed block-mode-loading-inverse block-transparen w-100">
                    
                         @if(Request::is('contratas-no-pagadas'))

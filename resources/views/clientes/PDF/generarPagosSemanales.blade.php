@@ -5,8 +5,8 @@
 @foreach ($clientes as $cliente)
     @if( $contrata->id_cliente == $cliente->id )
     <div>
-        <p class="h5" style="float: left;">Cliente: {{$cliente->nombres}} <?php echo utf8_decode(substr($cliente->apellidos,0,5))?>.</p>
-        <p class="h5" style="float: right;">Prestamo: <?php echo "$" . number_format(round(((float)$contrata->cantidad_prestada)),2,'.',',');?></p>      
+        <p class="h5" style="float: left;">Cliente: {{$cliente->nombres}}.</p>
+        <p class="h5" style="float: right;">Prestamo: <?php echo "$" . number_format(round(((float)$contrata->cantidad_prestada+$contrata->comision)),2,'.',',');?></p>      
     </div>
     @endif
 @endforeach 

@@ -20,8 +20,8 @@
     @foreach ($clientes as $cliente)
         @if( $contrata->id_cliente == $cliente->id )
             <div>
-                <p class="h5" style="float: left;">Cliente: {{$cliente->nombres}} <?php echo utf8_decode(substr($cliente->apellidos,0,2))?>.</p>
-                <p class="h5" style="float: right;">Prestamo: <?php echo "$" . number_format(round(((float)$contrata->cantidad_prestada)),2,'.',',');?> 
+                <p class="h5" style="float: left;">Cliente: {{$cliente->nombres}}.</p>
+                <p class="h5" style="float: right;">Prestamo: <?php echo "$" . number_format(round(((float)$contrata->cantidad_prestada+$contrata->comision)),2,'.',',');?> 
                 y Pagos de: <?php echo "$" . number_format(round(((float)$contrata->pagos_contrata)),2,'.',',');?></p>
             </div>
         @endif
@@ -38,14 +38,14 @@
                 </tr>
             </thead>
             <tbody>
-            <?php $fechaInicio = strtotime($contrata->fecha_inicio); ?>
-            <?php $fechaFin = strtotime($contrata->fecha_termino); ?>
+            <?php $fechaInicio = new DateTime($contrata->fecha_inicio); ?>
+            <?php $fechaFin = new DateTime($contrata->fecha_termino); ?>
             <?php $contador = 0?>
             <?php $dia = 86400; ?>
-            @for ( $i = $fechaInicio; $i <= $fechaFin; $i+=$dia )
+            @for ( $i = $fechaInicio; $i <= $fechaFin; $i->modify('+1 day') )
                 <tr>
                     <th style="text-align: center"><?php echo $contador += 1  ?></th>
-                    <th style="text-align: center"><?php echo date("d-m-Y" , $i)  ?></th>
+                    <th style="text-align: center"><?php echo $i->format("d-m-Y")  ?></th>
                     <td style="text-align: center"></td>
                 </tr>
             @endfor

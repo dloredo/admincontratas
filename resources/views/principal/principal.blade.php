@@ -14,6 +14,33 @@
 
 @if(Auth::user()->id_rol == 1)
     @include('principal._principalAdmin')
+    <div class="block">
+        <div class="block-header block-header-default">
+            <h3 class="block-title">Saldo de cobradores</h3>
+        </div>
+        <div class="block-content block-content-full">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Telefono</th>
+                        <th scope="col">Saldo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($cobradores as $cobrador)
+                    <tr>
+                        <th scope="row">{{ $cobrador->id }}</th>
+                        <td>{{ $cobrador->nombres }}</td>
+                        <td>{{ $cobrador->telefono }}</td>
+                        <td><?php echo "$" . number_format(round(((float)$cobrador->saldo)),2,'.',',');?></td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div> 
 @else
     @include('principal._principalCobrador')
 @endif

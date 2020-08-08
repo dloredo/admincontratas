@@ -1,4 +1,4 @@
-<h4 class="font-w400">Contratas no pagadas</h4>
+<h4 class="font-w400">Contratas vigentes</h4>
 <div style="float: right;">
 <form action="{{ route('vista.noPagadas') }}" method="get">
     <input type="date" name="fecha_inicio" id="fecha_inicio">

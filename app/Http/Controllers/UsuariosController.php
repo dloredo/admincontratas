@@ -71,7 +71,6 @@ class UsuariosController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255','unique:usuarios'],
             'nombres' => ['required', 'string', 'max:255'],
-            'apellidos' => ['required', 'string', 'max:255'],
             'id_rol' => ['required'],
             'direccion' => ['required', 'string', 'max:255'],
             'telefono' => ['required','numeric'],
