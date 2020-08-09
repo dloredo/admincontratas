@@ -113,6 +113,7 @@ Route::get('/eliminarUsuario/{id}' , 'UsuariosController@eliminarUsuario')->name
 |--------------------------------------------------------------------------
 */
 Route::get('/principal' , 'PrincipalController@index')->name('vista.principal');
+Route::post('/liquidar-cliente/{id}' , 'PrincipalController@liquidar_cobrador')->name('liquidar_cobrador');
 /*
 |--------------------------------------------------------------------------
 |           FIN PAGINA PRINCIPAL

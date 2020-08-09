@@ -37,4 +37,14 @@ class PrincipalController extends Controller
                                           , 'total_clientes' => $total_clientes
                                           , 'saldo_esperado' => $saldo_esperado] , compact('clientes' , 'capital_total','cobradores'));
     }
+    function liquidar_cobrador(Request $request)
+    {
+        $id_cobrador = User::findOrFail($request->id);
+        $nuevo_saldo = $request['saldo_nuevo'];
+
+        $id_cobrador->update([
+            'saldo' => $nuevo_saldo,
+        ]);
+        return back();
+    }
 }
