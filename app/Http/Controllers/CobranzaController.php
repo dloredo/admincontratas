@@ -68,6 +68,10 @@ class CobranzaController extends Controller
     {
         $id_cobrador = User::findOrFail(Auth::user()->id);
         $saldo_cobrador = $request['cantidad_pagada']+$request['adelanto'];
+        $contrata = Contratas::findOrFail($id);
+        $contrata->update([
+            'control_pago' => $contrata->control_pago+=$saldo_cobrador,
+        ]);
         request()->validate([
             'fecha_pago'        => 'required',
             'cantidad_pagada'   => 'required',

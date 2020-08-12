@@ -19,6 +19,10 @@
         <a href="{{ route('vista.noPagadas') }}"><i class="fa fa-clipboard"></i><span class="sidebar-mini-hide">Listados</span></a>
     </li>
 
+    <li>
+        <a href="{{ route('vista.categorias') }}"><i class="fa fa-clipboard"></i><span class="sidebar-mini-hide">Tipos de gastos</span></a>
+    </li>
+
     <li class="nav-main-heading"><span class="sidebar-mini-visible">UI</span><span class="sidebar-mini-hidden">Sistema</span></li>
     <li>
         <a href="{{ route('vista.usuarios') }}"><i class="fa fa-users"></i><span class="sidebar-mini-hide">Usuarios</span></a>

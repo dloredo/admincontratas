@@ -137,3 +137,13 @@ Route::post('/crearMovimientoCapital' , 'CapitalController@crearMovimientoCapita
 
 Route::get('/contratas-no-pagadas' , 'ListadosController@index')->name('vista.noPagadas');
 Route::get('/contratas-pagadas' , 'ListadosController@Pagadas')->name('vista.Pagadas');
+
+Route::get('/tipos-categorias' , 'TiposGastosController@index')->name('vista.categorias');
+Route::post('/agregarCategoria' , 'TiposGastosController@AgregarCategoria')->name('agregarCategoria');
+Route::get('/preedit/{id}' , 'TiposGastosController@pre_edit')->name('pre_edit');
+Route::post('/edit/{id}' , 'TiposGastosController@edit')->name('edit.categoria');
+
+Route::post('/destroy/{id}' , 'TiposGastosController@destroy')->name('destroy');
+
+Route::get('/gastos' , 'TiposGastosController@vista_gastos')->name('vista.gastos');
+Route::post('/agregarGasto' , 'TiposGastosController@agregarGasto')->name('agregarGasto');
