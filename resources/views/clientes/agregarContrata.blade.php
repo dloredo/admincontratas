@@ -16,6 +16,15 @@
                     </div>
                 </div>
                 <div class="form-group col-md-4">
+                    <label>Fecha de entrega</label> <br>
+                    <input type="date" class="form-control @error('fecha_entrega') is-invalid @enderror" id="fecha_entrega" name="fecha_entrega" value="{{ date('Y-m-d') }}" value="{{ old('fecha_entrega') }}" autocomplete="fecha_entrega">
+                    @error('fecha_entrega')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
+                </div>
+                <div class="form-group col-md-4">
                     <label>Tipo de contrata</label>
                     <select class="custom-select @error('tipo_plan_contrata') is-invalid @enderror" name="tipo_plan_contrata" id="tipo_plan_contrata" value="{{ old('tipo_plan_contrata') }}" v-model="tipoPagos" v-on:change="resetEndDate" autocomplete="tipo_plan_contrata">
                         <option value="Pagos diarios">Pagos diarios</option>
@@ -28,11 +37,11 @@
                         <label class="col-12">Opciones de pago</label>
                         <div class="col-12">
                             <div class="custom-control custom-radio custom-control-inline mb-5">
-                                <input class="custom-control-input" type="radio" name="example-inline-radios" v-model="opcionesPago" id="example-inline-radio1" value="1" checked="">
+                                <input class="custom-control-input" type="radio" name="opcionesPago" v-model="opcionesPago" id="example-inline-radio1" value="1" checked="">
                                 <label class="custom-control-label" for="example-inline-radio1">Todos los dias</label>
                             </div>
                             <div class="custom-control custom-radio custom-control-inline mb-5">
-                                <input class="custom-control-input" type="radio" name="example-inline-radios" v-model="opcionesPago" id="example-inline-radio2" value="2">
+                                <input class="custom-control-input" type="radio" name="opcionesPago" v-model="opcionesPago" id="example-inline-radio2" value="2">
                                 <label class="custom-control-label" for="example-inline-radio2">Elegir dias</label>
                             </div>
                         </div>
@@ -44,31 +53,31 @@
                     
                     <div class="col-12">
                         <div class="custom-control custom-checkbox custom-control-inline mb-5">
-                            <input class="custom-control-input" type="checkbox" v-model="daysOfWeek" v-on:change="diasPlanKeyUp" value="1" name="lunes" id="lunes" value="true" checked>
+                            <input class="custom-control-input" type="checkbox" v-model="daysOfWeek" v-on:change="diasPlanKeyUp" value="1" name="daysOfWeek[]" id="lunes" value="true" checked>
                             <label class="custom-control-label" for="lunes">Lunes</label>
                         </div>
                         <div class="custom-control custom-checkbox custom-control-inline mb-5">
-                            <input class="custom-control-input" type="checkbox" v-model="daysOfWeek" v-on:change="diasPlanKeyUp" value="2" name="martes" id="martes" value="true" checked>
+                            <input class="custom-control-input" type="checkbox" v-model="daysOfWeek" v-on:change="diasPlanKeyUp" value="2" name="daysOfWeek[]" id="martes" value="true" checked>
                             <label class="custom-control-label" for="martes">Martes</label>
                         </div>
                         <div class="custom-control custom-checkbox custom-control-inline mb-5">
-                            <input class="custom-control-input" type="checkbox" v-model="daysOfWeek" v-on:change="diasPlanKeyUp" value="3" name="miercoles" id="miercoles" value="true" checked>
+                            <input class="custom-control-input" type="checkbox" v-model="daysOfWeek" v-on:change="diasPlanKeyUp" value="3" name="daysOfWeek[]" id="miercoles" value="true" checked>
                             <label class="custom-control-label" for="miercoles">Miercoles</label>
                         </div>
                         <div class="custom-control custom-checkbox custom-control-inline mb-5">
-                            <input class="custom-control-input" type="checkbox" v-model="daysOfWeek" v-on:change="diasPlanKeyUp" value="4" name="jueves" id="jueves" value="true" checked>
+                            <input class="custom-control-input" type="checkbox" v-model="daysOfWeek" v-on:change="diasPlanKeyUp" value="4" name="daysOfWeek[]" id="jueves" value="true" checked>
                             <label class="custom-control-label" for="jueves">Jueves</label>
                         </div>
                         <div class="custom-control custom-checkbox custom-control-inline mb-5">
-                            <input class="custom-control-input" type="checkbox" v-model="daysOfWeek"  v-on:change="diasPlanKeyUp" value="5" name="viernes" id="viernes" value="true" checked>
+                            <input class="custom-control-input" type="checkbox" v-model="daysOfWeek"  v-on:change="diasPlanKeyUp" value="5" name="daysOfWeek[]" id="viernes" value="true" checked>
                             <label class="custom-control-label" for="viernes">Viernes</label>
                         </div>
                         <div class="custom-control custom-checkbox custom-control-inline mb-5">
-                            <input class="custom-control-input" type="checkbox" v-model="daysOfWeek" v-on:change="diasPlanKeyUp" value="6" name="sabado" id="sabado" value="true">
+                            <input class="custom-control-input" type="checkbox" v-model="daysOfWeek" v-on:change="diasPlanKeyUp" value="6" name="daysOfWeek[]" id="sabado" value="true">
                             <label class="custom-control-label" for="sabado">Sábado</label>
                         </div>
                         <div class="custom-control custom-checkbox custom-control-inline mb-5">
-                            <input class="custom-control-input" type="checkbox" v-model="daysOfWeek" v-on:change="diasPlanKeyUp" value="0" name="domingo" id="domingo" value="true">
+                            <input class="custom-control-input" type="checkbox" v-model="daysOfWeek" v-on:change="diasPlanKeyUp" value="0" name="daysOfWeek[]" id="domingo" value="true">
                             <label class="custom-control-label" for="domingo">Domingo</label>
                         </div>
                     </div>
@@ -91,6 +100,15 @@
                 </div>
 
                 <div class="form-group col-md-4">
+                    <label>Fecha de inicio de pago</label> <br>
+                    <input type="date" class="form-control @error('fecha_inicio') is-invalid @enderror" id="fecha_inicio" name="fecha_inicio" value="{{ old('fecha_inicio') }}" @change="getEndTime" autocomplete="fecha_inicio">
+                    @error('fecha_inicio')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
+                </div>
+                <div class="form-group col-md-4">
                     <label>Cantidad a pagar por dia o cada semama</label>
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon1">$</span>
@@ -104,24 +122,8 @@
                         <input type="number" class="form-control @error('porcentaje_comision') is-invalid @enderror" id="porcentaje_comision" name="porcentaje_comision" v-model="porcentajeComision" placeholder="0" readonly value="{{ old('porcentaje_comision') }}" autocomplete="pagos_contrata">
                     </div>
                 </div>
-                <div class="form-group col-md-4">
-                    <label>Fecha de entrega</label> <br>
-                    <input type="date" class="form-control @error('fecha_entrega') is-invalid @enderror" id="fecha_entrega" name="fecha_entrega" value="{{ date('Y-m-d') }}" value="{{ old('fecha_entrega') }}" @change="getEndTime" autocomplete="fecha_entrega">
-                    @error('fecha_entrega')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
-                </div>
-                <div class="form-group col-md-4">
-                    <label>Fecha de inicio</label> <br>
-                    <input type="date" class="form-control @error('fecha_inicio') is-invalid @enderror" id="fecha_inicio" name="fecha_inicio" value="{{ old('fecha_inicio') }}" @change="getEndTime" autocomplete="fecha_inicio">
-                    @error('fecha_inicio')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
-                </div>
+                
+                
 
                 <div class="form-group col-md-4">
                     <label>Fecha de termino</label> <br>

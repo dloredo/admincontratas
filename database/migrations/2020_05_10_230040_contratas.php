@@ -24,6 +24,7 @@ class Contratas extends Migration
             $table->integer('cantidad_pagar');
             $table->integer('dias_plan_contrata'); //modifique de "cantidad_plan_contrata" a "dias_plan_contrata"
             $table->integer('pagos_contrata');   //agrege
+            $table->string('dias_pago');
             $table->string('tipo_plan_contrata');
             $table->date('fecha_inicio');
             $table->date('fecha_entrega');

@@ -172,6 +172,7 @@ class ClientesController extends Controller
 
     public function agregarContrataNueva($id,Request $request)
     {
+        
         request()->validate([
             'cantidad_prestada'  => 'required',
             'comision'           => 'required',
@@ -181,6 +182,22 @@ class ClientesController extends Controller
             'fecha_inicio'       => 'required',
             'fecha_termino'      => 'required',
         ]);
+
+        $daysOfWeek = null;
+        if(($request->input("tipo_plan_contrata") == 'Pagos diarios' && $request->input("opcionesPago") == 2 && $request->input("daysOfWeek") == null) || 
+           ($request->input("tipo_plan_contrata") == 'Pagos diarios' && $request->input("opcionesPago") == 1))
+        {
+            $daysOfWeek = [1,2,3,4,5,6,0];
+        }   
+        elseif($request->input("tipo_plan_contrata") != 'Pagos diarios')
+        {
+            $day = Carbon::createFromFormat('Y-m-d', $request->input("fecha_inicio"))->dayOfWeek;
+            $daysOfWeek = [$day];
+        }
+        else
+        {
+            $daysOfWeek = array_map('intval', $request->input("daysOfWeek"));
+        }
 
         $comision = $request['comision'];
         $cantidad_prestada = $request['cantidad_prestada'];
@@ -197,6 +214,7 @@ class ClientesController extends Controller
             'dias_plan_contrata'    => $request['dias_plan_contrata'],
             'pagos_contrata'        => $request['pagos_contrata'],
             'tipo_plan_contrata'    => $request['tipo_plan_contrata'],
+            "dias_pago"             => json_encode($daysOfWeek),
             'fecha_inicio'          => $request['fecha_inicio'],
             'fecha_entrega'         => $request['fecha_entrega'],
             'estatus'               => 0,
