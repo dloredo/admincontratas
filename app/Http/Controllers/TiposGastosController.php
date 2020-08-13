@@ -15,7 +15,8 @@ class TiposGastosController extends Controller
     {
         $categorias = Categorias::all();
         $gastos = Gastos::where('id_user' , Auth::user()->id)->paginate(6);
-        return view('gastos.gastos' , compact('categorias' , 'gastos'));
+        $gastos_admin = Gastos::all();
+        return view('gastos.gastos' , compact('categorias' , 'gastos' , 'gastos_admin'));
     }
     
     public function agregarGasto(Request $request)

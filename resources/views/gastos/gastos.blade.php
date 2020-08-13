@@ -1,6 +1,39 @@
 @extends('layouts.layout')
 
 @section('main')
+
+@if(Auth::user()->id_rol == 1)
+<h2 class="content-heading">Agregar gasto</h2>
+<div class="block">
+    <div class="block-content">
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-popin">Agregar gasto nuevo</button>
+        <br><br>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Fecha de gasto</th>
+                        <th scope="col">Cantidad gastada</th>
+                        <th scope="col">Categoria</th>
+                        <th scope="col">Información</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($gastos_admin as $gasto)
+                    <tr>
+                        <th scope="row">{{ date('d-m-Y', strtotime($gasto->fecha_gasto)) }}</th>
+                        <td><?php echo "$" . number_format(round(((float)$gasto->cantidad)),2,'.',',');?></td>
+                        <td>{{ $gasto->categoria }}</td>
+                        <td>{{ $gasto->informacion }}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>  
+    </div>
+    <br>
+</div>
+@else
 <h2 class="content-heading">Agregar gasto</h2>
 <div class="block">
     <div class="block-content">
@@ -27,11 +60,12 @@
                     @endforeach
                 </tbody>
             </table>
-        </div>
-        
+        </div>  
     </div>
     <br>
 </div>
+@endif
+
 <div class="modal fade" id="modal-popin" tabindex="-1" role="dialog" aria-labelledby="modal-popin" aria-hidden="true">
     <div class="modal-dialog modal-dialog-popin" role="document">
         <div class="modal-content">
