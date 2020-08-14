@@ -19,7 +19,7 @@ class AdminUser
         if (Auth::guard("web")->check() && Auth::user()->id_rol == 1)
             return $next($request);
         
-        return redirect("/principal");
+        return redirect("/pagos-del-dia");
         
     }
 }

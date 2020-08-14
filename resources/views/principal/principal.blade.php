@@ -14,46 +14,45 @@
 
 @if(Auth::user()->id_rol == 1)
     @include('principal._principalAdmin')
-    <div class="block">
-        <div class="block-header block-header-default">
-            <h3 class="block-title">Saldo de cobradores</h3>
-        </div>
-        <div class="block-content block-content-full">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Telefono</th>
-                        <th scope="col">Saldo</th>
-                        <th scope="col">Liquidar</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($cobradores as $cobrador)
-                    <tr>
-                        <th scope="row">{{ $cobrador->id }}</th>
-                        <td>{{ $cobrador->nombres }}</td>
-                        <td>{{ $cobrador->telefono }}</td>
-                        <td><?php echo "$" . number_format(round(((float)$cobrador->saldo)),2,'.',',');?></td>
-                        <td>
-                            <form class="form-inline" action="{{ route('liquidar_cobrador' , $cobrador->id) }}" method="post">
-                                @csrf
-                                <div class="form-group mx-sm-3 mb-2">
-                                    <input type="number" class="form-control" id="saldo_nuevo" name="saldo_nuevo" value="0" placeholder="Liquidar">
-                                </div>
-                                <input type="submit" class="btn btn-primary mb-2" value="Liquidar">
-                            </form>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div> 
 @else
-    @include('principal._principalCobrador')
+    @include ('principal._principalCobrador')
 @endif
+
+<div class="block">
+    <ul class="nav nav-tabs nav-tabs-block js-tabs-enabled" data-toggle="tabs" role="tablist">
+        @if(Auth::user()->id_rol == 1)
+        <li class="nav-item">
+            <a class="nav-link  {{ (Request::is('contratas-no-pagadas'))? 'active' : '' }}" href="{{ route('vista.principal') }}">Saldo de cobradores</a>
+        </li>
+        @endif
+        <li class="nav-item">
+            <a class="nav-link {{ (Request::is('contratas-pagadas'))? 'active' : '' }}" href="{{ route('vista.pagosDias') }}">Pagos del día</a>
+        </li>
+
+    </ul>
+    <div class="block-content block-content-full">
+
+        <div class="row gutters-tiny js-appear-enabled animated fadeIn" data-toggle="appear">
+            <!-- Row #3 -->
+            <div class="block-content tab-content">
+                <div class="block block-themed block-mode-loading-inverse block-transparen w-100">
+                   
+                        @if(Request::is('principal'))
+                            @include ('principal._saldosCobradores')
+                        @else
+                            @include ('principal._cobrosDelDia')
+                        @endif
+                    
+                </div>
+            </div>
+
+            <!-- END Row #3 -->
+        </div>
+
+    </div>
+</div>
+
+
 
 <!--<div class="block">
     <div class="block-header block-header-default">
