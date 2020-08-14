@@ -99,7 +99,7 @@ class ClientesController extends Controller
         {
 
         
-            $date->addDays($request->input("diasPlan"));
+            $date->addDays(($request->input("diasPlan") - 1));
 
             if($request->input("opcionesPago") != 1)
             {
@@ -110,7 +110,7 @@ class ClientesController extends Controller
 
         }
         else
-            $date->addWeeks($request->input("diasPlan"));
+            $date->addWeeks(($request->input("diasPlan") - 1));
 
 
         $data["endTime"] = $date->format("Y-m-d");
@@ -121,7 +121,7 @@ class ClientesController extends Controller
     function getDays($days,$date, $daysOfWeek)
     {
 
-        for($i=0;$i<=$days;$i++){
+        for($i=1;$i<=$days;$i++){
             $date->addDay(1);
             $day = $date->dayOfWeek;
             
