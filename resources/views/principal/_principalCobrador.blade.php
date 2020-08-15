@@ -6,7 +6,7 @@
                 <div class="float-left mt-10 d-none d-sm-block">
                     <i class="si si-wallet fa-3x text-body-bg-dark"></i>
                 </div>
-                <div class="font-size-h3 font-w600"><span data-toggle="countTo" data-speed="1000" data-to="780" class="js-count-to-enabled">{{ $total_clientes_asignados }}</span></div>
+                <div class="font-size-h3 font-w600"><span data-toggle="countTo" data-speed="1000" data-to="780" class="js-count-to-enabled">{{ $total_clientes }}</span></div>
                 <div class="font-size-sm font-w600 text-uppercase text-muted">Clientes asignados</div>
             </div>
         </a>

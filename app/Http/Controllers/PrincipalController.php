@@ -20,41 +20,57 @@ class PrincipalController extends Controller
     function index()
     {
 
-        $total_contratas = Contratas::count(); 
-        $total_cobradores = User::where('id_rol', 2)->count(); 
-        $total_clientes = Clientes::count();
-        $capital_total = Capital::all();
-        $total_clientes_asignados = Clientes::where('cobrador_id', Auth::user()->id)->count(); 
+        if(Auth::user()->id_rol == 1){
 
-        $clientes = DB::table('clientes')
-            ->select('clientes.*' , 'contratas.*')
-            ->join('contratas' , 'clientes.id' , '=' , 'contratas.id_cliente' )
-            ->get();
+            $data["total_contratas"] = Contratas::count();
+            $data["total_cobradores"] = User::where('id_rol', 2)->count();
+            $data["capital_total"] = Capital::all();
+            $data["saldo_esperado"] = User::where('id_rol' , 2)->sum('saldo');
 
-            if(\Request::is('principal')){
-                $cobradores = User::where('id_rol' , 2)->get();
+            $data["total_clientes"] = Clientes::count();
+
+        }
+        else{
+            $data["total_clientes"] = Clientes::where("cobrador_id",Auth::user()->id)->count();
+        }
+
+        if(\Request::is('principal')){
+            $data["infoTable"] = User::where('id_rol' , 2)->get();
+        }
+        else{
+
+            if(Auth::user()->id_rol == 1){
+            $data["infoTable"] = Contratas::select("contratas.*","clientes.nombres")
+                            ->join("clientes","clientes.id","contratas.id_cliente")
+                            ->leftJoin("pagos_contratas",function($join){
+                                $join->on("pagos_contratas.id_contrata", "contratas.id");
+                                $join->where("pagos_contratas.fecha_pago",Carbon::now()->format("Y-m-d"));
+                            })
+                            ->whereRaw('JSON_CONTAINS(dias_pago,CAST(weekday(CURDATE()) as CHAR(50)) ,\'$\')')
+                            ->whereNull("pagos_contratas.fecha_pago")
+                            ->get();
+
             }
             else{
-                
-                $cobradores = DB::select("select c.* from contratas c 
-                                    left join pagos_contratas pc on pc.id_contrata =  c.id and pc.fecha_pago = '2020-08-14'
-                                    where JSON_CONTAINS(dias_pago,CAST(weekday(CURDATE()) as CHAR(50)) ,'$')
-                                    and fecha_pago is null");
+
+                $data["infoTable"] = Contratas::select("contratas.*","clientes.nombres")
+                            ->join("clientes",function($join){
+                                $join->on("clientes.id","contratas.id_cliente");
+                                $join->where("clientes.cobrador_id",Auth::user()->id);
+                            })
+                            ->leftJoin("pagos_contratas",function($join){
+                                $join->on("pagos_contratas.id_contrata", "contratas.id");
+                                $join->where("pagos_contratas.fecha_pago",Carbon::now()->format("Y-m-d"));
+                            })
+                            ->whereRaw('JSON_CONTAINS(dias_pago,CAST(weekday(CURDATE()) as CHAR(50)) ,\'$\')')
+                            ->whereNull("pagos_contratas.fecha_pago")
+                            ->get();
             }
-    
-        dd($cobradores);
+            
+        }
+            
 
-        $saldo_esperado = User::where('id_rol' , 2)->sum('saldo');
-
-
-
-
-        //dd($saldo_esperado);
-        return view("principal.principal" , ['total_contratas' => $total_contratas 
-                                          , 'total_cobradores' => $total_cobradores
-                                          , 'total_clientes_asignados' => $total_clientes_asignados
-                                          , 'total_clientes' => $total_clientes
-                                          , 'saldo_esperado' => $saldo_esperado] , compact('clientes' , 'capital_total','cobradores'));
+        return view("principal.principal" ,$data);
     }
 
     function liquidar_cobrador(Request $request)

@@ -22,11 +22,11 @@
     <ul class="nav nav-tabs nav-tabs-block js-tabs-enabled" data-toggle="tabs" role="tablist">
         @if(Auth::user()->id_rol == 1)
         <li class="nav-item">
-            <a class="nav-link  {{ (Request::is('contratas-no-pagadas'))? 'active' : '' }}" href="{{ route('vista.principal') }}">Saldo de cobradores</a>
+            <a class="nav-link  {{ (Request::is('principal'))? 'active' : '' }}" href="{{ route('vista.principal') }}">Saldo de cobradores</a>
         </li>
         @endif
         <li class="nav-item">
-            <a class="nav-link {{ (Request::is('contratas-pagadas'))? 'active' : '' }}" href="{{ route('vista.pagosDias') }}">Pagos del día</a>
+            <a class="nav-link {{ (Request::is('pagos-del-dia'))? 'active' : '' }}" href="{{ route('vista.pagosDias') }}">Pagos del día</a>
         </li>
 
     </ul>

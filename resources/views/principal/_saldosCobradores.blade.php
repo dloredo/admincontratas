@@ -1,3 +1,4 @@
+<h3>Saldos de cobradores</h3>
 <table class="table">
                 <thead>
                     <tr>
@@ -9,7 +10,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($cobradores as $cobrador)
+                    @foreach ($infoTable as $cobrador)
                     <tr>
                         <th scope="row">{{ $cobrador->id }}</th>
                         <td>{{ $cobrador->nombres }}</td>
