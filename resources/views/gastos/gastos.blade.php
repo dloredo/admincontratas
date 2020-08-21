@@ -8,6 +8,19 @@
     <div class="block-content">
         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-popin">Agregar gasto nuevo</button>
         <br><br>
+
+        <nav >
+            <form class="form-inline">
+                <select class="custom-select mr-sm-2" name="buscar_categoria" id="buscar_categoria">
+                    <option selected value="">Sin filtro...</option>
+                    @foreach ($categorias as $categoria)
+                    <option value="{{ $categoria->categoria }}">{{ $categoria->categoria }}</option>
+                    @endforeach
+                </select>
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </nav>
+    <br>
         <div class="table-responsive">
             <table class="table">
                 <thead>

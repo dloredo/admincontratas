@@ -11,4 +11,12 @@ class Gastos extends Model
     protected $fillable = [
         'cantidad' , 'categoria' , 'informacion' , 'fecha_gasto','id_user'
     ];
+
+    public function scopeCategoria($query, $categoria)
+    {
+        if($categoria)
+        {
+            return $query->where('categoria' , 'LIKE' , "%$categoria%");
+        }
+    }
 }

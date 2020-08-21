@@ -12,11 +12,14 @@ use Illuminate\Support\Facades\Auth;
 
 class TiposGastosController extends Controller
 {
-    public function vista_gastos()
+    public function vista_gastos(Request $request)
     {
+        $categoria = $request['buscar_categoria'];
         $categorias = Categorias::all();
         $gastos = Gastos::where('id_user' , Auth::user()->id)->paginate(6);
-        $gastos_admin = Gastos::all();
+        $gastos_admin = Gastos::orderBy('id' , 'DESC')
+                        ->categoria($categoria)
+                        ->paginate(6);
         return view('gastos.gastos' , compact('categorias' , 'gastos' , 'gastos_admin'));
     }
     
