@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
 
 class CreateCategoriasGastosTable extends Migration
@@ -20,6 +22,7 @@ class CreateCategoriasGastosTable extends Migration
             $table->string('categoria');
             $table->timestamps();
         });
+        DB::table("categorias_gastos")->insert(["categoria" => "Contratas"]);
     }
 
     /**

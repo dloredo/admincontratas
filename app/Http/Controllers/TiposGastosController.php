@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Categorias;
 use App\Gastos;
 use App\User;
+use App\Capital;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,13 +24,31 @@ class TiposGastosController extends Controller
     {
         $id_cobrador = User::findOrFail(Auth::user()->id);
         $gasto = $request['cantidad'];
-        Gastos::create([
-            'cantidad'    => $request['cantidad'],
-            'categoria'   => $request['categoria'],
-            'informacion' => $request['informacion'],
-            'fecha_gasto' => Carbon::now(),
-            'id_user'     => Auth::user()->id,
-        ]);
+        if($request['categoria'] == "Contratas")
+        {
+            Gastos::create([
+                'cantidad'    => $request['cantidad'],
+                'categoria'   => $request['categoria'],
+                'informacion' => $request['informacion'],
+                'fecha_gasto' => Carbon::now(),
+                'id_user'     => Auth::user()->id,
+            ]);
+        }
+        else
+        {
+            Gastos::create([
+                'cantidad'    => $request['cantidad'],
+                'categoria'   => $request['categoria'],
+                'informacion' => $request['informacion'],
+                'fecha_gasto' => Carbon::now(),
+                'id_user'     => Auth::user()->id,
+            ]);
+            $capital = Capital::find(1);
+            $capital->capital_neto -= $gasto;
+            $capital->save();
+        }
+        
+
         $id_cobrador->update([
             'saldo' => $id_cobrador->saldo-=$gasto,
         ]);

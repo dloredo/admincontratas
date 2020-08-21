@@ -58,7 +58,7 @@
                             <div class="float-right mt-15 d-none d-sm-block">
                                 <i class="si si-envelope-open fa-2x text-danger"></i>
                             </div>
-                            <div class="font-size-h3 font-w600 text-danger js-count-to-enabled" data-toggle="countTo" data-speed="1000" data-to="{{$capital->capital_en_prestamo}}"><?php echo "$" . number_format(round(((float)$capital->capital_total+$capital->comisiones+$comisiones)),2,'.',',');?></div>
+                            <div class="font-size-h3 font-w600 text-danger js-count-to-enabled" data-toggle="countTo" data-speed="1000" data-to="{{$capital->capital_en_prestamo}}"><?php echo "$" . number_format(round(((float)$capital->capital_en_prestamo-$pagos_totales+$comisiones+$capital->capital_neto+$capital->comisiones+$pagos_totales)),2,'.',',');?></div>
                             <div class="font-size-sm font-w600 text-uppercase text-danger-light">Capital total</div>
                         </div>
                         <div class="py-15 px-20 clearfix border-black-op-b">
@@ -79,7 +79,7 @@
                             <div class="float-right mt-15 d-none d-sm-block">
                                 <i class="si si-envelope-open fa-2x text-danger"></i>
                             </div>
-                            <div class="font-size-h3 font-w600 text-danger js-count-to-enabled" data-toggle="countTo" data-speed="1000" data-to="{{$capital->capital_en_prestamo}}"><?php echo "$" . number_format(round(((float)$capital->capital_total+$capital->comisiones+$comisiones)),2,'.',',');?></div>
+                            <div class="font-size-h3 font-w600 text-danger js-count-to-enabled" data-toggle="countTo" data-speed="1000" data-to="{{$capital->capital_en_prestamo}}"><?php echo "$" . number_format(round(((float)$capital->capital_en_prestamo-$pagos_totales+$comisiones+$capital->capital_neto+$capital->comisiones+$pagos_totales)),2,'.',',');?></div>
                             <div class="font-size-sm font-w600 text-uppercase text-danger-light">Capital total</div>
                         </div>
                         <!-- <div class="py-15 px-20 clearfix">
