@@ -31,7 +31,7 @@ class TiposGastosController extends Controller
         {
             Gastos::create([
                 'cantidad'    => $request['cantidad'],
-                'categoria'   => $request['categoria'],
+                'categoria'   => "Sin categoria",
                 'informacion' => $request['informacion'],
                 'fecha_gasto' => Carbon::now(),
                 'id_user'     => Auth::user()->id,
@@ -41,7 +41,7 @@ class TiposGastosController extends Controller
         {
             Gastos::create([
                 'cantidad'    => $request['cantidad'],
-                'categoria'   => $request['categoria'],
+                'categoria'   => "Sin categoria",
                 'informacion' => $request['informacion'],
                 'fecha_gasto' => Carbon::now(),
                 'id_user'     => Auth::user()->id,

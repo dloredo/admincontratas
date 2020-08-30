@@ -19,17 +19,17 @@ class Capital extends Migration
             $table->engine = 'InnoDB';
 
             $table->increments("id");
-            $table->string('capital_total');
-            $table->string('capital_neto');
-            $table->string('capital_en_prestamo');
+            $table->string('capital_acumulado');
+            $table->string('saldo_efectivo');
+            $table->string('capital_parcial');
             $table->string('comisiones');
             $table->timestamps();
         });
 
        
-        DB::table("capital")->insert(["capital_total" => 0,
-                                    "capital_neto" => 0,
-                                    "capital_en_prestamo" => 0,
+        DB::table("capital")->insert(["capital_acumulado" => 0,
+                                    "saldo_efectivo" => 0,
+                                    "capital_parcial" => 0,
                                     "comisiones" => 0
                                     ]);
     }

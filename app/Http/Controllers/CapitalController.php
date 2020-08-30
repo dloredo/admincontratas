@@ -33,13 +33,13 @@ class CapitalController extends Controller
         $capital = Capital::find(1);
 
         $cortes = new Cortes();
-        $cortes->capital_total = $capital->capital_total;
-        $cortes->capital_neto = $capital->capital_neto;
-        $cortes->capital_en_prestamo = $capital->capital_en_prestamo;
+        $cortes->capital_acumulado = $capital->capital_acumulado;
+        $cortes->saldo_efectivo = $capital->saldo_efectivo;
+        $cortes->capital_parcial = $capital->capital_parcial;
         $cortes->comisiones = $capital->comisiones;
 
-        $capital->capital_total += $capital->comisiones;
-        $capital->capital_neto += $capital->comisiones;
+        $capital->capital_acumulado += $capital->comisiones;
+        $capital->saldo_efectivo += $capital->comisiones;
         $capital->comisiones = 0;
 
         $cortes->save();
@@ -72,13 +72,13 @@ class CapitalController extends Controller
 
         if($data["tipo_movimiento"] == "Abono")
         {
-            $capital->capital_total += $movimiento->total;
-            $capital->capital_neto += $movimiento->total;
+            $capital->capital_acumulado += $movimiento->total;
+            $capital->saldo_efectivo += $movimiento->total;
         }
         else
         {
-            $capital->capital_total -= $movimiento->total;
-            $capital->capital_neto -= $movimiento->total;
+            $capital->capital_acumulado -= $movimiento->total;
+            $capital->saldo_efectivo -= $movimiento->total;
         }
 
         $capital->save();

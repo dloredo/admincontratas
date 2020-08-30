@@ -22,6 +22,7 @@ class PagosContrata extends Migration
             $table->integer('cantidad_pagada');
             $table->integer('adeudo');
             $table->integer('adelanto');
+            $table->integer('estatus');
             
             $table->foreign("id_contrata")->references("id")->on("contratas");
         });
