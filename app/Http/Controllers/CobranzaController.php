@@ -84,6 +84,7 @@ class CobranzaController extends Controller
             'cantidad_pagada'   => $request['cantidad_pagada'],
             'adeudo'            => $request['adeudo'],
             'adelanto'          => $request['adelanto'],
+            'estatus'           => 1,
         ]);
         $fecha = Carbon::parse($request['fecha_pago']);
         $adelanto = $request['adelanto'];
@@ -100,6 +101,7 @@ class CobranzaController extends Controller
                     'cantidad_pagada'   => $pagar,
                     'adeudo'            => 0,
                     'adelanto'          => 0,
+                    'estatus'           => 1,
                 ]);
 
                 $aux++;
@@ -114,6 +116,7 @@ class CobranzaController extends Controller
                     'cantidad_pagada'   => $adelanto % $pagar,
                     'adeudo'            => $pagar - $saldo,
                     'adelanto'          => 0,
+                    'estatus'           => 1,
                 ]);
             }
         }
