@@ -106,6 +106,21 @@ Route::get('/eliminarUsuario/{id}' , 'UsuariosController@eliminarUsuario')->name
 |--------------------------------------------------------------------------
 */
 
+/*
+|--------------------------------------------------------------------------
+|               DESESTIMAR FECHAS
+|--------------------------------------------------------------------------
+*/
+Route::get('/desestimarFechas' , 'AdministracionController@desestimarFechas')->name('vista.desestimarFechas');
+Route::post('/desestimarFechas' , 'AdministracionController@guardarFechas')->name('desestimarFechas.guardarFechas');
+Route::post('/obtenerFecha' , 'AdministracionController@obtenerFecha')->name('desestimarFechas.obtenerFecha');
+Route::get('/eliminarFecha/{id}' , 'AdministracionController@eliminarFecha')->name('desestimarFechas.eliminarFecha');
+Route::post('/obtenerFechasPorAño' , 'AdministracionController@obtenerFechasPorAño')->name('desestimarFechas.obtenerFechasPorAño');
+/*
+|--------------------------------------------------------------------------
+|           FIN    DESESTIMAR FECHAS
+|--------------------------------------------------------------------------
+*/
 
 /*
 |--------------------------------------------------------------------------

@@ -1,19 +1,19 @@
 <!doctype html>
-<html lang="en" class="no-focus">
+<html lang="es-MX" class="no-focus">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 
         <title>Administración</title>
 
-        <meta name="description" content="Codebase - Bootstrap 4 Admin Template &amp; UI Framework created by pixelcave and published on Themeforest">
-        <meta name="author" content="pixelcave">
+        <meta name="description" content="Panel de administración de contratas">
+        <meta name="author" content="Alx">
         <meta name="robots" content="noindex, nofollow">
 
         <!-- Open Graph Meta -->
-        <meta property="og:title" content="Codebase - Bootstrap 4 Admin Template &amp; UI Framework">
-        <meta property="og:site_name" content="Codebase">
-        <meta property="og:description" content="Codebase - Bootstrap 4 Admin Template &amp; UI Framework created by pixelcave and published on Themeforest">
+        <meta property="og:title" content="Administracion">
+        <meta property="og:site_name" content="Administracion">
+        <meta property="og:description" content="Panel de administración de contratas">
         <meta property="og:type" content="website">
         <meta property="og:url" content="">
         <meta property="og:image" content="">
@@ -26,7 +26,7 @@
         <!-- END Icons -->
 
         <!-- Stylesheets -->
-
+        @yield('styles')
         <!-- Fonts and Codebase framework -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli:300,400,400i,600,700">
         <link rel="stylesheet" id="css-main" href="{{ asset('assets/css/codebase.min.css') }}">
@@ -34,10 +34,10 @@
         <!-- You can include a specific file from css/themes/ folder to alter the default color theme of the template. eg: -->
         <!-- <link rel="stylesheet" id="css-theme" href="assets/css/themes/flat.min.css"> -->
         <!-- END Stylesheets -->
-        @yield('styles')
+        
     </head>
 
-    <div id="page-container" class="sidebar-o enable-page-overlay side-scroll page-header-fixed page-header-inverse main-content-boxed sidebar-inverse">
+    <div id="page-container" class="sidebar-o enable-page-overlay side-scroll page-header-fixed page-header-inverse sidebar-inverse">
 
         @include('layouts.sidebar')
 
@@ -51,7 +51,8 @@
                 @yield('main')
 
             </div>
-        </div>
+
+        </main>
 
         @include('layouts.footer')
 

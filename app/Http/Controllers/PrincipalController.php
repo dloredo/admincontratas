@@ -79,7 +79,7 @@ class PrincipalController extends Controller
         $nuevo_saldo = $request['saldo_nuevo'];
 
         $id_cobrador->update([
-            'saldo' => $id_cobrador->saldo-=$nuevo_saldo,
+            'saldo' => $nuevo_saldo,
         ]);
         return back();
     }
