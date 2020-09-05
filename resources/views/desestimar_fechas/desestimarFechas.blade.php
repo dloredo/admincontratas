@@ -185,6 +185,7 @@
             })
     }
 
+
     const generateRowTable = fecha => {
         return `
         <tr>
