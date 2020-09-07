@@ -90,7 +90,6 @@ new Vue({
                
         },
         getEndTime: function(e,type) {
-            console.log()
 
             if(this.diasPlan == "")
                 return;
@@ -109,7 +108,6 @@ new Vue({
 
             axios.post("/obtenerFechasPagos",sendDataObject)
                  .then(response => {
-                     console.log(response.data)
                      if(this.tipoPagos == "Pagos diarios" && this.opcionesPago == 2)
                         this.calcularDatos(response.data.diasRestantes,type)
                     else

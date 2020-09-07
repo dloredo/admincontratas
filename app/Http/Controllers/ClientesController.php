@@ -6,9 +6,11 @@ use Illuminate\Http\Request;
 use App\Clientes;
 use App\User;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use App\Contratas;
 use App\Capital;
 use App\PagosContratas;
+use App\FechasDesestimadas;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Redirect;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -20,7 +22,7 @@ class ClientesController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        //$this->middleware('auth');
     }
     
     public function index()
@@ -91,27 +93,26 @@ class ClientesController extends Controller
 
     function obtenerFechasPagos(Request $request)
     {
-     
         $data = [];
-
+        $desestimateDays = $this->getDesestimateDays(); 
         $date = Carbon::createFromFormat('Y-m-d', $request->input("initDate"));
 
         if($request->input("tipoPagos") == "Pagos diarios")
         {
-
-        
-            $date->addDays(($request->input("diasPlan") - 1));
+            $dow = null;
 
             if($request->input("opcionesPago") != 1)
             {
+                $dow = $request->input("daysOfWeek");
                 $initDate = Carbon::createFromFormat('Y-m-d', $request->input("initDate"));
-                $days = $this->getDays($request->input("diasPlan"), $initDate , $request->input("daysOfWeek"));
+                $days = $this->getDays($request->input("diasPlan"), $initDate , $request->input("daysOfWeek"),$desestimateDays);
                 $data["diasRestantes"] = $days;
             }
 
+            $this->getEndDate($date, $request->input("diasPlan"),$desestimateDays, 1,$dow);
         }
         else
-            $date->addWeeks(($request->input("diasPlan") - 1));
+            $this->getEndDate($date, $request->input("diasPlan"),$desestimateDays, 2);
 
 
         $data["endTime"] = $date->format("Y-m-d");
@@ -119,13 +120,20 @@ class ClientesController extends Controller
         return $data;
     }
 
-    function getDays($days,$date, $daysOfWeek)
+    function getDays($days,$date, $daysOfWeek,$desestimateDays)
     {
 
         for($i=1;$i<=$days;$i++){
             $date->addDay(1);
             $day = $date->dayOfWeek;
-            
+            //Si la fecha en la iteración actual se encuentra dentro de las fechas no laborales, se reinicia esa iteracion de $i;
+            if (in_array($date->format("Y-m-d"),$desestimateDays))
+            {
+                $i--;
+                continue;
+            }
+
+            //Si el dia en la iteracion actual no se encuentra en los dias seleccionados, se le resta ese dia al plan de la contrata
             if(!in_array($day,$daysOfWeek))
             {
                 $days--;
@@ -135,6 +143,39 @@ class ClientesController extends Controller
         
         return $days;
     }
+
+    function getEndDate($date,$days,$desestimateDays, $type,$dow = null)
+    {
+        for($i=1; $i < $days ; $i++){
+            
+            if($type == 1)
+                $date->addDay(1);
+            else
+                $date->addWeeks(1);
+
+            if ((in_array($date->format("Y-m-d"),$desestimateDays)) || (!is_null($dow) && !in_array($date->dayOfWeek,$dow)) )
+                $i--;
+        }
+    }
+
+    function getDesestimateDays()
+    {
+
+        $fechas = FechasDesestimadas::where("anio", Carbon::now()->year)->orderBy("fecha_inicio","asc")->get();
+        $arrayFechas = [];
+
+        foreach($fechas as $fecha)
+        {
+            $period = CarbonPeriod::create($fecha->fecha_inicio, $fecha->fecha_termino);
+            $arrayPeriod = $period->toArray();
+
+            foreach($arrayPeriod as $date)
+                array_push($arrayFechas, $date->format("Y-m-d"));
+        }
+
+        return $arrayFechas;
+
+    }   
 
     public function verContratas($id)
     {
