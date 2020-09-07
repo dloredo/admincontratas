@@ -12,6 +12,7 @@ use App\PagosContratas;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Redirect;
 use Barryvdh\DomPDF\Facade as PDF;
+use DateTime;
 use Illuminate\Support\Facades\Auth;
 
 class ClientesController extends Controller
@@ -205,7 +206,7 @@ class ClientesController extends Controller
         //dd(round($comision_procentaje,2));
         $cantidad_pagar = $cantidad_prestada + $comision;
 
-        Contratas::create([
+        $contrata = Contratas::create([
             'id_cliente'            => $id,
             'cantidad_prestada'     => $request['cantidad_prestada'],
             'comision'              => $comision,
@@ -223,13 +224,28 @@ class ClientesController extends Controller
             'control_pago'          => 0,
         ]);
 
-
+        //dd($contrata->id);
+        $fechaInicio = new DateTime($contrata->fecha_inicio);
+        $fechaFin = new DateTime($contrata->fecha_termino);
+        for ($i = $fechaInicio; $i <= $fechaFin; $i->modify('+1 day'))
+        {
+            PagosContratas::create([
+                'id_contrata' => $contrata->id,
+                'fecha_pago'  => $i->format("Y-m-d"),
+                'cantidad_pagada' => 0,
+                'adeudo' => 0,
+                'adelanto' => 0,
+                'estatus' => 0,
+            ]);
+        }
+        
         $capital = Capital::find(1);
         $capital->saldo_efectivo -= $request['cantidad_prestada'];
         $capital->capital_parcial += $request['cantidad_prestada'];
         $capital->comisiones += $comision;
         $capital->save();
 
+        //  AGREGAR NUMERO DE PAGOS TOTALES
         return redirect()->route('vista.clientes')->with('estatus',true)->with('message', 'Se le añadio una contrata con éxito');
     }
 
