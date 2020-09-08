@@ -224,7 +224,9 @@ class ClientesController extends Controller
             'fecha_termino'      => 'required',
         ]);
 
+        $fechaInicio = Carbon::createFromFormat('Y-m-d', $request->input("fecha_inicio"));
         $daysOfWeek = null;
+        $type = 1;
         if(($request->input("tipo_plan_contrata") == 'Pagos diarios' && $request->input("opcionesPago") == 2 && $request->input("daysOfWeek") == null) || 
            ($request->input("tipo_plan_contrata") == 'Pagos diarios' && $request->input("opcionesPago") == 1))
         {
@@ -232,8 +234,8 @@ class ClientesController extends Controller
         }   
         elseif($request->input("tipo_plan_contrata") != 'Pagos diarios')
         {
-            $day = Carbon::createFromFormat('Y-m-d', $request->input("fecha_inicio"))->dayOfWeek;
-            $daysOfWeek = [$day];
+            $type = 2;
+            $daysOfWeek = [$fechaInicio->dayOfWeek];
         }
         else
         {
@@ -271,7 +273,27 @@ class ClientesController extends Controller
         $capital->comisiones += $comision;
         $capital->save();
 
+
+        $desestimateDays = $this->getDesestimateDays(); 
+        $fechasPagos = $this->obtenerDiasPagos($request['fecha_inicio'],$request['fecha_termino'],$desestimateDays,$type,$daysOfWeek);
+
         return redirect()->route('vista.clientes')->with('estatus',true)->with('message', 'Se le añadio una contrata con éxito');
+    }
+
+    function obtenerDiasPagos($fechaInicio,$fechaTermino,$desestimateDays,$type,$dow)
+    {
+        while($fechaInicio->forma("Y-m-d") != $fechaTermino )
+        {
+            if (!in_array($fechaInicio->format("Y-m-d"),$desestimateDays) || !in_array($fechaInicio->dayOfWeek,$dow) ) 
+                
+
+            if($type == 1)
+                $fechaInicio->addDay(1);
+            else
+                $fechaInicio->addWeeks(1);
+
+            
+        }
     }
 
     function cambiarEstatusCliente($id,$estatus)
