@@ -225,6 +225,7 @@ class ClientesController extends Controller
             'fecha_termino'      => 'required',
         ]);
 
+
         $fechaInicio = Carbon::createFromFormat('Y-m-d', $request->input("fecha_inicio"));
         $daysOfWeek = null;
         $type = 1;
@@ -243,10 +244,12 @@ class ClientesController extends Controller
             $daysOfWeek = array_map('intval', $request->input("daysOfWeek"));
         }
 
+        $desestimateDays = $this->getDesestimateDays(); 
+        $fechasPagos = $this->obtenerDiasPagos($request['fecha_inicio'],$request['fecha_termino'],$desestimateDays,$type,$daysOfWeek);
+        
         $comision = $request['comision'];
         $cantidad_prestada = $request['cantidad_prestada'];
         $comision_procentaje = ($comision * 100)/$cantidad_prestada;
-        //dd(round($comision_procentaje,2));
         $cantidad_pagar = $cantidad_prestada + $comision;
 
         $contrata = Contratas::create([
@@ -267,14 +270,12 @@ class ClientesController extends Controller
             'control_pago'          => 0,
         ]);
 
-        //dd($contrata->id);
-        $fechaInicio = new DateTime($contrata->fecha_inicio);
-        $fechaFin = new DateTime($contrata->fecha_termino);
-        for ($i = $fechaInicio; $i <= $fechaFin; $i->modify('+1 day'))
+
+        foreach ($fechasPagos as $fecha)
         {
             PagosContratas::create([
                 'id_contrata' => $contrata->id,
-                'fecha_pago'  => $i->format("Y-m-d"),
+                'fecha_pago'  => $fecha,
                 'cantidad_pagada' => 0,
                 'adeudo' => 0,
                 'adelanto' => 0,
@@ -289,8 +290,7 @@ class ClientesController extends Controller
         $capital->save();
 
 
-        $desestimateDays = $this->getDesestimateDays(); 
-        $fechasPagos = $this->obtenerDiasPagos($request['fecha_inicio'],$request['fecha_termino'],$desestimateDays,$type,$daysOfWeek);
+        
 
         //  AGREGAR NUMERO DE PAGOS TOTALES
         return redirect()->route('vista.clientes')->with('estatus',true)->with('message', 'Se le añadio una contrata con éxito');
@@ -298,10 +298,15 @@ class ClientesController extends Controller
 
     function obtenerDiasPagos($fechaInicio,$fechaTermino,$desestimateDays,$type,$dow)
     {
-        while($fechaInicio->forma("Y-m-d") != $fechaTermino )
+        $fechaInicio  = Carbon::createFromFormat("Y-m-d",$fechaInicio);
+
+        ($fechaInicio->format("Y-m-d") != $fechaTermino);
+
+        $dates = [];
+        while(strtotime($fechaInicio->format("Y-m-d")) <= strtotime($fechaTermino) )
         {
-            if (!in_array($fechaInicio->format("Y-m-d"),$desestimateDays) || !in_array($fechaInicio->dayOfWeek,$dow) ) 
-                
+            if (!in_array($fechaInicio->format("Y-m-d"),$desestimateDays) && in_array($fechaInicio->dayOfWeek,$dow) ) 
+                array_push($dates, $fechaInicio->format("Y-m-d"));
 
             if($type == 1)
                 $fechaInicio->addDay(1);
@@ -310,6 +315,8 @@ class ClientesController extends Controller
 
             
         }
+
+        return $dates;
     }
 
     function cambiarEstatusCliente($id,$estatus)
