@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Redirect;
 use Barryvdh\DomPDF\Facade as PDF;
 use DateTime;
 use Illuminate\Support\Facades\Auth;
+use DB;
 
 class ClientesController extends Controller
 {
@@ -252,44 +253,51 @@ class ClientesController extends Controller
         $comision_procentaje = ($comision * 100)/$cantidad_prestada;
         $cantidad_pagar = $cantidad_prestada + $comision;
 
-        $contrata = Contratas::create([
-            'id_cliente'            => $id,
-            'cantidad_prestada'     => $request['cantidad_prestada'],
-            'comision'              => $comision,
-            'comision_porcentaje'   => round($comision_procentaje,2),
-            'cantidad_pagar'        => $cantidad_pagar,
-            'dias_plan_contrata'    => $request['dias_plan_contrata'],
-            'pagos_contrata'        => $request['pagos_contrata'],
-            'tipo_plan_contrata'    => $request['tipo_plan_contrata'],
-            "dias_pago"             => json_encode($daysOfWeek),
-            'fecha_inicio'          => $request['fecha_inicio'],
-            'fecha_entrega'         => $request['fecha_entrega'],
-            'estatus'               => 0,
-            'fecha_termino'         => $request['fecha_termino'],
-            'bonificacion'          => 0,    
-            'control_pago'          => 0,
-        ]);
-
-
-        foreach ($fechasPagos as $fecha)
-        {
-            PagosContratas::create([
-                'id_contrata' => $contrata->id,
-                'fecha_pago'  => $fecha,
-                'cantidad_pagada' => 0,
-                'adeudo' => 0,
-                'adelanto' => 0,
-                'estatus' => 0,
+        DB::beginTransaction();
+        try{
+            $contrata = Contratas::create([
+                'id_cliente'            => $id,
+                'cantidad_prestada'     => $request['cantidad_prestada'],
+                'comision'              => $comision,
+                'comision_porcentaje'   => round($comision_procentaje,2),
+                'cantidad_pagar'        => $cantidad_pagar,
+                'dias_plan_contrata'    => $request['dias_plan_contrata'],
+                'pagos_contrata'        => $request['pagos_contrata'],
+                'tipo_plan_contrata'    => $request['tipo_plan_contrata'],
+                "dias_pago"             => json_encode($daysOfWeek),
+                'fecha_inicio'          => $request['fecha_inicio'],
+                'fecha_entrega'         => $request['fecha_entrega'],
+                'estatus'               => 0,
+                'fecha_termino'         => $request['fecha_termino'],
+                'bonificacion'          => 0,    
+                'control_pago'          => 0,
             ]);
+
+
+            foreach ($fechasPagos as $fecha)
+            {
+                PagosContratas::create([
+                    'id_contrata' => $contrata->id,
+                    'fecha_pago'  => $fecha,
+                    'cantidad_pagada' => 0,
+                    'adeudo' => 0,
+                    'adelanto' => 0,
+                    'estatus' => 0,
+                ]);
+            }
+            
+            $capital = Capital::find(1);
+            $capital->saldo_efectivo -= $request['cantidad_prestada'];
+            $capital->capital_parcial += $request['cantidad_prestada'];
+            $capital->comisiones += $comision;
+            $capital->save();
+
+            DB::commit();
         }
-        
-        $capital = Capital::find(1);
-        $capital->saldo_efectivo -= $request['cantidad_prestada'];
-        $capital->capital_parcial += $request['cantidad_prestada'];
-        $capital->comisiones += $comision;
-        $capital->save();
-
-
+        catch(\Exception $e){
+            DB::rollback();
+            return redirect()->route('vista.clientes')->with('estatus',false)->with('message', 'Hubo un error al guardar la contrata');
+        }
         
 
         //  AGREGAR NUMERO DE PAGOS TOTALES
