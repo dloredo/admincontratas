@@ -11,9 +11,9 @@
         <a href="{{ route('vista.clientes') }}"><i class="fa fa-address-book-o"></i><span class="sidebar-mini-hide">Clientes</span></a>
     </li>
 
-    <li>
+    <!--<li>
         <a href="{{ route('vista.contratas') }}"><i class="fa fa-clipboard"></i><span class="sidebar-mini-hide">Contratas</span></a>
-    </li>
+    </li>-->
 
     <li>
         <a href="{{ route('vista.noPagadas') }}"><i class="fa fa-clipboard"></i><span class="sidebar-mini-hide">Listados</span></a>
