@@ -42,12 +42,9 @@ class PrincipalController extends Controller
             if(Auth::user()->id_rol == 1){
             $data["infoTable"] = Contratas::select("contratas.*","clientes.nombres")
                             ->join("clientes","clientes.id","contratas.id_cliente")
-                            ->leftJoin("pagos_contratas",function($join){
-                                $join->on("pagos_contratas.id_contrata", "contratas.id");
-                                $join->where("pagos_contratas.fecha_pago",Carbon::now()->format("Y-m-d"));
-                            })
-                            ->whereRaw('JSON_CONTAINS(dias_pago,CAST(weekday(CURDATE()) as CHAR(50)) ,\'$\')')
-                            ->whereNull("pagos_contratas.fecha_pago")
+                            ->join("pagos_contratas","pagos_contratas.id_contrata","contratas.id")
+                            ->where('pagos_contratas.fecha_pago', Carbon::now()->format("Y-m-d") )
+                            ->where("pagos_contratas.estatus",0)
                             ->get();
 
             }
@@ -58,12 +55,9 @@ class PrincipalController extends Controller
                                 $join->on("clientes.id","contratas.id_cliente");
                                 $join->where("clientes.cobrador_id",Auth::user()->id);
                             })
-                            ->leftJoin("pagos_contratas",function($join){
-                                $join->on("pagos_contratas.id_contrata", "contratas.id");
-                                $join->where("pagos_contratas.fecha_pago",Carbon::now()->format("Y-m-d"));
-                            })
-                            ->whereRaw('JSON_CONTAINS(dias_pago,CAST(weekday(CURDATE()) as CHAR(50)) ,\'$\')')
-                            ->whereNull("pagos_contratas.fecha_pago")
+                            ->join("pagos_contratas","pagos_contratas.id_contrata","contratas.id")
+                            ->where('pagos_contratas.fecha_pago', Carbon::now()->format("Y-m-d") )
+                            ->where("pagos_contratas.estatus",0)
                             ->get();
             }
             
