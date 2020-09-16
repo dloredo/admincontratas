@@ -33,6 +33,9 @@
                                 <a class="dropdown-item" href="{{ route('detallesContrata',[$cliente->id,$contrata->id]) }}">
                                     <i class="fa fa-money mr-5"></i> Ver detalles y pagos
                                 </a>
+                                <a class="dropdown-item" href="{{ route('verPagosContrata' , $contrata->id) }}">
+                                    <i class="fa fa-money mr-5"></i> Agregar pago
+                                </a>
                                 
                                 @if ($contrata->tipo_plan_contrata == "Pagos diarios" )
                                     <a class="dropdown-item" href="{{ route('imprimirPagosDiarios',$contrata->id) }}">

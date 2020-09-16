@@ -136,7 +136,7 @@ class CobranzaController extends Controller
             'adeudo'            => 'required',
             'adelanto'          => 'required'
         ]);
-        if($request['cantidad_pagada'] == $contrata->pagos_contrata)
+        if($request['cantidad_pagada'] >= $contrata->pagos_contrata)
         {
             $pagos_contratas->update([
                 'cantidad_pagada'   => $request['cantidad_pagada'],
@@ -193,6 +193,9 @@ class CobranzaController extends Controller
                 ]);
             }
         }
+        $contrata->update([
+            'control_pago' => $contrata->control_pago+=$saldo_cobrador,
+        ]);
         
         return back();
     }
