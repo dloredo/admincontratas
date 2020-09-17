@@ -63,7 +63,6 @@ class PrincipalController extends Controller
             
         }
             
-
         return view("principal.principal" ,$data);
     }
 
