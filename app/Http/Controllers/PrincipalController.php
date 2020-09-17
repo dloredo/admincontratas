@@ -22,7 +22,7 @@ class PrincipalController extends Controller
 
         if(Auth::user()->id_rol == 1){
 
-            $data["total_contratas"] = Contratas::count();
+            $data["total_contratas"] = Contratas::where('estatus' , 0)->count();
             $data["total_cobradores"] = User::where('id_rol', 2)->count();
             $data["capital_total"] = Capital::all();
             $data["saldo_esperado"] = User::where('id_rol' , 2)->sum('saldo');

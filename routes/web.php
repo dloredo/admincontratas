@@ -51,6 +51,9 @@ Route::post('/clientes/asignarCobrador' , 'ClientesController@asignarCobrador')-
 
 Route::post('obtenerFechasPagos' , 'ClientesController@obtenerFechasPagos')->name('clientes.obtenerFechasPagos');
 
+//NUMEROS HABILES
+Route::get('numeros-habiles' , 'ClientesHabilesController@index')->name('numerosHabiles');
+
 /*
 |--------------------------------------------------------------------------
 |           FIN    ADMINISTRACION DE CONTRATAS Y DE CLIENTES

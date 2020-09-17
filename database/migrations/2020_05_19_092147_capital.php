@@ -23,6 +23,7 @@ class Capital extends Migration
             $table->string('saldo_efectivo');
             $table->string('capital_parcial');
             $table->string('comisiones');
+            $table->integer('gastos');
             $table->timestamps();
         });
 
@@ -30,7 +31,8 @@ class Capital extends Migration
         DB::table("capital")->insert(["capital_acumulado" => 0,
                                     "saldo_efectivo" => 0,
                                     "capital_parcial" => 0,
-                                    "comisiones" => 0
+                                    "comisiones" => 0,
+                                    "gastos" => 0
                                     ]);
     }
 

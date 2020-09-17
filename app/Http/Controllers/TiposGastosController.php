@@ -12,6 +12,10 @@ use Illuminate\Support\Facades\Auth;
 
 class TiposGastosController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth.admin');
+    }
     public function vista_gastos(Request $request)
     {
         $categoria = $request['buscar_categoria'];

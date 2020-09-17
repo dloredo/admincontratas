@@ -17,9 +17,9 @@ class Cortes extends Migration
             $table->engine = 'InnoDB';
 
             $table->increments("id");
-            $table->string('capital_total');
-            $table->string('capital_neto');
-            $table->string('capital_en_prestamo');
+            $table->string('capital_acumulado');
+            $table->string('saldo_efectivo');
+            $table->string('capital_parcial');
             $table->string('comisiones');
             $table->timestamps();
         });

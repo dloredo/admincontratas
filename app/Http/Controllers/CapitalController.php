@@ -24,8 +24,9 @@ class CapitalController extends Controller
         $prestamos_totales = Contratas::where('estatus' , 0)->sum('cantidad_prestada');
         $pagos_totales = PagosContratas::sum('cantidad_pagada');
         $comisiones = Contratas::sum('comision');
+        $contratas_vigentes = Contratas::where('estatus' , 0)->count();
         //dd($pagos_totales);
-        return view("capital.capital", ['prestamos_totales' => $prestamos_totales ,'pagos_totales' => $pagos_totales, 'comisiones' => $comisiones], compact("capital","cortes"));
+        return view("capital.capital", ['prestamos_totales' => $prestamos_totales ,'pagos_totales' => $pagos_totales, 'comisiones' => $comisiones , 'contratas_vigentes' => $contratas_vigentes], compact("capital","cortes"));
     }
 
     function generarCorte()
