@@ -16,9 +16,8 @@
         <a href="{{ route('vista.contratas_cobrar') }}"><i class="fa fa-address-book-o"></i><span class="sidebar-mini-hide">Contratas a cobrar</span></a>
     </li>
 
-    <li class="nav-main-heading"><span class="sidebar-mini-visible">UI</span><span class="sidebar-mini-hidden">Gastos</span></li>
     <li>
-        <a href="{{ route('vista.gastos') }}"><i class="fa fa-address-book-o"></i><span class="sidebar-mini-hide">Agregar gasto</span></a>
+        <a href="{{ route('vista.gastos') }}"><i class="fa fa-money"></i><span class="sidebar-mini-hide">Gastos</span></a>
     </li>
 
     <li class="nav-main-heading"><span class="sidebar-mini-visible">UI</span><span class="sidebar-mini-hidden">Sistema</span></li>

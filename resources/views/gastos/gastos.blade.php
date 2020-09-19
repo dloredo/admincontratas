@@ -135,24 +135,25 @@
                     </div>
                 </div>
                 <div class="block-content">
-                    <form action="{{ route('agregarGasto') }}" method="post">
+                    <form action="{{ route('editarGasto' , $gasto->id) }}" method="post">
                         @csrf
-                        <label>Ingrese la cantidad del gasto</label>
-                        <input type="number" name="cantidad" id="cantidad" class="form-control" placeholder="Ingrese la cantidad del gasto">
+                        <label>Gasto realizado</label>
+                        <input type="number" name="cantidad" id="cantidad" class="form-control" placeholder="Ingrese la cantidad del gasto" disabled value="{{ $gasto->cantidad }}">
                         <label>Ingrese la categoria</label>
-                        <select name="categoria" id="" class="form-control">
-                        <option value="Otros pagos">Otros pagos</option>
-                            <option value="Contratas">Contratas</option>
+                        <select name="categoria" id="categoria" class="form-control">
+                            @foreach ($categorias as $categoria)
+                                <option value="{{ $categoria->categoria }}">{{ $categoria->categoria }}</option>
+                            @endforeach
                         </select>
                         <label for="">Ingrese caracteristicas</label>
-                        <textarea name="informacion" id="" cols="30" rows="10" class="form-control" placeholder="Ingrese una caracteristica del gasto hecho"></textarea>
+                        <textarea name="informacion" id="" cols="30" rows="10" class="form-control" disabled placeholder="Ingrese una caracteristica del gasto hecho">{{ $gasto->informacion }}</textarea>
                 </div>
             </div>
             <br>
             <div class="modal-footer">
                 <button type="button" class="btn btn-alt-secondary" data-dismiss="modal">Cerrar</button>
                 <button type="submit" class="btn btn-alt-success">
-                    <i class="fa fa-check"></i> Agregar pago
+                    <i class="fa fa-check"></i> Editar categoria
                 </button>
                 </form>
             </div>

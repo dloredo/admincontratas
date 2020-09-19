@@ -196,7 +196,9 @@ class CobranzaController extends Controller
         $contrata->update([
             'control_pago' => $contrata->control_pago+=$saldo_cobrador,
         ]);
-        
+        $id_cobrador->update([
+            'saldo' => $id_cobrador->saldo+=$saldo_cobrador,
+        ]);
         return back();
     }
 }

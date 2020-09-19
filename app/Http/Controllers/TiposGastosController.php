@@ -14,8 +14,9 @@ class TiposGastosController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth.admin');
+        $this->middleware('auth');
     }
+
     public function vista_gastos(Request $request)
     {
         $categoria = $request['buscar_categoria'];
@@ -31,6 +32,7 @@ class TiposGastosController extends Controller
     {
         $id_cobrador = User::findOrFail(Auth::user()->id);
         $gasto = $request['cantidad'];
+        $capital = Capital::find(1);
         if($request['categoria'] == "Contratas")
         {
             Gastos::create([
@@ -40,6 +42,8 @@ class TiposGastosController extends Controller
                 'fecha_gasto' => Carbon::now(),
                 'id_user'     => Auth::user()->id,
             ]);
+            $capital->gastos += $gasto;
+            $capital->save();
         }
         else
         {
@@ -50,8 +54,8 @@ class TiposGastosController extends Controller
                 'fecha_gasto' => Carbon::now(),
                 'id_user'     => Auth::user()->id,
             ]);
-            $capital = Capital::find(1);
-            $capital->capital_neto -= $gasto;
+            $capital->saldo_efectivo -= $gasto;
+            $capital->gastos += $gasto;
             $capital->save();
         }
         
@@ -96,5 +100,13 @@ class TiposGastosController extends Controller
         $categoria = Categorias::findOrfail($id);
         $categoria->delete();
         return redirect()->route('vista.categorias');  
+    }
+
+    public function edit_gasto_categoria($id , Request $request)
+    {
+        $gasto = Gastos::findOrfail($id);
+        $gasto->categoria = $request['categoria'];
+        $gasto->save();
+        return redirect()->route('vista.gastos');
     }
 }

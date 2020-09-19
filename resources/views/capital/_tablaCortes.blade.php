@@ -1,10 +1,10 @@
 <table class="table table-bordered table-striped table-vcenter js-dataTable-full">
     <thead>
         <tr>
-            <th>Capital total</th>
-            <th class="d-none d-sm-table-cell">Capital neto</th>
-            <th class="d-none d-sm-table-cell">Capital prestado</th>
-            <th class="d-none d-sm-table-cell">Comision global</th>
+            <th>capital acumulado</th>
+            <th class="d-none d-sm-table-cell">saldo efectivo</th>
+            <th class="d-none d-sm-table-cell">capital parcial</th>
+            <th class="d-none d-sm-table-cell">Comisiones</th>
             <th class="d-none d-sm-table-cell">Fecha de corte</th>
         </tr>
     </thead>
@@ -13,9 +13,9 @@
     @foreach($cortes as $corte)
 
         <tr>
-            <td>{{$corte->capital_total}}</td>
-            <td>{{$corte->capital_neto}}</td>
-            <td>{{$corte->capital_en_prestamo}}</td>
+            <td>{{$corte->capital_acumulado}}</td>
+            <td>{{$corte->saldo_efectivo}}</td>
+            <td>{{$corte->capital_parcial}}</td>
             <td>{{$corte->comisiones}}</td>
             <td>{{$corte->created_at}}</td>
         </tr>
