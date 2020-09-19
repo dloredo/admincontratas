@@ -28,7 +28,11 @@
         <li class="nav-item">
             <a class="nav-link {{ (Request::is('pagos-del-dia'))? 'active' : '' }}" href="{{ route('vista.pagosDias') }}">Pagos del día</a>
         </li>
-
+        @if(Auth::user()->id_rol == 1)
+        <li class="nav-item">
+            <a class="nav-link  {{ (Request::is('contratas-a-vencer'))? 'active' : '' }}" href="{{ route('vista.contratas.vencer') }}">Contratas a vencer</a>
+        </li>
+        @endif
     </ul>
     <div class="block-content block-content-full">
 
@@ -39,8 +43,10 @@
                    
                         @if(Request::is('principal'))
                             @include ('principal._saldosCobradores')
-                        @else
+                        @elseif(Request::is('pagos-del-dia'))
                             @include ('principal._cobrosDelDia')
+                        @else
+                            @include ('principal._contratasVencer')
                         @endif
                     
                 </div>

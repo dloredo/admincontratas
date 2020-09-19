@@ -76,4 +76,28 @@ class PrincipalController extends Controller
         ]);
         return back();
     }
+
+    function contratasAVencer()
+    {
+        $data["total_contratas"] = Contratas::where('estatus' , 0)->count();
+        $data["total_cobradores"] = User::where('id_rol', 2)->count();
+        $data["capital_total"] = Capital::all();
+        $data["saldo_esperado"] = User::where('id_rol' , 2)->sum('saldo');
+        $data["total_clientes"] = Clientes::count();
+
+        $fecha = Carbon::now();
+        $fechaInicio = $fecha->format("Y-m-d");
+        $fecha->addDay(10);
+        $fechaFin = $fecha->format("Y-m-d");
+
+
+        $data["infoTable"] = Contratas::select("contratas.*","clientes.nombres")
+                            ->join("clientes","clientes.id","contratas.id_cliente")
+                            ->where('contratas.fecha_inicio',">=", $fechaInicio )
+                            ->orWhere('contratas.fecha_termino', "<=", $fechaFin )
+                            ->where("contratas.estatus",0)
+                            ->get();
+
+        return view("principal.principal" ,$data);
+    }
 }
