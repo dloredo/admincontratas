@@ -43,7 +43,6 @@
                     <tr>
                         <th scope="col">Nombre</th>
                         <th scope="col">Fecha de gasto</th>
-                        <th scope="col">Persona</th>
                         <th scope="col">Cantidad gastada</th>
                         <th scope="col">Categoria</th>
                         <th scope="col">Información</th>
@@ -55,7 +54,6 @@
                     <tr>
                         <td>{{ $gasto->nombres }}</td>
                         <th scope="row">{{ date('d-m-Y', strtotime($gasto->fecha_gasto)) }}</th>
-                        <th>{{ $gasto->nombres }}</th>
                         <td><?php echo "$" . number_format(round(((float)$gasto->cantidad)),2,'.',',');?></td>
                         <td>{{ $gasto->categoria }}</td>
                         <td>{{ $gasto->informacion }}</td>
