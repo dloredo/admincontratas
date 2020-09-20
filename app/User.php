@@ -105,4 +105,9 @@ class User extends Authenticatable
 
         return "Inactivo";
     }
+
+    static function allDebtCollector()
+    {
+        return static::where("id_rol", 2)->get();
+    }
 }

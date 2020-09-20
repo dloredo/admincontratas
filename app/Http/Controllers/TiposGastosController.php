@@ -22,15 +22,24 @@ class TiposGastosController extends Controller
     public function vista_gastos(Request $request)
     {
         $categoria = $request['buscar_categoria'];
+        $usuario_id = $request['usuario_id'];
+
         $categorias = Categorias::all();
-        $gastos = Gastos::where('id_user' , Auth::user()->id)->paginate(6);
-        /*$gastos_admin = Gastos::orderBy('id' , 'DESC')
+        $users = User::allDebtCollector();
+
+        $gastos = Gastos::select("gastos.*","usuarios.nombres")
+                            ->join("usuarios", "usuarios.id", "gastos.id_user")
+                            ->where('id_user' , Auth::user()->id)
+                            ->paginate(6);
+
+        $gastos_admin = Gastos::select("gastos.*","usuarios.nombres")
+                        ->join("usuarios", "usuarios.id", "gastos.id_user")
+                        ->orderBy('id' , 'DESC')
                         ->categoria($categoria)
-                        ->paginate(6); */
-        $gastos_admin = DB::select("select usuarios.id,usuarios.nombres, gastos.cantidad , gastos.categoria ,gastos.fecha_gasto , gastos.informacion FROM usuarios
-        INNER JOIN gastos
-        WHERE usuarios.id = gastos.id_user");
-        return view('gastos.gastos' , compact('categorias' , 'gastos' , 'gastos_admin'));
+                        ->user($usuario_id)
+                        ->paginate(6);
+
+        return view('gastos.gastos' , compact('categorias' , 'gastos' , 'gastos_admin','users'));
     }
     
     public function agregarGasto(Request $request)

@@ -11,14 +11,29 @@
 
         <nav >
             <form class="form-inline">
-                <select class="custom-select mr-sm-2" name="buscar_categoria" id="buscar_categoria">
-                    <option selected value="">Sin filtro...</option>
-                    <option value="Sin categoria">Sin categoria</option>
-                    @foreach ($categorias as $categoria)
-                    <option value="{{ $categoria->categoria }}">{{ $categoria->categoria }}</option>
-                    @endforeach
-                </select>
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                <div class="form-group">
+                    <label for="buscar_categoria">Catería </label>
+                    <select class="custom-select mr-sm-2" name="buscar_categoria" id="buscar_categoria">
+                        <option selected value="">Sin filtro...</option>
+                        <option value="Sin categoria">Sin categoria</option>
+                        @foreach ($categorias as $categoria)
+                            <option value="{{ $categoria->categoria }}">{{ $categoria->categoria }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="buscar_categoria">Usuarios </label>
+                    <select class="custom-select mr-sm-2" name="usuario_id" id="usuario_id">
+                        <option selected value="">Sin filtro...</option>
+                        @foreach ($users as $user)
+                            <option value="{{ $user->id }}">{{ $user->nombres }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                
+
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
             </form>
         </nav>
     <br>
@@ -26,6 +41,7 @@
             <table class="table">
                 <thead>
                     <tr>
+                        <th scope="col">Nombre</th>
                         <th scope="col">Fecha de gasto</th>
                         <th scope="col">Persona</th>
                         <th scope="col">Cantidad gastada</th>
@@ -37,6 +53,7 @@
                 <tbody>
                     @foreach ($gastos_admin as $gasto)
                     <tr>
+                        <td>{{ $gasto->nombres }}</td>
                         <th scope="row">{{ date('d-m-Y', strtotime($gasto->fecha_gasto)) }}</th>
                         <th>{{ $gasto->nombres }}</th>
                         <td><?php echo "$" . number_format(round(((float)$gasto->cantidad)),2,'.',',');?></td>
@@ -61,6 +78,7 @@
             <table class="table">
                 <thead>
                     <tr>
+                        <th scope="col">Nombre</th>
                         <th scope="col">Fecha de gasto</th>
                         <th scope="col">Cantidad gastada</th>
                         <th scope="col">Categoria</th>
@@ -70,6 +88,7 @@
                 <tbody>
                     @foreach ($gastos as $gasto)
                     <tr>
+                        <td>{{ $gasto->nombres }}</td>
                         <th scope="row">{{ date('d-m-Y', strtotime($gasto->fecha_gasto)) }}</th>
                         <td><?php echo "$" . number_format(round(((float)$gasto->cantidad)),2,'.',',');?></td>
                         <td>{{ $gasto->categoria }}</td>
@@ -166,7 +185,11 @@
 @endsection
 
 @section('styles')
-    
+    <style>
+        label{
+            margin-right: 10px;
+        }
+    </style>
 @endsection
 
 
