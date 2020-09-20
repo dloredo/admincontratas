@@ -6,9 +6,11 @@ use App\Categorias;
 use App\Gastos;
 use App\User;
 use App\Capital;
+use App\Historial;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class TiposGastosController extends Controller
 {
@@ -22,9 +24,12 @@ class TiposGastosController extends Controller
         $categoria = $request['buscar_categoria'];
         $categorias = Categorias::all();
         $gastos = Gastos::where('id_user' , Auth::user()->id)->paginate(6);
-        $gastos_admin = Gastos::orderBy('id' , 'DESC')
+        /*$gastos_admin = Gastos::orderBy('id' , 'DESC')
                         ->categoria($categoria)
-                        ->paginate(6);
+                        ->paginate(6); */
+        $gastos_admin = DB::select("select usuarios.id,usuarios.nombres, gastos.cantidad , gastos.categoria ,gastos.fecha_gasto , gastos.informacion FROM usuarios
+        INNER JOIN gastos
+        WHERE usuarios.id = gastos.id_user");
         return view('gastos.gastos' , compact('categorias' , 'gastos' , 'gastos_admin'));
     }
     
@@ -108,5 +113,33 @@ class TiposGastosController extends Controller
         $gasto->categoria = $request['categoria'];
         $gasto->save();
         return redirect()->route('vista.gastos');
+    }
+
+    public function Entregar($id,Request $request)
+    {
+        $id_cobrador = User::findOrFail($id);
+        $cantidad = $request['cantidad'];
+        Historial::create([
+            'cantidad' => $cantidad,
+            'tipo_movimiento' => 'Aportacion',
+            'id_cobrador' => $id,
+        ]);
+        $id_cobrador->saldo += $cantidad;
+        $id_cobrador->save();
+        return back();        
+    }
+
+    public function Recibi($id,Request $request)
+    {
+        $id_cobrador = User::findOrFail($id);
+        $cantidad = $request['cantidad'];
+        Historial::create([
+            'cantidad' => $cantidad,
+            'tipo_movimiento' => 'Retiro',
+            'id_cobrador' => $id,
+        ]);
+        $id_cobrador->saldo -= $cantidad;
+        $id_cobrador->save();
+        return back();
     }
 }

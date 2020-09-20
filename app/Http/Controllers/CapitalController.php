@@ -42,7 +42,8 @@ class CapitalController extends Controller
         $capital->capital_acumulado += $capital->comisiones;
         $capital->saldo_efectivo += $capital->comisiones;
         $capital->comisiones = 0;
-
+        $capital->capital_acumulado -= $capital->gastos;
+        $capital->gastos = 0;
         $cortes->save();
         $capital->save();
 

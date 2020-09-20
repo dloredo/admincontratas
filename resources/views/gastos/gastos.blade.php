@@ -27,6 +27,7 @@
                 <thead>
                     <tr>
                         <th scope="col">Fecha de gasto</th>
+                        <th scope="col">Persona</th>
                         <th scope="col">Cantidad gastada</th>
                         <th scope="col">Categoria</th>
                         <th scope="col">Información</th>
@@ -37,6 +38,7 @@
                     @foreach ($gastos_admin as $gasto)
                     <tr>
                         <th scope="row">{{ date('d-m-Y', strtotime($gasto->fecha_gasto)) }}</th>
+                        <th>{{ $gasto->nombres }}</th>
                         <td><?php echo "$" . number_format(round(((float)$gasto->cantidad)),2,'.',',');?></td>
                         <td>{{ $gasto->categoria }}</td>
                         <td>{{ $gasto->informacion }}</td>
@@ -159,8 +161,6 @@
             </div>
         </div>
     </div>
-
-    
 </div>
 @endforeach
 @endsection
