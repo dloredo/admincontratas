@@ -3,11 +3,12 @@
 <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">Cliente</th>
-                        <th scope="col">Prestamo</th>
-                        <th scope="col">Comision</th>
-                        <th scope="col">Total pagado</th>
-                        <th scope="col">Acciones</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">No.</th>
+                        <th scope="col">Pago del dia</th>
+                        <th scope="col">Atraso</th>
+                        <th scope="col">Pago total</th>
+                        <th scope="col">Fecha de vencimiento</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -17,13 +18,19 @@
                                 {{$contrata->nombres}}
                             </td>
                             <td>
-                                {{$contrata->cantidad_prestada}}
+                                {{$contrata->id}}
                             </td>
                             <td>
-                                {{$contrata->comision}}
+                                {{$contrata->pagos_contrata}}
                             </td>
                             <td>
-                                {{$contrata->control_pago}}
+                                {{$contrata->adeudo}}
+                            </td>
+                            <td>
+                                {{$contrata->pagos_contrata + $contrata->adeudo}}
+                            </td>
+                            <td>
+                                {{$contrata->fecha_termino}}
                             </td>
                             <td>
                                 <a href="{{ route('verPagosContrata' , $contrata->id) }}" class="btn btn-primary btn-sm">Agregar pago</a>
