@@ -172,3 +172,6 @@ Route::post('/destroy/{id}' , 'TiposGastosController@destroy')->name('destroy');
 Route::get('/gastos' , 'TiposGastosController@vista_gastos')->name('vista.gastos');
 Route::post('/agregarGasto' , 'TiposGastosController@agregarGasto')->name('agregarGasto');
 Route::post('/edit-gastos/{id}' , 'TiposGastosController@edit_gasto_categoria')->name('editarGasto');
+
+Route::post('/entregar-cobrador/{id}' , 'TiposGastosController@Entregar')->name('entregar.cobrador');
+Route::post('/recibi-cobrador/{id}' , 'TiposGastosController@Recibi')->name('recibi.cobrador');

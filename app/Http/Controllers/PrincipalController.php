@@ -32,6 +32,7 @@ class PrincipalController extends Controller
         }
         else{
             $data["total_clientes"] = Clientes::where("cobrador_id",Auth::user()->id)->count();
+            $data["saldo"] = User::where("id",Auth::user()->id)->select('saldo')->get();
         }
 
         if(\Request::is('principal')){

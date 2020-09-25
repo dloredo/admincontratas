@@ -80,7 +80,70 @@
         </table>
     </div>
 </div> -->
-
+@foreach ($infoTable as $cobrador)
+<div class="modal fade" id="entregar{{ $cobrador->id }}" tabindex="-1" role="dialog" aria-labelledby="entregar" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-popin" role="document">
+        <div class="modal-content">
+            <div class="block block-themed block-transparent mb-0">
+                <div class="block-header bg-primary-dark">
+                    <h3 class="block-title">Agregar gasto</h3>
+                    <div class="block-options">
+                        <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+                            <i class="si si-close"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="block-content">
+                    <form action="{{ route('entregar.cobrador' , $cobrador->id) }}" method="post">
+                        @csrf
+                        <label>Cantidad a entregar</label>
+                        <input type="number" name="cantidad" id="cantidad" class="form-control">
+                </div>
+            </div>
+            <br>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-alt-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-alt-success">
+                    <i class="fa fa-check"></i> Entregar dinero
+                </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
+@foreach ($infoTable as $cobrador)
+<div class="modal fade" id="recibi{{ $cobrador->id }}" tabindex="-1" role="dialog" aria-labelledby="recibi" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-popin" role="document">
+        <div class="modal-content">
+            <div class="block block-themed block-transparent mb-0">
+                <div class="block-header bg-primary-dark">
+                    <h3 class="block-title">Recibir dinero</h3>
+                    <div class="block-options">
+                        <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+                            <i class="si si-close"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="block-content">
+                    <form  action="{{ route('recibi.cobrador' , $cobrador->id) }}" method="post">
+                        @csrf
+                        <label>Cantidad a recibir</label>
+                        <input type="number" class="form-control" id="cantidad" name="cantidad" value="0">
+                </div>
+            </div>
+            <br>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-alt-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-alt-success">
+                    <i class="fa fa-check"></i> Recibi dinero
+                </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
 
 @endsection
 
