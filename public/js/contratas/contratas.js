@@ -14408,7 +14408,7 @@ new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
     cantidadPago: '0',
     tipoPagos: 'Pagos diarios',
     opcionesPago: 1,
-    daysOfWeek: []
+    daysOfWeek: [1, 2, 3, 4, 5]
   },
   created: function created() {},
   mounted: function mounted() {},
@@ -14417,7 +14417,30 @@ new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
       return this.comisionPrestamo * 100 / this.prestamo;
     }
   },
+  watch: {
+    prestamo: function prestamo(val, oldVal) {
+      if (document.getElementById("fecha_inicio").value != '') this.getEndTime({
+        target: {
+          value: document.getElementById("fecha_inicio").value
+        }
+      }, 1);
+    }
+  },
   methods: {
+    changeGivenMoney: function changeGivenMoney() {
+      if (document.getElementById("fecha_inicio").value != '') this.getEndTime({
+        target: {
+          value: document.getElementById("fecha_inicio").value
+        }
+      }, 1);
+    },
+    elegirDiasKeyUP: function elegirDiasKeyUP() {
+      if (document.getElementById("fecha_inicio").value != '') this.getEndTime({
+        target: {
+          value: document.getElementById("fecha_inicio").value
+        }
+      }, 1);
+    },
     diasPlanKeyUp: function diasPlanKeyUp() {
       if (document.getElementById("fecha_inicio").value != '') this.getEndTime({
         target: {
@@ -14478,7 +14501,6 @@ new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
     getEndTime: function getEndTime(e, type) {
       var _this = this;
 
-      console.log();
       if (this.diasPlan == "") return;
       if (this.tipoPagos == "Pagos diarios" && this.opcionesPago == 2 && this.daysOfWeek.length == 0) return;
       var strInitDate = e.target.value;
@@ -14490,7 +14512,6 @@ new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
         daysOfWeek: this.daysOfWeek
       };
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("/obtenerFechasPagos", sendDataObject).then(function (response) {
-        console.log(response.data);
         if (_this.tipoPagos == "Pagos diarios" && _this.opcionesPago == 2) _this.calcularDatos(response.data.diasRestantes, type);else _this.calcularDatos(0, type);
         document.getElementById("fecha_termino").value = response.data.endTime;
       });

@@ -26,7 +26,7 @@
                 </div>
                 <div class="form-group col-md-4">
                     <label>Tipo de contrata</label>
-                    <select class="custom-select @error('tipo_plan_contrata') is-invalid @enderror" name="tipo_plan_contrata" id="tipo_plan_contrata" value="{{ old('tipo_plan_contrata') }}" v-model="tipoPagos" v-on:change="resetEndDate" autocomplete="tipo_plan_contrata">
+                    <select class="custom-select @error('tipo_plan_contrata') is-invalid @enderror" v-on:change="elegirDiasKeyUP" name="tipo_plan_contrata" id="tipo_plan_contrata" value="{{ old('tipo_plan_contrata') }}" v-model="tipoPagos" v-on:change="resetEndDate" autocomplete="tipo_plan_contrata">
                         <option value="Pagos diarios">Pagos diarios</option>
                         <option value="Pagos por semana">Pagos por semana</option>
                     </select>
@@ -37,11 +37,11 @@
                         <label class="col-12">Opciones de pago</label>
                         <div class="col-12">
                             <div class="custom-control custom-radio custom-control-inline mb-5">
-                                <input class="custom-control-input" type="radio" name="opcionesPago" v-model="opcionesPago" id="example-inline-radio1" value="1" checked="">
+                                <input class="custom-control-input" type="radio" v-on:change="elegirDiasKeyUP" name="opcionesPago" v-model="opcionesPago" id="example-inline-radio1" value="1" checked="">
                                 <label class="custom-control-label" for="example-inline-radio1">Todos los dias</label>
                             </div>
                             <div class="custom-control custom-radio custom-control-inline mb-5">
-                                <input class="custom-control-input" type="radio" name="opcionesPago" v-model="opcionesPago" id="example-inline-radio2" value="2">
+                                <input class="custom-control-input" type="radio" v-on:change="elegirDiasKeyUP" name="opcionesPago" v-model="opcionesPago" id="example-inline-radio2" value="2">
                                 <label class="custom-control-label" for="example-inline-radio2">Elegir dias</label>
                             </div>
                         </div>

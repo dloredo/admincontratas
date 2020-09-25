@@ -19,8 +19,8 @@
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
-                    <label for="name">Usuario</label>
-                    <input type="text" class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}" id="name" name="name" placeholder="">
+                    <label for="name">Usuario de ingreso al sistema</label>
+                    <input type="text" onkeypress="return  event.charCode != 32" style="text-transform: lowercase;" class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}" id="name" name="name" placeholder="">
                     @error('name')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>

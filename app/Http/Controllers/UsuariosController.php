@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
+use App\Rules\CheckUserPassword;
 
 class UsuariosController extends Controller
 {
@@ -31,12 +33,14 @@ class UsuariosController extends Controller
     {
 
         $this->validator($data = $request->all())->validate();
+        $name =  str_replace(' ', '', $data['name']);
+        $name =  strtolower($name);
 
         User::create([
-            'name' => $data['name'],
+            'name' => $name,
             'nombres' => $data['nombres'],
             'id_rol' => $data['id_rol'],
-            'password' => Hash::make($data['name'].".123"),
+            'password' => Hash::make($name.".123"),
             'direccion' => $data['direccion'],
             'telefono' => $data['telefono'],
             'saldo' => 0,
@@ -75,6 +79,32 @@ class UsuariosController extends Controller
             'direccion' => ['required', 'string', 'max:255'],
             'telefono' => ['required','numeric'],
         ]);
+    }
+
+    function cambiarContraseña()
+    {
+        return view("usuarios.cambiarContraseña");
+    }
+
+    function guardarNuevaContraseña(Request $request)
+    {
+        $form = $request->all();
+        unset($form["_token"]);
+
+
+        Validator::make($form, [
+            'old_password' => ['required', new CheckUserPassword],
+            'new_password' => ['required','same:password_confirmation'],
+            'password_confirmation' => ['required'],
+        ])->validate();
+
+        $user = User::find(Auth::user()->id);
+        $user->password = Hash::make($form["new_password"]);
+
+        if($user->save())
+            return back()->with("saved", true)->with("message", "Contraseña cambiada correctamente");
+
+        return back()->with("saved", false)->with("message", "Hubo un error al cambiar la contraseña");
     }
     
 }

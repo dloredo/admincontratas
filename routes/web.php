@@ -104,6 +104,9 @@ Route::post('/agregarUsuario' , 'UsuariosController@create')->name('create.agreg
 Route::get('/cambiarEstatusUsuario/{id}/{estatus}' , 'UsuariosController@cambiarEstatus')->name('edit.cambiarEstatus');
 Route::get('/eliminarUsuario/{id}' , 'UsuariosController@eliminarUsuario')->name('delete.usuario');
 
+Route::get('/cambiarContraseña' , 'UsuariosController@cambiarContraseña')->name('cambiar.contraseña');
+Route::post('/cambiarContraseña/store' , 'UsuariosController@guardarNuevaContraseña')->name('cambiar.contraseña.store');
+
 /*
 |--------------------------------------------------------------------------
 |           FIN    ADMINISTRACION USUARIOS

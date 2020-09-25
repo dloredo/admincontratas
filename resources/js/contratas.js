@@ -10,7 +10,7 @@ new Vue({
         cantidadPago: '0',
         tipoPagos: 'Pagos diarios',
         opcionesPago:1,
-        daysOfWeek:[]
+        daysOfWeek:[1,2,3,4,5]
     },
     created: function() {
 
@@ -24,7 +24,17 @@ new Vue({
             return (this.comisionPrestamo * 100) / (this.prestamo)
         }
     },
+    watch:{
+        prestamo: function(val, oldVal){
+            if (document.getElementById("fecha_inicio").value != '')
+                this.getEndTime({ target: { value: document.getElementById("fecha_inicio").value } },1);
+        }
+    },
     methods: {
+        elegirDiasKeyUP: function(){
+            if (document.getElementById("fecha_inicio").value != '')
+                this.getEndTime({ target: { value: document.getElementById("fecha_inicio").value } },1);
+        },
         diasPlanKeyUp: function() {
 
             if (document.getElementById("fecha_inicio").value != '')

@@ -43,38 +43,6 @@
                             </div>
                             <!-- END Side Header -->
 
-                            <!-- Side User -->
-                            <div class="content-side content-side-full content-side-user px-10 align-parent" style="height: inherit;">
-                                <!-- ········ -->
-                                <div class="sidebar-mini-visible-b align-v animated fadeIn">
-                                    <img class="img-avatar img-avatar32" src="assets/media/avatars/avatar15.jpg" alt="">
-                                </div>
-                                <!-- END Visible only in mini mode -->
-
-                                <!-- Visible only in normal mode -->
-                                <div class="sidebar-mini-hidden-b text-center">
-                                    <!--##################DESCOMENTAR ESTO PARA LA IMAGEN DEL PERFIL SI SE OCUPA#########################################
-                                <a class="img-link" href="be_pages_generic_profile.html">
-                                <img class="img-avatar" src="{{ asset('assets/media/avatars/avatar15.jpg') }}" alt="">
-                            </a>-->
-                                    <ul class="list-inline mt-10">
-                                        <li class="list-inline-item">
-                                            <a class="link-effect text-dual-primary-dark font-size-xs font-w600 text-uppercase" href="be_pages_generic_profile.html">{{Auth::user()->nombres}}</a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a class="link-effect text-dual-primary-dark" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                                <i class="si si-logout"></i>
-                                            </a>
-                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                                @csrf
-                                            </form>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <!-- END Visible only in normal mode -->
-                            </div>
-                            <!-- END Side User -->
 
                             <!-- Side Navigation -->
                             <div class="content-side content-side-full">
