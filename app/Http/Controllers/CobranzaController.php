@@ -193,9 +193,15 @@ class CobranzaController extends Controller
                 ]);
             }
         }
-        $contrata->update([
-            'control_pago' => $contrata->control_pago+=$saldo_cobrador,
-        ]);
+        
+        $contrata->control_pago = $contrata->control_pago += $saldo_cobrador;
+        if($pagos_contratas->fecha_pago == $contrata->fecha_termino )
+            $contrata->estatus = 1;
+        
+        $contrata->update();
+
+
+
         $id_cobrador->update([
             'saldo' => $id_cobrador->saldo+=$saldo_cobrador,
         ]);

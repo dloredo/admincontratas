@@ -286,6 +286,22 @@ class ClientesController extends Controller
                 ]);
             }
             
+            $fechaActual = Carbon::now()->format("Y-m-d");
+            if($fechaActual > $fechaInicio->format("Y-m-d"))
+            {
+                $fechasPagos = PagosContratas::where("id_contrata",$contrata->id)->where("fecha_pago","<", $fechaActual)->get();
+
+                $adeudo = 0;
+                foreach ($fechasPagos as $fecha)
+                {
+                    $adeudo += $contrata->pagos_contrata;
+                    $fecha->adeudo = $adeudo;
+                    $fecha->estatus = 3;
+                    $fecha->update();
+                }
+
+            }
+
             $capital = Capital::find(1);
             $capital->saldo_efectivo -= $request['cantidad_prestada'];
             $capital->capital_parcial += $request['cantidad_prestada'];
