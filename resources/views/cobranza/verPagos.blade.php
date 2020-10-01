@@ -10,8 +10,8 @@
                                             Cantidad pagada: <?php echo "$" . number_format(round(((float)$total_pagado)),2,'.',',');?> 
                                         </span>
                                         Cantidad a pagar: <?php echo "$" . number_format(round(((float)$contrata->pagos_contrata)),2,'.',',');?> <br>
-                                        Adeudo: <?php echo "$" . number_format(round(((float)$pago_anterior->adeudo)),2,'.',',');?> <br>
-                                        Total a pagar: <?php echo "$" . number_format(round(((float)$contrata->pagos_contrata + $pago_anterior->adeudo)),2,'.',',');?> 
+                                        Adeudo: <?php echo "$" . number_format(round(((float)$contrata->adeudo)),2,'.',',');?> <br>
+                                        Total a pagar: <?php echo "$" . number_format(round(((float)$contrata->pagos_contrata + $contrata->adeudo)),2,'.',',');?> 
             </h2>
 
             <span style="float: right;">

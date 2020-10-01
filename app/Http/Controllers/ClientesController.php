@@ -271,6 +271,7 @@ class ClientesController extends Controller
                 'fecha_termino'         => $request['fecha_termino'],
                 'bonificacion'          => 0,    
                 'control_pago'          => 0,
+                'adeudo'                => 0
             ]);
 
 
@@ -299,7 +300,8 @@ class ClientesController extends Controller
                     $fecha->estatus = 3;
                     $fecha->update();
                 }
-
+                $contrata->adeudo = $adeudo;
+                $contrata->update();
             }
 
             $capital = Capital::find(1);

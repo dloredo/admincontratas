@@ -153,6 +153,8 @@ class CobranzaController extends Controller
                 'adelanto'          => 0,
                 'estatus'           => 3,
             ]);
+
+            $contrata->adeudo += $request['adeudo'];
         }
         
 
@@ -162,6 +164,7 @@ class CobranzaController extends Controller
             $contador = $request['adelanto'] / $pagar;
             //dd($contador);
             $aux = 1;
+            $contrata->adeudo = 0;
             for( $i=0; $i<intval($contador); $i++)
             {
                 $pagos_contratas = PagosContratas::findOrFail($id+$aux);
@@ -191,6 +194,8 @@ class CobranzaController extends Controller
                     'adelanto'          => 0,
                     'estatus'           => 3,
                 ]);
+
+                $contrata->adeudo = $pagar - $saldo;
             }
         }
         
