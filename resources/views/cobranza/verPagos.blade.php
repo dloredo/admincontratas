@@ -20,7 +20,7 @@
             </span>
             <?php $cantidad_pagar_esperada = 0; ?>
             <?php $cantidad_pagar = 0; ?>
-            <?php $cantidad_pagar_esperada =  $contrata->pagos_contrata + $pago_anterior->adeudo?> 
+            <?php $cantidad_pagar_esperada =  $contrata->pagos_contrata + $contrata->adeudo?> 
             <?php $cantidad_pagar = $contrata->pagos_contrata; ?>
         @endforeach
     @endforeach
@@ -204,33 +204,6 @@
                                 </span>
                             @enderror
                         </div>
-                
-                        <label>Adeudo</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">$</div>
-                            </div>
-                            <input type="number" class="form-control @error('adeudo') is-invalid @enderror" id="adeudo" name="adeudo" value="{{ old('adeudo') }}" autocomplete="adeudo" placeholder="Adeudo">
-                            @error('adeudo')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                       
-                            <label>Adelanto</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">$</div>
-                                </div>
-                                <input type="number" class="form-control @error('adelanto') is-invalid @enderror" id="adelanto" name="adelanto" value="{{ old('adelanto') }}" autocomplete="adelanto" placeholder="Adelanto">
-                                @error('adelanto')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        
                         <div class="col-auto my-1">
                             <input type="hidden" id="cantidad_pagar_dia" name="cantidad_pagar_dia" value="{{ isset($cantidad_pagar) ? $cantidad_pagar : '' }}">
                         </div>

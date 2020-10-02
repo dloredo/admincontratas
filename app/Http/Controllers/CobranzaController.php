@@ -64,139 +64,118 @@ class CobranzaController extends Controller
         }
     }
 
-    /*public function agregarPago($id,Request $request)
-    {
-        $id_cobrador = User::findOrFail(Auth::user()->id);
-        $saldo_cobrador = $request['cantidad_pagada']+$request['adelanto'];
-        $contrata = Contratas::findOrFail($id);
-        $contrata->update([
-            'control_pago' => $contrata->control_pago+=$saldo_cobrador,
-        ]);
-        request()->validate([
-            'fecha_pago'        => 'required',
-            'cantidad_pagada'   => 'required',
-            'adeudo'            => 'required',
-            'adelanto'          => 'required'
-        ]);
-        PagosContratas::create([
-            'id_contrata'       => $id,
-            'fecha_pago'        => $request['fecha_pago'],
-            'cantidad_pagada'   => $request['cantidad_pagada'],
-            'adeudo'            => $request['adeudo'],
-            'adelanto'          => $request['adelanto'],
-            'estatus'           => 1,
-        ]);
-        $fecha = Carbon::parse($request['fecha_pago']);
-        $adelanto = $request['adelanto'];
-        if($adelanto > 0)
-        {
-            $pagar = $request['cantidad_pagar_dia'];
-            $contador = $adelanto / $pagar;
-            $aux = 1;
-            for( $i=0; $i<intval($contador); $i++)
-            {
-                PagosContratas::create([
-                    'id_contrata'       => $id,
-                    'fecha_pago'        => $fecha->addDays($aux),
-                    'cantidad_pagada'   => $pagar,
-                    'adeudo'            => 0,
-                    'adelanto'          => 0,
-                    'estatus'           => 1,
-                ]);
-
-                $aux++;
-                $fecha = Carbon::parse($request['fecha_pago']); 
-            }
-            if($adelanto % $pagar)
-            {
-                $saldo = $adelanto % $pagar;
-                PagosContratas::create([
-                    'id_contrata'       => $id,
-                    'fecha_pago'        => $fecha->addDays($aux),
-                    'cantidad_pagada'   => $adelanto % $pagar,
-                    'adeudo'            => $pagar - $saldo,
-                    'adelanto'          => 0,
-                    'estatus'           => 1,
-                ]);
-            }
-        }
-        $id_cobrador->update([
-            'saldo' => $id_cobrador->saldo+=$saldo_cobrador,
-        ]);
-        return back();
-    } */
     public function agregarPago($id,Request $request )
     {
         $id_cobrador = User::findOrFail(Auth::user()->id);
-        $saldo_cobrador = $request['cantidad_pagada']+$request['adelanto'];
+        $saldo_cobrador = $request['cantidad_pagada'];
         $pagos_contratas = PagosContratas::findOrFail($id);
         $contrata = Contratas::findOrFail($pagos_contratas->id_contrata);
         request()->validate([
             'cantidad_pagada'   => 'required',
-            'adeudo'            => 'required',
-            'adelanto'          => 'required'
         ]);
-        if($request['cantidad_pagada'] >= $contrata->pagos_contrata)
+        if($contrata->pagos_contrata+$contrata->adeudo == $request['cantidad_pagada'])
         {
             $pagos_contratas->update([
                 'cantidad_pagada'   => $request['cantidad_pagada'],
                 'adeudo'            => 0,
-                'adelanto'          => $request['adelanto'],
+                'adelanto'          => 0,
                 'estatus'           => 1,
             ]);
+            $contrata->adeudo = 0;
         }
-        if($request['adeudo'] > 0)
+        elseif($request['cantidad_pagada'] >= $contrata->pagos_contrata+$contrata->adeudo)
         {
+            if( $contrata->adeudo > 0 )
+            {
+                $pago = $contrata->pagos_contrata+$contrata->adeudo;
+                //$pago = $request['cantidad_pagada'] - $contrata->adeudo;
+                //dd($request['cantidad_pagada'] - $pago);
+                $pagos_contratas->update([
+                    'cantidad_pagada'   => $pago,
+                    'adeudo'            => 0,
+                    'adelanto'          => $request['cantidad_pagada'] - $pago,
+                    'estatus'           => 1,
+                ]);
+                $residuo = $request['cantidad_pagada'] - $pago;
+                $pagar = $request['cantidad_pagar_dia'];
+                $contador = $residuo / $pagar;
+                $aux = 1;
+                $contrata->adeudo = 0;
+                for( $i=0; $i<intval($contador); $i++)
+                {
+                    $pagos_contratas = PagosContratas::findOrFail($id+$aux);
+                    $pagos_contratas->update([
+                        'cantidad_pagada'   => $request['cantidad_pagar_dia'],
+                        'adeudo'            => 0,
+                        'adelanto'          => 0,
+                        'estatus'           => 1,
+                    ]);
+                    $aux++;
+                }        
+                if($residuo % $pagar)
+                {
+                    $pagos_contratas = PagosContratas::findOrFail($id+$aux);
+                    $saldo = $residuo % $pagar;
+                    $pagos_contratas->update([
+                        'cantidad_pagada'   => $residuo % $pagar,
+                        'adeudo'            => $pagar - $saldo,
+                        'adelanto'          => 0,
+                        'estatus'           => 3,
+                    ]);
+    
+                    $contrata->adeudo = $pagar - $saldo;
+                }
+            }
+            else
+            {
+                $pagos_contratas->update([
+                    'cantidad_pagada'   => $contrata->pagos_contrata,
+                    'adeudo'            => 0,
+                    'adelanto'          => $request['cantidad_pagada'] - $contrata->pagos_contrata,
+                    'estatus'           => 1,
+                ]);
+                $residuo = $request['cantidad_pagada'] - $contrata->pagos_contrata;
+                $pagar = $request['cantidad_pagar_dia'];
+                $contador = $residuo / $pagar;
+                $aux = 1;
+                $contrata->adeudo = 0;
+                for( $i=0; $i<intval($contador); $i++)
+                {
+                    $pagos_contratas = PagosContratas::findOrFail($id+$aux);
+                    $pagos_contratas->update([
+                        'cantidad_pagada'   => $request['cantidad_pagar_dia'],
+                        'adeudo'            => 0,
+                        'adelanto'          => 0,
+                        'estatus'           => 1,
+                    ]);
+                    $aux++;
+                }        
+                if($residuo % $pagar)
+                {
+                    $pagos_contratas = PagosContratas::findOrFail($id+$aux);
+                    $saldo = $residuo % $pagar;
+                    $pagos_contratas->update([
+                        'cantidad_pagada'   => $residuo % $pagar,
+                        'adeudo'            => $pagar - $saldo,
+                        'adelanto'          => 0,
+                        'estatus'           => 3,
+                    ]);
+    
+                    $contrata->adeudo = $pagar - $saldo;
+                }
+            }
+        }
+        else
+        {
+            $adeudo = $contrata->pagos_contrata+$contrata->adeudo - $request['cantidad_pagada'];
             $pagos_contratas->update([
                 'cantidad_pagada'   => $request['cantidad_pagada'],
-                'adeudo'            => $request['adeudo'],
+                'adeudo'            => $adeudo,
                 'adelanto'          => 0,
                 'estatus'           => 3,
             ]);
 
-            $contrata->adeudo += $request['adeudo'];
-        }
-        
-
-        if($request['adelanto'] > 0)
-        {
-            $pagar = $request['cantidad_pagar_dia'];
-            $contador = $request['adelanto'] / $pagar;
-            //dd($contador);
-            $aux = 1;
-            $contrata->adeudo = 0;
-            for( $i=0; $i<intval($contador); $i++)
-            {
-                $pagos_contratas = PagosContratas::findOrFail($id+$aux);
-                $pagos_contratas->update([
-                    'cantidad_pagada'   => $request['cantidad_pagar_dia'],
-                    'adeudo'            => 0,
-                    'adelanto'          => 0,
-                    'estatus'           => 1,
-                ]);
-                $aux++;
-            }        
-            if($request['adelanto'] % $pagar)
-            {
-                $pagos_contratas = PagosContratas::findOrFail($id+$aux);
-                $saldo = $request['adelanto'] % $pagar;
-                /*PagosContratas::create([
-                    'id_contrata'       => $id,
-                    'fecha_pago'        => $fecha->addDays($aux),
-                    'cantidad_pagada'   => $request['adelanto'] % $pagar,
-                    'adeudo'            => $pagar - $saldo,
-                    'adelanto'          => 0,
-                    'estatus'           => 1,
-                ]);*/
-                $pagos_contratas->update([
-                    'cantidad_pagada'   => $request['adelanto'] % $pagar,
-                    'adeudo'            => $pagar - $saldo,
-                    'adelanto'          => 0,
-                    'estatus'           => 3,
-                ]);
-
-                $contrata->adeudo = $pagar - $saldo;
-            }
+            $contrata->adeudo = $adeudo;
         }
         
         $contrata->control_pago = $contrata->control_pago += $saldo_cobrador;
