@@ -184,14 +184,15 @@ class CobranzaController extends Controller
             $contrata->estatus = 1;
         
             
-        $contrata->update();
 
         HistorialCobrosDia::create([
             'id_cobrador' => Auth::user()->id,
             'cantidad' => $request['cantidad_pagada'],
+            'id_contrata' => $contrata->id,
+            'id_cliente' => $contrata->id_cliente,
             'fecha' => Carbon::now()->format("Y-m-d")
         ]);
-
+        $contrata->update();
         $id_cobrador->update([
             'saldo' => $id_cobrador->saldo+=$saldo_cobrador,
         ]);
