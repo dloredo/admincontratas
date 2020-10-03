@@ -7,6 +7,7 @@ use App\Contratas;
 use App\Clientes;
 use App\User;
 use App\PagosContratas;
+use App\HistorialCobrosDia;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -182,13 +183,41 @@ class CobranzaController extends Controller
         if($pagos_contratas->fecha_pago == $contrata->fecha_termino )
             $contrata->estatus = 1;
         
+            
         $contrata->update();
 
-
+        HistorialCobrosDia::create([
+            'id_cobrador' => Auth::user()->id,
+            'cantidad' => $request['cantidad_pagada'],
+            'fecha' => Carbon::now()->format("Y-m-d")
+        ]);
 
         $id_cobrador->update([
             'saldo' => $id_cobrador->saldo+=$saldo_cobrador,
         ]);
         return back();
+    }
+
+    function hitorialCobros($fecha = null)
+    {
+
+        //dd($fecha);
+
+        $cobros = HistorialCobrosDia::with(["cobrador","contrata","cliente"]);
+
+        if(Auth::user()->id_rol != 1)
+        {
+            $cobros->where("id_cobrador",Auth::user()->id);
+        }
+
+        if($fecha != null)
+        {
+            $cobros->where("fecha",$fecha);
+        }
+
+        $cobros->where("fecha",Carbon::now()->format("Y-m-d"));
+        $cobros = $cobros->paginate(10);
+
+        return view("cobranza.historialCobros",compact("cobros"));
     }
 }
