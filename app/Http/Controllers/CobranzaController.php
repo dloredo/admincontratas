@@ -205,20 +205,29 @@ class CobranzaController extends Controller
         //dd($fecha);
 
         $cobros = HistorialCobrosDia::with(["cobrador","contrata","cliente"]);
-
+        $cobroTotal = HistorialCobrosDia::select();
         if(Auth::user()->id_rol != 1)
         {
             $cobros->where("id_cobrador",Auth::user()->id);
+            $cobroTotal->where("id_cobrador",Auth::user()->id);
         }
 
         if($fecha != null)
         {
             $cobros->where("fecha",$fecha);
+            $cobroTotal->where("fecha",$fecha);
+        }
+        else
+        {
+            $cobros->where("fecha",Carbon::now()->format("Y-m-d"));
+            $cobroTotal->where("fecha",Carbon::now()->format("Y-m-d"));
         }
 
-        $cobros->where("fecha",Carbon::now()->format("Y-m-d"));
+        
         $cobros = $cobros->paginate(10);
+        $cobroTotal = $cobroTotal->get()->sum("cantidad");
+       
 
-        return view("cobranza.historialCobros",compact("cobros"));
+        return view("cobranza.historialCobros",compact("cobros","cobroTotal"));
     }
 }

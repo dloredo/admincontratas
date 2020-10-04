@@ -46,8 +46,10 @@
                     </tbody>
 
                 </table>
+                <h3 style="float: right;">Total: ${{$cobroTotal}}</h3>
                 {{ $cobros->links() }}
             </div>
+            
         </div>
     </div>
 </div>
