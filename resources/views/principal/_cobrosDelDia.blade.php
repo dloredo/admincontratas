@@ -15,7 +15,7 @@
                     @foreach($infoTable as $contrata)
                         <tr>
                             <td>
-                                {{$contrata->nombres}}
+                                {{$contrata->nombres}} {{$contrata->idPago}}
                             </td>
                             <td>
                                 {{$contrata->id}}
@@ -33,7 +33,7 @@
                                 {{$contrata->fecha_termino}}
                             </td>
                             <td>
-                                <a href="{{ route('verPagosContrata' , $contrata->id) }}" class="btn btn-primary btn-sm">Agregar pago</a>
+                                <a href="{{ route('agregarPago' , $contrata->idPago) }}" class="btn btn-primary btn-sm">Agregar pago</a>
                             </td>
                         </tr>
                     @endforeach
