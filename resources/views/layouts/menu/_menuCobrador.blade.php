@@ -11,7 +11,7 @@
         <a href="{{ route('vista.contratas') }}"><i class="fa fa-clipboard"></i><span class="sidebar-mini-hide">Contratas</span></a>
     </li>
     <li>
-        <a href="{{ route('historialCobranza') }}"><i class="fa fa-clipboard"></i><span class="sidebar-mini-hide">Hisotrial de cobros</span></a>
+        <a href="{{ route('historialCobranza') }}"><i class="fa fa-clipboard"></i><span class="sidebar-mini-hide">Historial de cobros</span></a>
     </li>
 
     <li class="nav-main-heading"><span class="sidebar-mini-visible">UI</span><span class="sidebar-mini-hidden">Cobrar contratas</span></li>
