@@ -99,11 +99,16 @@ Route::post('/agregarPago/{id}' , 'CobranzaController@agregarPago')->name('agreg
 |               ADMINISTRACION DE USUARIOS
 |--------------------------------------------------------------------------
 */
-Route::get('/usuarios' , 'UsuariosController@index')->name('vista.usuarios');
-Route::get('/agregarUsuario' , 'UsuariosController@agregarUsuario')->name('vista.agregarUsuario');
-Route::post('/agregarUsuario' , 'UsuariosController@create')->name('create.agregarUsuario');
-Route::get('/cambiarEstatusUsuario/{id}/{estatus}' , 'UsuariosController@cambiarEstatus')->name('edit.cambiarEstatus');
-Route::get('/eliminarUsuario/{id}' , 'UsuariosController@eliminarUsuario')->name('delete.usuario');
+
+Route::middleware(['auth.admin'])->group(function () {
+
+    Route::get('/usuarios' , 'UsuariosController@index')->name('vista.usuarios');
+    Route::get('/agregarUsuario' , 'UsuariosController@agregarUsuario')->name('vista.agregarUsuario');
+    Route::post('/agregarUsuario' , 'UsuariosController@create')->name('create.agregarUsuario');
+    Route::get('/cambiarEstatusUsuario/{id}/{estatus}' , 'UsuariosController@cambiarEstatus')->name('edit.cambiarEstatus');
+    Route::get('/eliminarUsuario/{id}' , 'UsuariosController@eliminarUsuario')->name('delete.usuario');
+
+});
 
 Route::get('/cambiarContraseña' , 'UsuariosController@cambiarContraseña')->name('cambiar.contraseña');
 Route::post('/cambiarContraseña/store' , 'UsuariosController@guardarNuevaContraseña')->name('cambiar.contraseña.store');
