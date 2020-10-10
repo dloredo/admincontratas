@@ -100,8 +100,8 @@
                                         Pagado con adeudo
                                     </div>
                                 @else
-                                <div class="p-2 bg-success text-white">
-                                    Desconocido
+                                <div class="p-2 bg-warning">
+                                    Con adelanto
                                 </div>
                                 @endif
                             </td>
