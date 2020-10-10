@@ -7,6 +7,7 @@
                 <th scope="col">No.</th>
                 <th scope="col">Pago del dia</th>
                 <th scope="col">Atraso</th>
+                <th scope="col">Adelanto</th>
                 <th scope="col">Pago total</th>
                 <th scope="col">Fecha de vencimiento</th>
                 <th scope="col">Pago</th>
@@ -28,7 +29,10 @@
                         {{$contrata->adeudo}}
                     </td>
                     <td>
-                        {{$contrata->pagos_contrata + $contrata->adeudo}}
+                        {{$contrata->cantidad_pagada}}
+                    </td>
+                    <td>
+                        {{ $contrata->pagos_contrata + $contrata->adeudo - $contrata->cantidad_pagada }}
                     </td>
                     <td>
                         {{$contrata->fecha_termino}}
