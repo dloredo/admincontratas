@@ -12,10 +12,7 @@ use App\Rules\CheckUserPassword;
 class UsuariosController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->middleware('auth.admin');
-    }
+
 
     function index()
     {
