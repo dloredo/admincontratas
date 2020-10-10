@@ -146,5 +146,5 @@
 
 
 @section('scripts')
-<script src="{{asset('js/contratas/contratas.js')}}"></script>
+<script src="{{ asset('js/contratas/contratas.js') }}"></script>
 @endsection
