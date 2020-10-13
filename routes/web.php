@@ -169,11 +169,18 @@ Route::get('/contratas-no-pagadas' , 'ListadosController@index')->name('vista.no
 Route::get('/contratas-pagadas' , 'ListadosController@Pagadas')->name('vista.Pagadas');
 
 Route::get('/tipos-categorias' , 'TiposGastosController@index')->name('vista.categorias');
+
+//SUBCATEGORIAS
+Route::get('/sub-categorias/{id}' , 'TiposGastosController@VerSubcategorias')->name('VerSubcategorias');
+Route::post('/agregar/sub-categorias/{id}' , 'TiposGastosController@agregarSubcategoria')->name('agregarSubcategoria');
+Route::post('/editar/sub-categorias/{id}' , 'TiposGastosController@editarSubcategoria')->name('editarSubcategoria');
+Route::get('/eliminar/sub-categorias/{id}' , 'TiposGastosController@eliminarSubcategoria')->name('eliminarSubcategoria');
+
 Route::post('/agregarCategoria' , 'TiposGastosController@AgregarCategoria')->name('agregarCategoria');
 Route::get('/preedit/{id}' , 'TiposGastosController@pre_edit')->name('pre_edit');
 Route::post('/edit/{id}' , 'TiposGastosController@edit')->name('edit.categoria');
 
-Route::post('/destroy/{id}' , 'TiposGastosController@destroy')->name('destroy');
+Route::get('/destroy/{id}' , 'TiposGastosController@destroy')->name('destroy');
 
 Route::get('/gastos' , 'TiposGastosController@vista_gastos')->name('vista.gastos');
 Route::post('/agregarGasto' , 'TiposGastosController@agregarGasto')->name('agregarGasto');

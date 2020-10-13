@@ -7,6 +7,7 @@ use App\Gastos;
 use App\User;
 use App\Capital;
 use App\Historial;
+use App\SubCategorias;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -93,15 +94,9 @@ class TiposGastosController extends Controller
         ]);
         return redirect()->route('vista.categorias');
     }
-    public function pre_edit($id)
-    {
-        $categoria = Categorias::find($id);
-        return view('categorias.editarCategoria' , ['categoria' => $categoria]);
-    }
 
     public function edit($id,Request $request)
     {
-        //dd($id);
         $categoria = Categorias::findOrfail($id);
         $categoria->categoria = $request['tipo_gasto_nuevo'];
 
@@ -114,6 +109,38 @@ class TiposGastosController extends Controller
         $categoria = Categorias::findOrfail($id);
         $categoria->delete();
         return redirect()->route('vista.categorias');  
+    }
+
+    public function VerSubcategorias($id)
+    {
+        $categoria = Categorias::where('id' , $id)->get();
+        //dd($id);
+        $sub_categorias = SubCategorias::where('id_categoria' , $id)->get();
+        return view('categorias.sub_categorias' ,compact('sub_categorias' , 'categoria'));
+    }
+
+    public function agregarSubcategoria($id , Request $request)
+    {
+        SubCategorias::create([
+            'sub_categoria' => $request['sub_categoria'],
+            'id_categoria' => $id,
+        ]);
+        return back();  
+    }
+    public function editarSubcategoria($id , Request $request)
+    {
+        $sub_categoria = SubCategorias::find($id);
+        $sub_categoria->update([
+            'sub_categoria' => $request['sub_categoria'],
+        ]);
+        return back();  
+    }
+
+    public function eliminarSubcategoria($id)
+    {
+        $sub_categoria = SubCategorias::find($id);
+        $sub_categoria->delete();
+        return back();  
     }
 
     public function edit_gasto_categoria($id , Request $request)
