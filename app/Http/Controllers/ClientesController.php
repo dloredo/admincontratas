@@ -67,7 +67,9 @@ class ClientesController extends Controller
             'direccion' => 'required',
             'telefono' => 'required',
             'telefono' => 'numeric',
-            'hora_cobro' => 'required'
+            'hora_cobro' => 'required',
+            'colonia' => 'required',
+            'ciudad' => 'required'
         ]);
         $fecha = Carbon::now();
         Clientes::create([
@@ -77,6 +79,8 @@ class ClientesController extends Controller
             'activo'          => true,
             'fecha_registro'  => $fecha->format('Y-m-d'),
             'hora_cobro'      => $request['hora_cobro'],
+            'colonia'      => $request['colonia'],
+            'ciudad'      => $request['ciudad'],
         ]);
         return redirect()->route('vista.clientes')->with('estatus',true)->with('message', 'El cliente fue agregado correctamente');
     }

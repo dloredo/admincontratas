@@ -9,7 +9,7 @@ class Clientes extends Model
     public $timestamps = false;
     protected $table = "clientes";
     protected $fillable = [
-        'nombres' , 'direccion' , 'telefono' , 'fecha_registro','activo','cobrador_id','hora_cobro'
+        'nombres' , 'direccion' , 'telefono' , 'fecha_registro','activo','cobrador_id','hora_cobro','colonia' , 'ciudad'
     ];
 
     function cobrador()

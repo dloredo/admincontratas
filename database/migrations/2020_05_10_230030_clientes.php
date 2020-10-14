@@ -20,6 +20,10 @@ class Clientes extends Migration
             $table->string('nombres');
             $table->string('direccion');
             $table->string('telefono');
+
+            $table->string('colonia');
+            $table->string('ciudad');
+
             $table->boolean('activo');
             $table->integer('cobrador_id')->unsigned()->nullable();
             $table->date('fecha_registro');

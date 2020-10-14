@@ -48,6 +48,26 @@
                 @enderror
             </div>
         </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Colonia</label>
+                <input type="text" class="form-control @error('colonia') is-invalid @enderror" id="colonia" name="colonia" value="{{ old('colonia') }}" autocomplete="colonia" placeholder="Prados del sur">
+                @error('colonia')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </div>
+            <div class="form-group col-md-6">
+                <label>Ciudad</label>
+                <input type="text" class="form-control @error('ciudad') is-invalid @enderror" id="ciudad" name="ciudad" value="{{ old('ciudad') }}" autocomplete="ciudad" placeholder="Colima">
+                @error('ciudad')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </div>
+        </div>
         <button type="submit" class="btn btn-primary">Agregar cliente nuevo</button>
          <a href="{{ route('vista.clientes') }}"><button type="button" class="btn btn-danger">Cancelar</button></a>
     </form>
