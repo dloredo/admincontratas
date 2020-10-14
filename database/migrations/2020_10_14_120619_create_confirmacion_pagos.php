@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class PagosContrata extends Migration
+class CreateConfirmacionPagos extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,17 @@ class PagosContrata extends Migration
      */
     public function up()
     {
-        Schema::create('pagos_contratas', function (Blueprint $table) {
+        Schema::create('confirmacion_pagos', function (Blueprint $table) {
             $table->engine = 'InnoDB';
 
             $table->increments("id");
-            $table->integer('id_contrata')->unsigned();
-            $table->date('fecha_pago');
+            $table->integer('id_pago_contrata')->unsigned();
+            $table->integer('id_cobrador')->unsigned();
             $table->integer('cantidad_pagada');
             $table->integer('adeudo');
             $table->integer('adelanto');
             $table->integer('estatus');
             
-            $table->foreign("id_contrata")->references("id")->on("contratas");
         });
     }
 
@@ -35,6 +34,6 @@ class PagosContrata extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('confirmacion_pagos');
     }
 }
