@@ -46,6 +46,7 @@ class PrincipalController extends Controller
                             ->join("pagos_contratas","pagos_contratas.id_contrata","contratas.id")
                             ->where('pagos_contratas.fecha_pago', Carbon::now()->format("Y-m-d") )
                             ->whereRaw("(pagos_contratas.estatus = 0 or pagos_contratas.estatus = 2 )")
+                            ->where('pagos_contratas.confirmacion', 0 )
                             ->get();
 
             }
@@ -58,8 +59,8 @@ class PrincipalController extends Controller
                             })
                             ->join("pagos_contratas","pagos_contratas.id_contrata","contratas.id")
                             ->where('pagos_contratas.fecha_pago', Carbon::now()->format("Y-m-d") )
-                            ->where("pagos_contratas.estatus",0)
                             ->whereRaw("(pagos_contratas.estatus = 0 or pagos_contratas.estatus = 2 )")
+                            ->where('pagos_contratas.confirmacion', 0 )
                             ->get();
             }
             

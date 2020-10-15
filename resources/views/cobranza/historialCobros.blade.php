@@ -19,6 +19,7 @@
                             <th style="text-align: center;">No. Contrada</th>
                             <th style="text-align: center;">Cantidad pagada</th>
                             <th style="text-align: center;">Fecha</th>
+                            <th style="text-align: center;"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -40,13 +41,16 @@
                             <td>
                                 {{$cobro->fecha}}
                             </td>
+                            <td>
+                                <button class="btn btn-primary btn-sm" onclick="showModal('{{$cobro->contrata->id}}','{{$cobro->id}}')">Editar</button>
+                            </td>
                         </tr>
                         @endforeach
 
                     </tbody>
 
                 </table>
-                <h3 style="float: right;">Total: ${{$cobroTotal}}</h3>
+                <h3 style="text-align: right;">Total cobrado: ${{$cobroTotal}}</h3>
                 {{ $cobros->links() }}
             </div>
             
@@ -54,11 +58,50 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal-editar-cobro" tabindex="-1" role="dialog" aria-labelledby="modal-popin" aria-modal="true">
+    <div class="modal-dialog modal-dialog-popin" role="document">
+        <div class="modal-content">
+            <div class="block block-themed block-transparent mb-0">
+                <div class="block-header bg-primary-dark">
+                    <h3 class="block-title">Editar cobro</h3>
+                    <div class="block-options">
+                        <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+                            <i class="si si-close"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="block-content">
+                    <form id="formAsignar" action="{{route('historialCobranza.editar')}}" method="POST"> 
+                        @csrf
+                        <input type="hidden" id="contrata_id" name="contrata_id" />
+                        <input type="hidden" id="cobro_id" name="cobro_id" />
+
+                        <div class="form-group col-md-8 offset-md-2">
+                            <label for="nuevo_cobro">Cobro</label>
+                            <input name="nuevo_cobro" id="nuevo_cobro" type="text"  class="form-control"/>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-alt-secondary" data-dismiss="modal">Cancelar</button>
+                <button id="btnAsignar" onclick="document.getElementById('formAsignar').submit()" type="button" class="btn btn-alt-success">
+                    <i class="fa fa-check"></i> Actualizar cobro
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
 @endsection
 
 @section('styles')
-
+<style>
+    td{
+        text-align: center;
+    }
+</style>
 @endsection
 
 
@@ -71,6 +114,12 @@
         fecha = document.getElementById("date").value;
         if(fecha != "")
             location.href = "/cobranza/historial/" + fecha
+    }
+
+    const showModal = (contrataId,cobroId) => {
+        $('#contrata_id').val(contrataId);
+        $('#cobro_id').val(cobroId);
+        $("#modal-editar-cobro").modal("toggle");
     }
 </script>
 

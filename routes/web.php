@@ -84,6 +84,7 @@ Route::get('/cobranza/contratas/{id}' , 'CobranzaController@verContratasCliente'
 Route::get('/cobranza/contratas/pagos/{id}' , 'CobranzaController@verPagosContrata')->name('verPagosContrata');
 Route::get('/cobranza/historial/' , 'CobranzaController@hitorialCobros')->name('historialCobranza');
 Route::get('/cobranza/historial/{fecha}' , 'CobranzaController@hitorialCobros')->name('historialCobranza.filtro');
+Route::post('/cobranza/historial/editarCobro' , 'CobranzaController@editarCobro')->name('historialCobranza.editar');
 Route::post('/agregarPago/{id}' , 'CobranzaController@agregarPago')->name('agregarPago');
 /*
 |--------------------------------------------------------------------------

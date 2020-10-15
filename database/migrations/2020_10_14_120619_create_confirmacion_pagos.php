@@ -16,9 +16,9 @@ class CreateConfirmacionPagos extends Migration
         Schema::create('confirmacion_pagos', function (Blueprint $table) {
             $table->engine = 'InnoDB';
 
-            $table->increments("id");
             $table->integer('id_pago_contrata')->unsigned();
             $table->integer('id_cobrador')->unsigned();
+            $table->integer('id_contrata')->unsigned();
             $table->integer('cantidad_pagada');
             $table->integer('adeudo');
             $table->integer('adelanto');
