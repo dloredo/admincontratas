@@ -692,7 +692,7 @@ class CobranzaController extends Controller
         {
             DB::rollBack();
 
-            return back()->with('message', 'Hubo un error al editar.')->with('estatus',false);
+            return back()->with('message', 'Hubo un error al editar: '. $e->getMessage())->with('estatus',false);
         }
 
         return back()->with('message', 'Se edito el cobro con éxito.')->with('estatus',true);

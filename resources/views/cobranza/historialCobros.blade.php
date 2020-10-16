@@ -69,7 +69,7 @@
                     <button onclick="document.getElementById('confirmarPagos').submit()" class="btn btn-success" style="margin-bottom:10px; margin-left:10px;">Confirmar pagos</button>
                     <form id="confirmarPagos" action="{{route('historialCobranza.confirmarPagos')}}" method="POST"> 
                             @csrf
-                    <form>
+                    </form>
                 @endif
                 {{ $cobros->links() }}
             </div>
