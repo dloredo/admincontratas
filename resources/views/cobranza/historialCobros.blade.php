@@ -17,6 +17,12 @@
 <div class="block">
     <div class="block-header block-header-default">
         <h3 class="block-title">Historial de cobros del dia</h3>
+        <select name="cobrador" id="cobrador" class="form-control col-sm-3">
+            <option value="" selected>Cobrador..</option>
+            @foreach ($cobradores as $cobrador)
+            <option value="{{$cobrador->id}}">{{$cobrador->nombres}}</option>
+            @endforeach
+        </select>
         <input class="form-control col-sm-3" type="date" name="date" id="date"/>
         <button class="btn btn-primary" id="btnPlicarFiltro" onclick="filtrar();">Aplicar</button>
     </div>
@@ -64,13 +70,15 @@
                     </tbody>
 
                 </table>
-                    <h3 style="text-align: right; display:inline-block; margin-bottom:5px;">Total cobrado: ${{$cobroTotal}}</h3> 
-                @if($confirmar > 0)
-                    <button onclick="document.getElementById('confirmarPagos').submit()" class="btn btn-success" style="margin-bottom:10px; margin-left:10px;">Confirmar pagos</button>
-                    <form id="confirmarPagos" action="{{route('historialCobranza.confirmarPagos')}}" method="POST"> 
-                            @csrf
-                    </form>
-                @endif
+                    <div style="text-align: right;">
+                        <h3 style="text-align: right; display:inline-block; margin-bottom:5px;">Total cobrado: ${{$cobroTotal}}</h3> 
+                        @if($confirmar > 0)
+                            <button onclick="document.getElementById('confirmarPagos').submit()" class="btn btn-success" style="margin-bottom:10px; margin-left:10px;">Confirmar pagos</button>
+                            <form id="confirmarPagos" action="{{route('historialCobranza.confirmarPagos')}}" method="POST"> 
+                                    @csrf
+                            </form>
+                        @endif
+                    </div>
                 {{ $cobros->links() }}
             </div>
             
@@ -132,8 +140,20 @@
     const filtrar = () =>
     {
         fecha = document.getElementById("date").value;
-        if(fecha != "")
+        cobrador = document.getElementById("cobrador").value;
+        console.log(cobrador);
+        if(fecha != "" && cobrador != "")
+        {
+            location.href = "/cobranza/historial/" + fecha + "/" + cobrador
+        }
+        else if(fecha != "")
+        {
             location.href = "/cobranza/historial/" + fecha
+        }
+        else if(cobrador != "")
+        {
+            location.href = "/cobranza/historial/" + cobrador
+        }     
     }
 
     const showModal = (contrataId,cobroId) => {

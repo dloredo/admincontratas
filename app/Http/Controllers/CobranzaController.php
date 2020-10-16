@@ -399,11 +399,9 @@ class CobranzaController extends Controller
         return back()->with('message', 'Se agrego el pago con éxito.')->with('estatus',true);
     }
 
-    function hitorialCobros($fecha = null)
+    function hitorialCobros($fecha = null , $cobrador = null)
     {
-
-        //dd($fecha);
-
+        $cobradores = User::where("id_rol" , 2)->get();
         $cobros = HistorialCobrosDia::with(["cobrador","contrata","cliente"]);
         $cobroTotal = HistorialCobrosDia::select();
         $confirmar = HistorialCobrosDia::select();
@@ -414,11 +412,23 @@ class CobranzaController extends Controller
             $confirmar->where("id_cobrador",Auth::user()->id);
         }
 
+        if($fecha != null && $cobrador != null)
+        {
+            $cobros->where("fecha",$fecha)->where("id_cobrador" , $cobrador);
+            $cobroTotal->where("fecha",$fecha)->where("id_cobrador" , $cobrador);
+            $confirmar->where("fecha",$fecha)->where("id_cobrador" , $cobrador);
+        }
         if($fecha != null)
         {
             $cobros->where("fecha",$fecha);
             $cobroTotal->where("fecha",$fecha);
             $confirmar->where("fecha",$fecha);
+        }
+        if($cobrador != null)
+        {
+            $cobros->where("id_cobrador",$cobrador);
+            $cobroTotal->where("id_cobrador",$cobrador);
+            $confirmar->where("id_cobrador",$cobrador);
         }
         else
         {
@@ -432,7 +442,7 @@ class CobranzaController extends Controller
         $cobroTotal = $cobroTotal->get()->sum("cantidad");
        
 
-        return view("cobranza.historialCobros",compact("cobros","cobroTotal","confirmar"));
+        return view("cobranza.historialCobros",compact("cobros","cobroTotal","confirmar", "cobradores"));
     }
 
     function editarCobro(Request $request){

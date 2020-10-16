@@ -14,6 +14,9 @@
             </tr>
         </thead>
         <tbody>
+            <?php $pago_total = 0 ?>
+            <?php $atraso_total = 0 ?>
+            <?php $adelanto_total = 0 ?>
             @foreach($infoTable as $contrata)
                 <tr>
                     <td>
@@ -27,12 +30,15 @@
                     </td>
                     <td>
                         {{$contrata->adeudo}}
+                        <?php $atraso_total += $contrata->adeudo ?>
                     </td>
                     <td>
                         {{$contrata->cantidad_pagada}}
+                        <?php $adelanto_total += $contrata->cantidad_pagada ?>
                     </td>
                     <td>
                         {{ $contrata->pagos_contrata + $contrata->adeudo - $contrata->cantidad_pagada }}
+                        <?php $pago_total += $contrata->pagos_contrata + $contrata->adeudo - $contrata->cantidad_pagada ?>
                     </td>
                     <td>
                         {{$contrata->fecha_termino}}
@@ -49,6 +55,24 @@
                     </td>
                 </tr>
             @endforeach
+        </tbody>
+    </table>
+</div>
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <td style="text-align: center;">{{"$" . number_format(round(((float)$pago_total)),2,'.',',')}}</td>
+                <td style="text-align: center;">{{"$" . number_format(round(((float)$atraso_total)),2,'.',',')}}</td>
+                <td style="text-align: center;">{{"$" . number_format(round(((float)$adelanto_total)),2,'.',',')}}</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th style="text-align: center;">Pago total</th>
+                <th style="text-align: center;">Atraso total</th>
+                <th style="text-align: center;">Adelanto total</th>
+            </tr>
         </tbody>
     </table>
 </div>
