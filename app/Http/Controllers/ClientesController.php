@@ -288,6 +288,7 @@ class ClientesController extends Controller
                     'adeudo' => 0,
                     'adelanto' => 0,
                     'estatus' => 0,
+                    'confirmacion' => 0,
                 ]);
             }
             
