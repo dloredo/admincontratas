@@ -54,7 +54,9 @@
                                 {{$cobro->fecha}}
                             </td>
                             <td>
-                                <button class="btn btn-primary btn-sm" onclick="showModal('{{$cobro->contrata->id}}','{{$cobro->id}}')">Editar</button>
+                                @if($cobro->confirmado == 0)
+                                    <button class="btn btn-primary btn-sm" onclick="showModal('{{$cobro->contrata->id}}','{{$cobro->id}}')">Editar</button>
+                                @endif
                             </td>
                         </tr>
                         @endforeach
@@ -62,7 +64,13 @@
                     </tbody>
 
                 </table>
-                <h3 style="text-align: right;">Total cobrado: ${{$cobroTotal}}</h3>
+                    <h3 style="text-align: right; display:inline-block; margin-bottom:5px;">Total cobrado: ${{$cobroTotal}}</h3> 
+                @if($confirmar > 0)
+                    <button onclick="document.getElementById('confirmarPagos').submit()" class="btn btn-success" style="margin-bottom:10px; margin-left:10px;">Confirmar pagos</button>
+                    <form id="confirmarPagos" action="{{route('historialCobranza.confirmarPagos')}}" method="POST"> 
+                            @csrf
+                    <form>
+                @endif
                 {{ $cobros->links() }}
             </div>
             

@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Capital;
 use Exception;
+use PagosContrata;
 
 class CobranzaController extends Controller
 {
@@ -78,7 +79,7 @@ class CobranzaController extends Controller
             'cantidad_pagada'   => 'required',
         ]);
         try{
-            DB::transaction();
+            DB::beginTransaction();
 
 
             if( $pagos_contratas->estatus == 2 )
@@ -377,6 +378,7 @@ class CobranzaController extends Controller
                 'cantidad' => $request['cantidad_pagada'],
                 'id_contrata' => $contrata->id,
                 'id_cliente' => $contrata->id_cliente,
+                'confirmado' => 0,
                 'fecha' => Carbon::now()->format("Y-m-d")
             ]);
             //$contrata->update();
@@ -388,6 +390,7 @@ class CobranzaController extends Controller
         }
         catch(Exception $e)
         {
+            
             DB::rollBack();
 
             return back()->with('message', 'Hubo un error al agregar el pago.')->with('estatus',false);
@@ -403,29 +406,33 @@ class CobranzaController extends Controller
 
         $cobros = HistorialCobrosDia::with(["cobrador","contrata","cliente"]);
         $cobroTotal = HistorialCobrosDia::select();
+        $confirmar = HistorialCobrosDia::select();
         if(Auth::user()->id_rol != 1)
         {
             $cobros->where("id_cobrador",Auth::user()->id);
             $cobroTotal->where("id_cobrador",Auth::user()->id);
+            $confirmar->where("id_cobrador",Auth::user()->id);
         }
 
         if($fecha != null)
         {
             $cobros->where("fecha",$fecha);
             $cobroTotal->where("fecha",$fecha);
+            $confirmar->where("fecha",$fecha);
         }
         else
         {
             $cobros->where("fecha",Carbon::now()->format("Y-m-d"));
             $cobroTotal->where("fecha",Carbon::now()->format("Y-m-d"));
+            $confirmar->where("fecha",Carbon::now()->format("Y-m-d"));
         }
 
-        
+        $confirmar = $confirmar->where("confirmado",0)->get()->count();
         $cobros = $cobros->paginate(10);
         $cobroTotal = $cobroTotal->get()->sum("cantidad");
        
 
-        return view("cobranza.historialCobros",compact("cobros","cobroTotal"));
+        return view("cobranza.historialCobros",compact("cobros","cobroTotal","confirmar"));
     }
 
     function editarCobro(Request $request){
@@ -445,7 +452,7 @@ class CobranzaController extends Controller
 
         try{
 
-            DB::transaction();
+            DB::beginTransaction();
 
             $pagos_contratas = PagosContratas::where("id_contrata",$contrata_id)->where("confirmacion",1)->first();
             $id = $pagos_contratas->id;
@@ -689,5 +696,49 @@ class CobranzaController extends Controller
         }
 
         return back()->with('message', 'Se edito el cobro con éxito.')->with('estatus',true);
+    }
+
+    function confirmarPagos()
+    {
+        try{
+            DB::beginTransaction();
+
+            HistorialCobrosDia::where('id_cobrador', Auth::user()->id)->update(["confirmado" => 1]);
+            
+            PagosContratas::confirmarPagos(Auth::user()->id);
+    
+            $pagos = ConfirmacionPagos::selectRaw("sum(cantidad_pagada) as toal_pagado, sum(adeudo) as total_adeudo, id_contrata")
+                                        ->where("id_cobrador",Auth::user()->id)
+                                        ->groupBy("id_contrata")
+                                        ->get();
+            
+            foreach($pagos as $pago)
+            {
+                $contrata = Contratas::findOrFail($pago->id_contrata);
+                $contrata->adeudo = $pago->total_adeudo;
+                $contrata->control_pago += $pago->total_pagado;
+                $contrata->update();
+            }
+
+            $saldo = ConfirmacionPagos::selectRaw("sum(cantidad_pagada) as toal_pagado")
+                                        ->where("id_cobrador",Auth::user()->id)
+                                        ->get()
+                                        ->first();
+
+            $cobrador = User::findOrFail(Auth::user()->id);
+            $cobrador->saldo += $saldo->toal_pagado;
+
+
+            ConfirmacionPagos::where("id_cobrador",Auth::user()->id)->delete();
+
+            DB::commit();
+        }
+        catch(Exception $e){
+
+            DB::rollBack();
+            return redirect()->route('historialCobranza')->with('message', "Hubo un error al confirmar : ". $e->getMessage())->with('estatus',false);
+        }
+
+        return redirect()->route('historialCobranza')->with('message', 'Se confirmaron los pagos con éxito.')->with('estatus',true);
     }
 }

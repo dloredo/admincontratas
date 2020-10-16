@@ -9,7 +9,7 @@ class HistorialCobrosDia extends Model
     public $timestamps = false;
     protected $table = "historial_cobros_dia";
     protected $fillable = [
-        'id_cobrador' , 'cantidad' , 'fecha','id_contrata','id_cliente'
+        'id_cobrador' , 'cantidad' , 'fecha','id_contrata','id_cliente','confirmado'
     ];
 
 
