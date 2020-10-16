@@ -2,6 +2,18 @@
 
 @section('main')
 
+@if($message = Session::get('message'))
+<div class="alert {{ (Session::get('estatus'))? 'alert-success' : 'alert-danger' }} alert-dismissable" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">×</span>
+    </button>
+    <h3 class="alert-heading font-size-h4 font-w400">Correcto</h3>
+    <p class="mb-0">{{ $message }}</p>
+</div>
+@endif
+
+
+
 <div class="block">
     <div class="block-header block-header-default">
         <h3 class="block-title">Historial de cobros del dia</h3>

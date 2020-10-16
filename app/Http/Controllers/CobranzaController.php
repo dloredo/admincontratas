@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Capital;
+use Exception;
 
 class CobranzaController extends Controller
 {
@@ -76,229 +77,38 @@ class CobranzaController extends Controller
         request()->validate([
             'cantidad_pagada'   => 'required',
         ]);
-        if( $pagos_contratas->estatus == 2 )
-        {
-            $pago_anterior = $pagos_contratas->cantidad_pagada;
-            if( $request['cantidad_pagada'] + $pago_anterior > $contrata->pagos_contrata  )
+        try{
+            DB::transaction();
+
+
+            if( $pagos_contratas->estatus == 2 )
             {
-                $pago = $request['cantidad_pagada'] + $pago_anterior;
-                $residuo = $request['cantidad_pagada']+$pago_anterior - $contrata->pagos_contrata;
-                $pagar = $contrata->pagos_contrata;
-                $contador = $residuo / $contrata->pagos_contrata;
-                $aux = 1;
-
-                $pagos_contratas->update([
-                    'confirmacion'           =>1,
-                ]);
-
-                ConfirmacionPagos::create([
-                    "id_pago_contrata" => $pagos_contratas->id,
-                    'id_cobrador' => Auth::user()->id,
-                    'id_contrata'       => $contrata->id,
-                    'cantidad_pagada'   => $contrata->pagos_contrata,
-                    'adeudo'            => 0,
-                    'adelanto'          => $residuo,
-                    'estatus'           => 1,
-                ]);
-
-                for( $i=0; $i<intval($contador); $i++)
+                $pago_anterior = $pagos_contratas->cantidad_pagada;
+                if( $request['cantidad_pagada'] + $pago_anterior > $contrata->pagos_contrata  )
                 {
-                   
-                    $pagos_contratas = PagosContratas::findOrFail($id+$aux);
-                    // $pagos_contratas->update([
-                    //     'cantidad_pagada'   => $contrata->pagos_contrata,
-                    //     'adeudo'            => 0,
-                    //     'adelanto'          => 0,
-                    //     'estatus'           => 1,
-                    // ]);
+                    $pago = $request['cantidad_pagada'] + $pago_anterior;
+                    $residuo = $request['cantidad_pagada']+$pago_anterior - $contrata->pagos_contrata;
+                    $pagar = $contrata->pagos_contrata;
+                    $contador = $residuo / $contrata->pagos_contrata;
+                    $aux = 1;
+
+                    $pagos_contratas->update([
+                        'confirmacion'           =>1,
+                    ]);
 
                     ConfirmacionPagos::create([
-                        "id_pago_contrata"  => $pagos_contratas->id,
-                        'id_cobrador'       => Auth::user()->id,
+                        "id_pago_contrata" => $pagos_contratas->id,
+                        'id_cobrador' => Auth::user()->id,
                         'id_contrata'       => $contrata->id,
                         'cantidad_pagada'   => $contrata->pagos_contrata,
                         'adeudo'            => 0,
-                        'adelanto'          => 0,
+                        'adelanto'          => $residuo,
                         'estatus'           => 1,
                     ]);
 
-                    $aux++;
-                }        
-                if($residuo % $pagar)
-                {
-                    $pagos_contratas = PagosContratas::findOrFail($id+$aux);
-                    $saldo = $residuo % $pagar;
-                    // $pagos_contratas->update([
-                    //     'cantidad_pagada'   => $residuo % $pagar,
-                    //     'adeudo'            => $pagar - $saldo,
-                    //     'adelanto'          => 0,
-                    //     'estatus'           => 2,
-                    // ]);
-
-                    ConfirmacionPagos::create([
-                        "id_pago_contrata"  => $pagos_contratas->id,
-                        'id_cobrador'       => Auth::user()->id,
-                        'id_contrata'       => $contrata->id,
-                        'cantidad_pagada'   => $residuo % $pagar,
-                        'adeudo'            => $pagar - $saldo,
-                        'adelanto'          => 0,
-                        'estatus'           => 2,
-                    ]);
-    
-                    //$contrata->adeudo = $pagar - $saldo;
-                }
-            }
-            else if( $request['cantidad_pagada'] + $pago_anterior == $contrata->pagos_contrata )
-            {
-                $pagos_contratas->update([
-                    'confirmacion'           => 1,
-                ]); 
-
-                ConfirmacionPagos::create([
-                    "id_pago_contrata"  => $pagos_contratas->id,
-                    'id_cobrador'       => Auth::user()->id,
-                    'id_contrata'       => $contrata->id,
-                    'cantidad_pagada'   => $request['cantidad_pagada'] + $pago_anterior,
-                    'adeudo'            => 0,
-                    'adelanto'          => 0,
-                    'estatus'           => 1,
-                ]);
-
-                //$contrata->adeudo = 0;
-            }
-            else if( $request['cantidad_pagada'] + $pago_anterior < $contrata->pagos_contrata )
-            {
-                $pagos_contratas->update([
-                    'confirmacion'           => 1,
-                ]);
-
-                ConfirmacionPagos::create([
-                    "id_pago_contrata"  => $pagos_contratas->id,
-                    'id_cobrador'       => Auth::user()->id,
-                    'id_contrata'       => $contrata->id,
-                    'cantidad_pagada'   => $request['cantidad_pagada'] + $pago_anterior,
-                    'adeudo'            => $contrata->pagos_contrata - $request['cantidad_pagada'] - $pago_anterior,
-                    'adelanto'          => 0,
-                    'estatus'           => 3,
-                ]);
-
-                //$contrata->adeudo += $contrata->pagos_contrata - $request['cantidad_pagada'] - $pago_anterior; 
-            } 
-            else
-            {
-                dd("No hay");
-            }
-        }
-        else
-        {
-            if($contrata->pagos_contrata+$contrata->adeudo == $request['cantidad_pagada'])
-            {
-                $pagos_contratas->update([
-                    'confirmacion'           => 1,
-                ]);
-
-                ConfirmacionPagos::create([
-                    "id_pago_contrata"  => $pagos_contratas->id,
-                    'id_cobrador'       => Auth::user()->id,
-                    'id_contrata'       => $contrata->id,
-                    'cantidad_pagada'   => $request['cantidad_pagada'],
-                    'adeudo'            => 0,
-                    'adelanto'          => 0,
-                    'estatus'           => 1,
-                ]);
-
-                //$contrata->adeudo = 0;
-            }
-            elseif($request['cantidad_pagada'] >= $contrata->pagos_contrata+$contrata->adeudo)
-            {
-                if( $contrata->adeudo > 0 )
-                {
-                    $pago = $contrata->pagos_contrata+$contrata->adeudo;
-                    $pagos_contratas->update([
-                        'confirmacion'           => 1,
-                    ]);
-
-                    ConfirmacionPagos::create([
-                        "id_pago_contrata"  => $pagos_contratas->id,
-                        'id_cobrador'       => Auth::user()->id,
-                        'id_contrata'       => $contrata->id,
-                        'cantidad_pagada'   => $pago,
-                        'adeudo'            => 0,
-                        'adelanto'          => $request['cantidad_pagada'] - $pago,
-                        'estatus'           => 1,
-                    ]);
-
-                    $residuo = $request['cantidad_pagada'] - $pago;
-                    $pagar = $contrata->pagos_contrata;
-                    $contador = $residuo / $pagar;
-                    $aux = 1;
-                    //$contrata->adeudo = 0;
                     for( $i=0; $i<intval($contador); $i++)
                     {
-                        $pagos_contratas = PagosContratas::findOrFail($id+$aux);
-                        // $pagos_contratas->update([
-                        //     'cantidad_pagada'   => $contrata->pagos_contrata,
-                        //     'adeudo'            => 0,
-                        //     'adelanto'          => 0,
-                        //     'estatus'           => 1,
-                        // ]);
-                        ConfirmacionPagos::create([
-                            "id_pago_contrata"  => $pagos_contratas->id,
-                            'id_cobrador'       => Auth::user()->id,
-                            'id_contrata'       => $contrata->id,
-                            'cantidad_pagada'   => $contrata->pagos_contrata,
-                            'adeudo'            => 0,
-                            'adelanto'          => 0,
-                            'estatus'           => 1,
-                        ]);
-                        $aux++;
-                    }        
-                    if($residuo % $pagar)
-                    {
-                        $pagos_contratas = PagosContratas::findOrFail($id+$aux);
-                        $saldo = $residuo % $pagar;
-                        // $pagos_contratas->update([
-                        //     'cantidad_pagada'   => $residuo % $pagar,
-                        //     'adeudo'            => $pagar - $saldo,
-                        //     'adelanto'          => 0,
-                        //     'estatus'           => 3,
-                        // ]);
-        
-                        ConfirmacionPagos::create([
-                            "id_pago_contrata"  => $pagos_contratas->id,
-                            'id_cobrador'       => Auth::user()->id,
-                            'id_contrata'       => $contrata->id,
-                            'cantidad_pagada'   => $residuo % $pagar,
-                            'adeudo'            => $pagar - $saldo,
-                            'adelanto'          => 0,
-                            'estatus'           => 3,
-                        ]);
-                        //$contrata->adeudo = $pagar - $saldo;
-                    }
-                }
-                else
-                {
-                    $pagos_contratas->update([
-                        'confirmacion'           => 1,
-                    ]);
-
-                    ConfirmacionPagos::create([
-                        "id_pago_contrata"  => $pagos_contratas->id,
-                        'id_cobrador'       => Auth::user()->id,
-                        'id_contrata'       => $contrata->id,
-                        'cantidad_pagada'   => $contrata->pagos_contrata,
-                        'adeudo'            => 0,
-                        'adelanto'          => $request['cantidad_pagada'] - $contrata->pagos_contrata,
-                        'estatus'           => 1,
-                    ]);
-
-                    $residuo = $request['cantidad_pagada'] - $contrata->pagos_contrata;
-                    $pagar = $contrata->pagos_contrata;
-                    $contador = $residuo / $pagar;
-                    $aux = 1;
-                    //$contrata->adeudo = 0;
-                    for( $i=0; $i<intval($contador); $i++)
-                    {
+                    
                         $pagos_contratas = PagosContratas::findOrFail($id+$aux);
                         // $pagos_contratas->update([
                         //     'cantidad_pagada'   => $contrata->pagos_contrata,
@@ -316,6 +126,7 @@ class CobranzaController extends Controller
                             'adelanto'          => 0,
                             'estatus'           => 1,
                         ]);
+
                         $aux++;
                     }        
                     if($residuo % $pagar)
@@ -328,6 +139,7 @@ class CobranzaController extends Controller
                         //     'adelanto'          => 0,
                         //     'estatus'           => 2,
                         // ]);
+
                         ConfirmacionPagos::create([
                             "id_pago_contrata"  => $pagos_contratas->id,
                             'id_cobrador'       => Auth::user()->id,
@@ -337,48 +149,251 @@ class CobranzaController extends Controller
                             'adelanto'          => 0,
                             'estatus'           => 2,
                         ]);
+        
                         //$contrata->adeudo = $pagar - $saldo;
                     }
+                }
+                else if( $request['cantidad_pagada'] + $pago_anterior == $contrata->pagos_contrata )
+                {
+                    $pagos_contratas->update([
+                        'confirmacion'           => 1,
+                    ]); 
+
+                    ConfirmacionPagos::create([
+                        "id_pago_contrata"  => $pagos_contratas->id,
+                        'id_cobrador'       => Auth::user()->id,
+                        'id_contrata'       => $contrata->id,
+                        'cantidad_pagada'   => $request['cantidad_pagada'] + $pago_anterior,
+                        'adeudo'            => 0,
+                        'adelanto'          => 0,
+                        'estatus'           => 1,
+                    ]);
+
+                    //$contrata->adeudo = 0;
+                }
+                else if( $request['cantidad_pagada'] + $pago_anterior < $contrata->pagos_contrata )
+                {
+                    $pagos_contratas->update([
+                        'confirmacion'           => 1,
+                    ]);
+
+                    ConfirmacionPagos::create([
+                        "id_pago_contrata"  => $pagos_contratas->id,
+                        'id_cobrador'       => Auth::user()->id,
+                        'id_contrata'       => $contrata->id,
+                        'cantidad_pagada'   => $request['cantidad_pagada'] + $pago_anterior,
+                        'adeudo'            => $contrata->pagos_contrata - $request['cantidad_pagada'] - $pago_anterior,
+                        'adelanto'          => 0,
+                        'estatus'           => 3,
+                    ]);
+
+                    //$contrata->adeudo += $contrata->pagos_contrata - $request['cantidad_pagada'] - $pago_anterior; 
+                } 
+                else
+                {
+                    dd("No hay");
                 }
             }
             else
             {
-                $adeudo = $contrata->pagos_contrata+$contrata->adeudo - $request['cantidad_pagada'];
-                $pagos_contratas->update([
-                    'confirmacion'           => 1,
-                ]);
+                if($contrata->pagos_contrata+$contrata->adeudo == $request['cantidad_pagada'])
+                {
+                    $pagos_contratas->update([
+                        'confirmacion'           => 1,
+                    ]);
 
-                ConfirmacionPagos::create([
-                    "id_pago_contrata"  => $pagos_contratas->id,
-                    'id_cobrador'       => Auth::user()->id,
-                    'id_contrata'       => $contrata->id,
-                    'cantidad_pagada'   => $request['cantidad_pagada'],
-                    'adeudo'            => $adeudo,
-                    'adelanto'          => 0,
-                    'estatus'           => 3,
-                ]);
+                    ConfirmacionPagos::create([
+                        "id_pago_contrata"  => $pagos_contratas->id,
+                        'id_cobrador'       => Auth::user()->id,
+                        'id_contrata'       => $contrata->id,
+                        'cantidad_pagada'   => $request['cantidad_pagada'],
+                        'adeudo'            => 0,
+                        'adelanto'          => 0,
+                        'estatus'           => 1,
+                    ]);
 
-                //$contrata->adeudo = $adeudo;
-            }
-        }
+                    //$contrata->adeudo = 0;
+                }
+                elseif($request['cantidad_pagada'] >= $contrata->pagos_contrata+$contrata->adeudo)
+                {
+                    if( $contrata->adeudo > 0 )
+                    {
+                        $pago = $contrata->pagos_contrata+$contrata->adeudo;
+                        $pagos_contratas->update([
+                            'confirmacion'           => 1,
+                        ]);
+
+                        ConfirmacionPagos::create([
+                            "id_pago_contrata"  => $pagos_contratas->id,
+                            'id_cobrador'       => Auth::user()->id,
+                            'id_contrata'       => $contrata->id,
+                            'cantidad_pagada'   => $pago,
+                            'adeudo'            => 0,
+                            'adelanto'          => $request['cantidad_pagada'] - $pago,
+                            'estatus'           => 1,
+                        ]);
+
+                        $residuo = $request['cantidad_pagada'] - $pago;
+                        $pagar = $contrata->pagos_contrata;
+                        $contador = $residuo / $pagar;
+                        $aux = 1;
+                        //$contrata->adeudo = 0;
+                        for( $i=0; $i<intval($contador); $i++)
+                        {
+                            $pagos_contratas = PagosContratas::findOrFail($id+$aux);
+                            // $pagos_contratas->update([
+                            //     'cantidad_pagada'   => $contrata->pagos_contrata,
+                            //     'adeudo'            => 0,
+                            //     'adelanto'          => 0,
+                            //     'estatus'           => 1,
+                            // ]);
+                            ConfirmacionPagos::create([
+                                "id_pago_contrata"  => $pagos_contratas->id,
+                                'id_cobrador'       => Auth::user()->id,
+                                'id_contrata'       => $contrata->id,
+                                'cantidad_pagada'   => $contrata->pagos_contrata,
+                                'adeudo'            => 0,
+                                'adelanto'          => 0,
+                                'estatus'           => 1,
+                            ]);
+                            $aux++;
+                        }        
+                        if($residuo % $pagar)
+                        {
+                            $pagos_contratas = PagosContratas::findOrFail($id+$aux);
+                            $saldo = $residuo % $pagar;
+                            // $pagos_contratas->update([
+                            //     'cantidad_pagada'   => $residuo % $pagar,
+                            //     'adeudo'            => $pagar - $saldo,
+                            //     'adelanto'          => 0,
+                            //     'estatus'           => 3,
+                            // ]);
             
-        
-        // $contrata->control_pago = $contrata->control_pago += $saldo_cobrador;
-        // if($pagos_contratas->fecha_pago == $contrata->fecha_termino )
-        //     $contrata->estatus = 1;
+                            ConfirmacionPagos::create([
+                                "id_pago_contrata"  => $pagos_contratas->id,
+                                'id_cobrador'       => Auth::user()->id,
+                                'id_contrata'       => $contrata->id,
+                                'cantidad_pagada'   => $residuo % $pagar,
+                                'adeudo'            => $pagar - $saldo,
+                                'adelanto'          => 0,
+                                'estatus'           => 3,
+                            ]);
+                            //$contrata->adeudo = $pagar - $saldo;
+                        }
+                    }
+                    else
+                    {
+                        $pagos_contratas->update([
+                            'confirmacion'           => 1,
+                        ]);
 
-        HistorialCobrosDia::create([
-            'id_cobrador' => Auth::user()->id,
-            'cantidad' => $request['cantidad_pagada'],
-            'id_contrata' => $contrata->id,
-            'id_cliente' => $contrata->id_cliente,
-            'fecha' => Carbon::now()->format("Y-m-d")
-        ]);
-        //$contrata->update();
-        // $id_cobrador->update([
-        //     'saldo' => $id_cobrador->saldo+=$saldo_cobrador,
-        // ]);
-        return back();
+                        ConfirmacionPagos::create([
+                            "id_pago_contrata"  => $pagos_contratas->id,
+                            'id_cobrador'       => Auth::user()->id,
+                            'id_contrata'       => $contrata->id,
+                            'cantidad_pagada'   => $contrata->pagos_contrata,
+                            'adeudo'            => 0,
+                            'adelanto'          => $request['cantidad_pagada'] - $contrata->pagos_contrata,
+                            'estatus'           => 1,
+                        ]);
+
+                        $residuo = $request['cantidad_pagada'] - $contrata->pagos_contrata;
+                        $pagar = $contrata->pagos_contrata;
+                        $contador = $residuo / $pagar;
+                        $aux = 1;
+                        //$contrata->adeudo = 0;
+                        for( $i=0; $i<intval($contador); $i++)
+                        {
+                            $pagos_contratas = PagosContratas::findOrFail($id+$aux);
+                            // $pagos_contratas->update([
+                            //     'cantidad_pagada'   => $contrata->pagos_contrata,
+                            //     'adeudo'            => 0,
+                            //     'adelanto'          => 0,
+                            //     'estatus'           => 1,
+                            // ]);
+
+                            ConfirmacionPagos::create([
+                                "id_pago_contrata"  => $pagos_contratas->id,
+                                'id_cobrador'       => Auth::user()->id,
+                                'id_contrata'       => $contrata->id,
+                                'cantidad_pagada'   => $contrata->pagos_contrata,
+                                'adeudo'            => 0,
+                                'adelanto'          => 0,
+                                'estatus'           => 1,
+                            ]);
+                            $aux++;
+                        }        
+                        if($residuo % $pagar)
+                        {
+                            $pagos_contratas = PagosContratas::findOrFail($id+$aux);
+                            $saldo = $residuo % $pagar;
+                            // $pagos_contratas->update([
+                            //     'cantidad_pagada'   => $residuo % $pagar,
+                            //     'adeudo'            => $pagar - $saldo,
+                            //     'adelanto'          => 0,
+                            //     'estatus'           => 2,
+                            // ]);
+                            ConfirmacionPagos::create([
+                                "id_pago_contrata"  => $pagos_contratas->id,
+                                'id_cobrador'       => Auth::user()->id,
+                                'id_contrata'       => $contrata->id,
+                                'cantidad_pagada'   => $residuo % $pagar,
+                                'adeudo'            => $pagar - $saldo,
+                                'adelanto'          => 0,
+                                'estatus'           => 2,
+                            ]);
+                            //$contrata->adeudo = $pagar - $saldo;
+                        }
+                    }
+                }
+                else
+                {
+                    $adeudo = $contrata->pagos_contrata+$contrata->adeudo - $request['cantidad_pagada'];
+                    $pagos_contratas->update([
+                        'confirmacion'           => 1,
+                    ]);
+
+                    ConfirmacionPagos::create([
+                        "id_pago_contrata"  => $pagos_contratas->id,
+                        'id_cobrador'       => Auth::user()->id,
+                        'id_contrata'       => $contrata->id,
+                        'cantidad_pagada'   => $request['cantidad_pagada'],
+                        'adeudo'            => $adeudo,
+                        'adelanto'          => 0,
+                        'estatus'           => 3,
+                    ]);
+
+                    //$contrata->adeudo = $adeudo;
+                }
+            }
+                
+            
+            // $contrata->control_pago = $contrata->control_pago += $saldo_cobrador;
+            // if($pagos_contratas->fecha_pago == $contrata->fecha_termino )
+            //     $contrata->estatus = 1;
+
+            HistorialCobrosDia::create([
+                'id_cobrador' => Auth::user()->id,
+                'cantidad' => $request['cantidad_pagada'],
+                'id_contrata' => $contrata->id,
+                'id_cliente' => $contrata->id_cliente,
+                'fecha' => Carbon::now()->format("Y-m-d")
+            ]);
+            //$contrata->update();
+            // $id_cobrador->update([
+            //     'saldo' => $id_cobrador->saldo+=$saldo_cobrador,
+            // ]);
+
+            DB::commit();
+        }
+        catch(Exception $e)
+        {
+            DB::rollBack();
+
+            return back()->with('message', 'Hubo un error al agregar el pago.')->with('estatus',false);
+        }
+
+        return back()->with('message', 'Se agrego el pago con éxito.')->with('estatus',true);
     }
 
     function hitorialCobros($fecha = null)
@@ -415,9 +430,9 @@ class CobranzaController extends Controller
 
     function editarCobro(Request $request){
         /*
-            Confirmacion: 0 no se ha pagado
-                        1 en espera de confirmacion
-                        2 confirmado
+            Confirmacion: 0 no se ha confirmado
+                          1 en espera de confirmacion
+                          2 confirmado
         */
 
         $contrata_id = $request->input("contrata_id");
@@ -428,134 +443,40 @@ class CobranzaController extends Controller
             'nuevo_cobro'   => 'required',
         ]);
 
-        $pagos_contratas = PagosContratas::where("id_contrata",$contrata_id)->where("confirmacion",1)->first();
-        $id = $pagos_contratas->id;
-        $contrata = Contratas::findOrFail($contrata_id);
-        ConfirmacionPagos::where("id_contrata",$contrata_id)->delete();
+        try{
 
-        if( $pagos_contratas->estatus == 2 )
-        {
-            $pago_anterior = $pagos_contratas->cantidad_pagada;
+            DB::transaction();
 
-            if( $nuevo_cobro + $pago_anterior > $contrata->pagos_contrata  )
+            $pagos_contratas = PagosContratas::where("id_contrata",$contrata_id)->where("confirmacion",1)->first();
+            $id = $pagos_contratas->id;
+            $contrata = Contratas::findOrFail($contrata_id);
+            ConfirmacionPagos::where("id_contrata",$contrata_id)->delete();
+
+            if( $pagos_contratas->estatus == 2 )
             {
-                $pago = $nuevo_cobro + $pago_anterior;
-                $residuo = $nuevo_cobro+$pago_anterior - $contrata->pagos_contrata;
-                $pagar = $contrata->pagos_contrata;
-                $contador = $residuo / $contrata->pagos_contrata;
-                $aux = 1;
+                $pago_anterior = $pagos_contratas->cantidad_pagada;
 
-                ConfirmacionPagos::create([
-                    "id_pago_contrata" => $pagos_contratas->id,
-                    'id_cobrador' => Auth::user()->id,
-                    'id_contrata'       => $contrata->id,
-                    'cantidad_pagada'   => $contrata->pagos_contrata,
-                    'adeudo'            => 0,
-                    'adelanto'          => $residuo,
-                    'estatus'           => 1,
-                ]);
-
-                for( $i=0; $i<intval($contador); $i++)
+                if( $nuevo_cobro + $pago_anterior > $contrata->pagos_contrata  )
                 {
-                   
-                    $pagos_contratas = PagosContratas::findOrFail($id+$aux);
+                    $pago = $nuevo_cobro + $pago_anterior;
+                    $residuo = $nuevo_cobro+$pago_anterior - $contrata->pagos_contrata;
+                    $pagar = $contrata->pagos_contrata;
+                    $contador = $residuo / $contrata->pagos_contrata;
+                    $aux = 1;
+
                     ConfirmacionPagos::create([
-                        "id_pago_contrata"  => $pagos_contratas->id,
-                        'id_cobrador'       => Auth::user()->id,
+                        "id_pago_contrata" => $pagos_contratas->id,
+                        'id_cobrador' => Auth::user()->id,
                         'id_contrata'       => $contrata->id,
                         'cantidad_pagada'   => $contrata->pagos_contrata,
                         'adeudo'            => 0,
-                        'adelanto'          => 0,
+                        'adelanto'          => $residuo,
                         'estatus'           => 1,
                     ]);
 
-                    $aux++;
-                }        
-                if($residuo % $pagar)
-                {
-                    $pagos_contratas = PagosContratas::findOrFail($id+$aux);
-                    $saldo = $residuo % $pagar;
-                    ConfirmacionPagos::create([
-                        "id_pago_contrata"  => $pagos_contratas->id,
-                        'id_cobrador'       => Auth::user()->id,
-                        'id_contrata'       => $contrata->id,
-                        'cantidad_pagada'   => $residuo % $pagar,
-                        'adeudo'            => $pagar - $saldo,
-                        'adelanto'          => 0,
-                        'estatus'           => 2,
-                    ]);
-
-                }
-            }
-            
-            if( $nuevo_cobro + $pago_anterior == $contrata->pagos_contrata )
-            {
-                ConfirmacionPagos::create([
-                    "id_pago_contrata"  => $pagos_contratas->id,
-                    'id_cobrador'       => Auth::user()->id,
-                    'id_contrata'       => $contrata->id,
-                    'cantidad_pagada'   => $nuevo_cobro + $pago_anterior,
-                    'adeudo'            => 0,
-                    'adelanto'          => 0,
-                    'estatus'           => 1,
-                ]);
-            }
-           
-            if( $nuevo_cobro + $pago_anterior < $contrata->pagos_contrata )
-            {
-
-                ConfirmacionPagos::create([
-                    "id_pago_contrata"  => $pagos_contratas->id,
-                    'id_cobrador'       => Auth::user()->id,
-                    'id_contrata'       => $contrata->id,
-                    'cantidad_pagada'   => $nuevo_cobro + $pago_anterior,
-                    'adeudo'            => $contrata->pagos_contrata - $nuevo_cobro - $pago_anterior,
-                    'adelanto'          => 0,
-                    'estatus'           => 3,
-                ]);
-
-            } 
-
-        }
-        else
-        {
-            if($contrata->pagos_contrata+$contrata->adeudo == $nuevo_cobro)
-            {
-              
-                ConfirmacionPagos::create([
-                    "id_pago_contrata"  => $pagos_contratas->id,
-                    'id_cobrador'       => Auth::user()->id,
-                    'id_contrata'       => $contrata->id,
-                    'cantidad_pagada'   => $nuevo_cobro,
-                    'adeudo'            => 0,
-                    'adelanto'          => 0,
-                    'estatus'           => 1,
-                ]);
-
-            }
-            elseif($nuevo_cobro >= $contrata->pagos_contrata+$contrata->adeudo)
-            {
-                if( $contrata->adeudo > 0 )
-                {
-                    $pago = $contrata->pagos_contrata+$contrata->adeudo;
-
-                    ConfirmacionPagos::create([
-                        "id_pago_contrata"  => $pagos_contratas->id,
-                        'id_cobrador'       => Auth::user()->id,
-                        'id_contrata'       => $contrata->id,
-                        'cantidad_pagada'   => $pago,
-                        'adeudo'            => 0,
-                        'adelanto'          => $nuevo_cobro - $pago,
-                        'estatus'           => 1,
-                    ]);
-
-                    $residuo = $nuevo_cobro - $pago;
-                    $pagar = $contrata->pagos_contrata;
-                    $contador = $residuo / $pagar;
-                    $aux = 1;
-                   
                     for( $i=0; $i<intval($contador); $i++)
                     {
+                    
                         $pagos_contratas = PagosContratas::findOrFail($id+$aux);
                         ConfirmacionPagos::create([
                             "id_pago_contrata"  => $pagos_contratas->id,
@@ -566,59 +487,7 @@ class CobranzaController extends Controller
                             'adelanto'          => 0,
                             'estatus'           => 1,
                         ]);
-                        $aux++;
-                    }        
-                    if($residuo % $pagar)
-                    {
-                        $pagos_contratas = PagosContratas::findOrFail($id+$aux);
-                        $saldo = $residuo % $pagar;
-                        
-                        ConfirmacionPagos::create([
-                            "id_pago_contrata"  => $pagos_contratas->id,
-                            'id_cobrador'       => Auth::user()->id,
-                            'id_contrata'       => $contrata->id,
-                            'cantidad_pagada'   => $residuo % $pagar,
-                            'adeudo'            => $pagar - $saldo,
-                            'adelanto'          => 0,
-                            'estatus'           => 3,
-                        ]);
-                       
-                    }
-                }
-                else
-                {
-                    $pagos_contratas->update([
-                        'confirmacion'           => 1,
-                    ]);
 
-                    ConfirmacionPagos::create([
-                        "id_pago_contrata"  => $pagos_contratas->id,
-                        'id_cobrador'       => Auth::user()->id,
-                        'id_contrata'       => $contrata->id,
-                        'cantidad_pagada'   => $contrata->pagos_contrata,
-                        'adeudo'            => 0,
-                        'adelanto'          => $nuevo_cobro - $contrata->pagos_contrata,
-                        'estatus'           => 1,
-                    ]);
-
-                    $residuo = $nuevo_cobro - $contrata->pagos_contrata;
-                    $pagar = $contrata->pagos_contrata;
-                    $contador = $residuo / $pagar;
-                    $aux = 1;
-                   
-                    for( $i=0; $i<intval($contador); $i++)
-                    {
-                        $pagos_contratas = PagosContratas::findOrFail($id+$aux);
-
-                        ConfirmacionPagos::create([
-                            "id_pago_contrata"  => $pagos_contratas->id,
-                            'id_cobrador'       => Auth::user()->id,
-                            'id_contrata'       => $contrata->id,
-                            'cantidad_pagada'   => $contrata->pagos_contrata,
-                            'adeudo'            => 0,
-                            'adelanto'          => 0,
-                            'estatus'           => 1,
-                        ]);
                         $aux++;
                     }        
                     if($residuo % $pagar)
@@ -634,32 +503,191 @@ class CobranzaController extends Controller
                             'adelanto'          => 0,
                             'estatus'           => 2,
                         ]);
+
                     }
                 }
+                
+                if( $nuevo_cobro + $pago_anterior == $contrata->pagos_contrata )
+                {
+                    ConfirmacionPagos::create([
+                        "id_pago_contrata"  => $pagos_contratas->id,
+                        'id_cobrador'       => Auth::user()->id,
+                        'id_contrata'       => $contrata->id,
+                        'cantidad_pagada'   => $nuevo_cobro + $pago_anterior,
+                        'adeudo'            => 0,
+                        'adelanto'          => 0,
+                        'estatus'           => 1,
+                    ]);
+                }
+            
+                if( $nuevo_cobro + $pago_anterior < $contrata->pagos_contrata )
+                {
+
+                    ConfirmacionPagos::create([
+                        "id_pago_contrata"  => $pagos_contratas->id,
+                        'id_cobrador'       => Auth::user()->id,
+                        'id_contrata'       => $contrata->id,
+                        'cantidad_pagada'   => $nuevo_cobro + $pago_anterior,
+                        'adeudo'            => $contrata->pagos_contrata - $nuevo_cobro - $pago_anterior,
+                        'adelanto'          => 0,
+                        'estatus'           => 3,
+                    ]);
+
+                } 
+
             }
             else
             {
-                $adeudo = $contrata->pagos_contrata+$contrata->adeudo - $nuevo_cobro;
-                $pagos_contratas->update([
-                    'confirmacion'           => 1,
-                ]);
+                if($contrata->pagos_contrata+$contrata->adeudo == $nuevo_cobro)
+                {
+                
+                    ConfirmacionPagos::create([
+                        "id_pago_contrata"  => $pagos_contratas->id,
+                        'id_cobrador'       => Auth::user()->id,
+                        'id_contrata'       => $contrata->id,
+                        'cantidad_pagada'   => $nuevo_cobro,
+                        'adeudo'            => 0,
+                        'adelanto'          => 0,
+                        'estatus'           => 1,
+                    ]);
 
-                ConfirmacionPagos::create([
-                    "id_pago_contrata"  => $pagos_contratas->id,
-                    'id_cobrador'       => Auth::user()->id,
-                    'id_contrata'       => $contrata->id,
-                    'cantidad_pagada'   => $nuevo_cobro,
-                    'adeudo'            => $adeudo,
-                    'adelanto'          => 0,
-                    'estatus'           => 3,
-                ]);
+                }
+                elseif($nuevo_cobro >= $contrata->pagos_contrata+$contrata->adeudo)
+                {
+                    if( $contrata->adeudo > 0 )
+                    {
+                        $pago = $contrata->pagos_contrata+$contrata->adeudo;
 
+                        ConfirmacionPagos::create([
+                            "id_pago_contrata"  => $pagos_contratas->id,
+                            'id_cobrador'       => Auth::user()->id,
+                            'id_contrata'       => $contrata->id,
+                            'cantidad_pagada'   => $pago,
+                            'adeudo'            => 0,
+                            'adelanto'          => $nuevo_cobro - $pago,
+                            'estatus'           => 1,
+                        ]);
+
+                        $residuo = $nuevo_cobro - $pago;
+                        $pagar = $contrata->pagos_contrata;
+                        $contador = $residuo / $pagar;
+                        $aux = 1;
+                    
+                        for( $i=0; $i<intval($contador); $i++)
+                        {
+                            $pagos_contratas = PagosContratas::findOrFail($id+$aux);
+                            ConfirmacionPagos::create([
+                                "id_pago_contrata"  => $pagos_contratas->id,
+                                'id_cobrador'       => Auth::user()->id,
+                                'id_contrata'       => $contrata->id,
+                                'cantidad_pagada'   => $contrata->pagos_contrata,
+                                'adeudo'            => 0,
+                                'adelanto'          => 0,
+                                'estatus'           => 1,
+                            ]);
+                            $aux++;
+                        }        
+                        if($residuo % $pagar)
+                        {
+                            $pagos_contratas = PagosContratas::findOrFail($id+$aux);
+                            $saldo = $residuo % $pagar;
+                            
+                            ConfirmacionPagos::create([
+                                "id_pago_contrata"  => $pagos_contratas->id,
+                                'id_cobrador'       => Auth::user()->id,
+                                'id_contrata'       => $contrata->id,
+                                'cantidad_pagada'   => $residuo % $pagar,
+                                'adeudo'            => $pagar - $saldo,
+                                'adelanto'          => 0,
+                                'estatus'           => 3,
+                            ]);
+                        
+                        }
+                    }
+                    else
+                    {
+                        $pagos_contratas->update([
+                            'confirmacion'           => 1,
+                        ]);
+
+                        ConfirmacionPagos::create([
+                            "id_pago_contrata"  => $pagos_contratas->id,
+                            'id_cobrador'       => Auth::user()->id,
+                            'id_contrata'       => $contrata->id,
+                            'cantidad_pagada'   => $contrata->pagos_contrata,
+                            'adeudo'            => 0,
+                            'adelanto'          => $nuevo_cobro - $contrata->pagos_contrata,
+                            'estatus'           => 1,
+                        ]);
+
+                        $residuo = $nuevo_cobro - $contrata->pagos_contrata;
+                        $pagar = $contrata->pagos_contrata;
+                        $contador = $residuo / $pagar;
+                        $aux = 1;
+                    
+                        for( $i=0; $i<intval($contador); $i++)
+                        {
+                            $pagos_contratas = PagosContratas::findOrFail($id+$aux);
+
+                            ConfirmacionPagos::create([
+                                "id_pago_contrata"  => $pagos_contratas->id,
+                                'id_cobrador'       => Auth::user()->id,
+                                'id_contrata'       => $contrata->id,
+                                'cantidad_pagada'   => $contrata->pagos_contrata,
+                                'adeudo'            => 0,
+                                'adelanto'          => 0,
+                                'estatus'           => 1,
+                            ]);
+                            $aux++;
+                        }        
+                        if($residuo % $pagar)
+                        {
+                            $pagos_contratas = PagosContratas::findOrFail($id+$aux);
+                            $saldo = $residuo % $pagar;
+                            ConfirmacionPagos::create([
+                                "id_pago_contrata"  => $pagos_contratas->id,
+                                'id_cobrador'       => Auth::user()->id,
+                                'id_contrata'       => $contrata->id,
+                                'cantidad_pagada'   => $residuo % $pagar,
+                                'adeudo'            => $pagar - $saldo,
+                                'adelanto'          => 0,
+                                'estatus'           => 2,
+                            ]);
+                        }
+                    }
+                }
+                else
+                {
+                    $adeudo = $contrata->pagos_contrata+$contrata->adeudo - $nuevo_cobro;
+                    $pagos_contratas->update([
+                        'confirmacion'           => 1,
+                    ]);
+
+                    ConfirmacionPagos::create([
+                        "id_pago_contrata"  => $pagos_contratas->id,
+                        'id_cobrador'       => Auth::user()->id,
+                        'id_contrata'       => $contrata->id,
+                        'cantidad_pagada'   => $nuevo_cobro,
+                        'adeudo'            => $adeudo,
+                        'adelanto'          => 0,
+                        'estatus'           => 3,
+                    ]);
+
+                }
             }
+
+
+            HistorialCobrosDia::where("id", $cobro_id)->update(["cantidad" => $nuevo_cobro]);
+
+            DB::commit();
+        }
+        catch(Exception $e)
+        {
+            DB::rollBack();
+
+            return back()->with('message', 'Hubo un error al editar.')->with('estatus',false);
         }
 
-
-        HistorialCobrosDia::where("id", $cobro_id)->update(["cantidad" => $nuevo_cobro]);
-
-        return back();
+        return back()->with('message', 'Se edito el cobro con éxito.')->with('estatus',true);
     }
 }
