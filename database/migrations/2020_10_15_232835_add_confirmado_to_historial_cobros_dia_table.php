@@ -26,7 +26,7 @@ class AddConfirmadoToHistorialCobrosDiaTable extends Migration
     public function down()
     {
         Schema::table('historial_cobros_dia', function (Blueprint $table) {
-            $table->integer('confirmado');
+            $table->dropColumn('confirmado');
         });
     }
 }
