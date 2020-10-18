@@ -40,6 +40,7 @@ class UsuariosController extends Controller
             'password' => Hash::make($name.".123"),
             'direccion' => $data['direccion'],
             'telefono' => $data['telefono'],
+            'email' => $data['email'],
             'saldo' => 0,
             'activo' => true,
         ]);
@@ -75,6 +76,7 @@ class UsuariosController extends Controller
             'id_rol' => ['required'],
             'direccion' => ['required', 'string', 'max:255'],
             'telefono' => ['required','numeric'],
+            'email' => ['required'],
         ]);
     }
 

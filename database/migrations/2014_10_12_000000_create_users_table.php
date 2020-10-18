@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->increments("id");;
             $table->string('name')->unique();
             $table->string('nombres');
+            $table->string('email');
             $table->integer('id_rol')->unsigned();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
@@ -40,6 +41,7 @@ class CreateUsersTable extends Migration
                                     'password' => Hash::make("admin.123"),
                                     'direccion' => "pruebas",
                                     'telefono' => "3121234567",
+                                    'email' => "admin@gmail.com",
                                     'saldo' => 0,
                                     'activo' => true]);
 
@@ -49,6 +51,7 @@ class CreateUsersTable extends Migration
                                     'password' => Hash::make("cobrador.123"),
                                     'direccion' => "pruebas",
                                     'telefono' => "3121234567",
+                                    'email' => "cobrador@gmail.com",
                                     'saldo' => 0,
                                     'activo' => true]);                           
     }

@@ -56,6 +56,9 @@
                                                 </div>
                                             </div>
                                             @endif
+                                            <div>
+                                                <a href="{{ route('password.request') }}">Olvide contraseña</a>
+                                            </div>
                                             <div class="form-group row mb-0">
                                             
                                                 <div class="col-sm-12 text-sm-right push">
