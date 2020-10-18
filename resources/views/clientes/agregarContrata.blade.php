@@ -134,8 +134,11 @@
                     </span>
                     @enderror
                 </div>
+                <div class="form-group col-md-4">
+                    <label>Hora de cobro</label>
+                    <input type="text" class="form-control @error('hora_cobro') is-invalid @enderror" id="hora_cobro" name="hora_cobro" value="{{ old('hora_cobro') }}" autocomplete="hora_cobro" placeholder="De 3 a 4 de la tarde">
+                </div>
             </div>
-
             <button type="submit" class="btn btn-primary">Agregar contrata nueva a {{ $cliente->nombres  }} {{ $cliente->apellidos }}</button>
         </form>
 

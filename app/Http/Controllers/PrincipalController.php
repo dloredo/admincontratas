@@ -41,7 +41,7 @@ class PrincipalController extends Controller
         else{
 
             if(Auth::user()->id_rol == 1){
-            $data["infoTable"] = Contratas::select("contratas.*","clientes.nombres",'pagos_contratas.id as idPago' , 'pagos_contratas.cantidad_pagada' , 'clientes.hora_cobro')
+            $data["infoTable"] = Contratas::select("contratas.*","clientes.nombres",'pagos_contratas.id as idPago' , 'pagos_contratas.cantidad_pagada' )
                             ->join("clientes","clientes.id","contratas.id_cliente")
                             ->join("pagos_contratas","pagos_contratas.id_contrata","contratas.id")
                             ->where('pagos_contratas.fecha_pago', Carbon::now()->format("Y-m-d") )
@@ -52,7 +52,7 @@ class PrincipalController extends Controller
             }
             else{
 
-                $data["infoTable"] = Contratas::select("contratas.*","clientes.nombres",'pagos_contratas.id as idPago' , 'pagos_contratas.cantidad_pagada', 'clientes.hora_cobro')
+                $data["infoTable"] = Contratas::select("contratas.*","clientes.nombres",'pagos_contratas.id as idPago' , 'pagos_contratas.cantidad_pagada')
                             ->join("clientes",function($join){
                                 $join->on("clientes.id","contratas.id_cliente");
                                 $join->where("clientes.cobrador_id",Auth::user()->id);

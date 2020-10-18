@@ -62,6 +62,7 @@
                             <td>
                                 @if($cobro->confirmado == 0)
                                     <button class="btn btn-primary btn-sm" onclick="showModal('{{$cobro->contrata->id}}','{{$cobro->id}}')">Editar</button>
+                                    <button class="btn btn-danger btn-sm" onclick="showModalEliminar('{{$cobro->contrata->id}}','{{$cobro->id}}')">Eliminar</button>
                                 @endif
                             </td>
                         </tr>
@@ -122,6 +123,38 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal-eliminar-cobro" tabindex="-1" role="dialog" aria-labelledby="modal-popin" aria-modal="true">
+    <div class="modal-dialog modal-dialog-popin" role="document">
+        <div class="modal-content">
+            <div class="block block-themed block-transparent mb-0">
+                <div class="block-header bg-primary-dark">
+                    <h3 class="block-title">Eliminar cobro</h3>
+                    <div class="block-options">
+                        <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+                            <i class="si si-close"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="block-content" style="text-align: center;">
+                    <form id="formEliminar" action="{{ route('historialCobranza.eliminar') }}" method="POST"> 
+                        @csrf
+                        <input type="hidden" id="id_contrata" name="id_contrata"/>
+                        <input type="hidden" id="id_cobro" name="id_cobro"/>
+
+                        <span style="font-size: 25px;">Estas seguro de eliminarlo?</span>
+
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-alt-secondary" data-dismiss="modal">Cancelar</button>
+                <button id="btnAsignar" onclick="document.getElementById('formEliminar').submit()" type="button" class="btn btn-alt-success">
+                    <i class="fa fa-check"></i> Eliminar cobro
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('styles')
@@ -153,13 +186,23 @@
         else if(cobrador != "")
         {
             location.href = "/cobranza/historial/" + cobrador
-        }     
+        } 
+        else
+        {
+            location.href = "/cobranza/historial/" 
+        }    
     }
 
     const showModal = (contrataId,cobroId) => {
         $('#contrata_id').val(contrataId);
         $('#cobro_id').val(cobroId);
         $("#modal-editar-cobro").modal("toggle");
+    }
+
+    const showModalEliminar = (id_contrata,id_cobro) => {
+        $('#id_contrata').val(id_contrata);
+        $('#id_cobro').val(id_cobro);
+        $("#modal-eliminar-cobro").modal("toggle");
     }
 </script>
 

@@ -33,6 +33,8 @@ class Contratas extends Migration
             $table->float('bonificacion');
             $table->integer('control_pago');
             $table->integer('adeudo');
+
+            $table->string('hora_cobro');
             
             $table->foreign("id_cliente")->references("id")->on("clientes");
         });

@@ -708,6 +708,23 @@ class CobranzaController extends Controller
         return back()->with('message', 'Se edito el cobro con éxito.')->with('estatus',true);
     }
 
+    public function eliminarCobro(Request $request)
+    {
+        $contrata_id = $request->input("id_contrata");
+        $id = ConfirmacionPagos::where("id_contrata",$contrata_id)->get();
+        foreach ($id as $id)
+        {
+            $pagos_contratas = PagosContratas::findOrFail($id->id_pago_contrata);
+        }
+        $pagos_contratas->update([
+            'confirmacion'           => 0,
+        ]);
+        ConfirmacionPagos::where("id_contrata",$contrata_id)->delete();
+        HistorialCobrosDia::where("id_contrata",$contrata_id)->delete();
+        
+        return back()->with('message', 'Se elimmino el cobro con éxito.')->with('estatus',true);
+    }
+
     function confirmarPagos()
     {
         try{

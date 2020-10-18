@@ -27,7 +27,6 @@ class Clientes extends Migration
             $table->boolean('activo');
             $table->integer('cobrador_id')->unsigned()->nullable();
             $table->date('fecha_registro');
-            $table->string('hora_cobro');
             $table->foreign("cobrador_id")->references("id")->on("usuarios");
         });
 

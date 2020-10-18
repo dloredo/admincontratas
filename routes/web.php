@@ -87,6 +87,9 @@ Route::get('/cobranza/historial/{fecha}/{id}' , 'CobranzaController@hitorialCobr
 Route::get('/cobranza/historial/{fecha}' , 'CobranzaController@hitorialCobros')->name('historialCobranza.filtro_fecha');
 Route::get('/cobranza/historial/{id}' , 'CobranzaController@hitorialCobros')->name('historialCobranza.filtro_cobrador');
 Route::post('/cobranza/historial/editarCobro' , 'CobranzaController@editarCobro')->name('historialCobranza.editar');
+
+Route::post('/cobranza/historial/eliminar' , 'CobranzaController@eliminarCobro')->name('historialCobranza.eliminar');
+
 Route::post('/cobranza/historial/confirmarPagos' , 'CobranzaController@confirmarPagos')->name('historialCobranza.confirmarPagos');
 Route::post('/agregarPago/{id}' , 'CobranzaController@agregarPago')->name('agregarPago');
 /*

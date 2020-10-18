@@ -67,7 +67,6 @@ class ClientesController extends Controller
             'direccion' => 'required',
             'telefono' => 'required',
             'telefono' => 'numeric',
-            'hora_cobro' => 'required',
             'colonia' => 'required',
             'ciudad' => 'required'
         ]);
@@ -78,7 +77,6 @@ class ClientesController extends Controller
             'telefono'        => $request['telefono'],
             'activo'          => true,
             'fecha_registro'  => $fecha->format('Y-m-d'),
-            'hora_cobro'      => $request['hora_cobro'],
             'colonia'      => $request['colonia'],
             'ciudad'      => $request['ciudad'],
         ]);
@@ -228,6 +226,7 @@ class ClientesController extends Controller
             'pagos_contrata'     => 'required',
             'fecha_inicio'       => 'required',
             'fecha_termino'      => 'required',
+            'hora_cobro'         => 'required',
         ]);
 
 
@@ -273,6 +272,7 @@ class ClientesController extends Controller
                 'fecha_entrega'         => $request['fecha_entrega'],
                 'estatus'               => 0,
                 'fecha_termino'         => $request['fecha_termino'],
+                'hora_cobro'            => $request['hora_cobro'],
                 'bonificacion'          => 0,    
                 'control_pago'          => 0,
                 'adeudo'                => 0
