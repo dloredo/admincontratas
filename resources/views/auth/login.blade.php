@@ -70,8 +70,8 @@
                                         </div>
                                         <div class="block-content bg-body-light">
                                             <div class="form-group text-center">
-                                                <a class="link-effect text-muted mr-10 mb-5 d-inline-block">
-                                                    Crafted by 
+                                                <a class="link-effect text-muted mr-10 mb-5 d-inline-block" href="{{route('password.request')}}">
+                                                    <i class="fa fa-warning mr-5"></i> Olvide la contraseña
                                                 </a>
                                             </div>
                                         </div>

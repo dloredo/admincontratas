@@ -76,7 +76,7 @@ class UsuariosController extends Controller
             'id_rol' => ['required'],
             'direccion' => ['required', 'string', 'max:255'],
             'telefono' => ['required','numeric'],
-            'email' => ['required'],
+            'email' => ['required','unique:usuarios'],
         ]);
     }
 

@@ -19,13 +19,16 @@ Route::get('/', function () {
     return redirect("/login");
 });
 
+
 Route::get('/prueba2', function () {
     return view('prueba');
 });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home',function () {
+    return redirect("/principal");
+})->name('home');
 Route::get('/prueba', 'Prueba@index')->name('prueba');
 
 /*
