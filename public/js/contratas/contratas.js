@@ -14414,7 +14414,7 @@ new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   mounted: function mounted() {},
   computed: {
     porcentajeComision: function porcentajeComision() {
-      return this.comisionPrestamo * 100 / this.prestamo;
+      return (this.comisionPrestamo * 100 / this.prestamo / 30).toFixed(2);
     }
   },
   watch: {
@@ -14427,13 +14427,6 @@ new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
     }
   },
   methods: {
-    changeGivenMoney: function changeGivenMoney() {
-      if (document.getElementById("fecha_inicio").value != '') this.getEndTime({
-        target: {
-          value: document.getElementById("fecha_inicio").value
-        }
-      }, 1);
-    },
     elegirDiasKeyUP: function elegirDiasKeyUP() {
       if (document.getElementById("fecha_inicio").value != '') this.getEndTime({
         target: {
@@ -14528,7 +14521,7 @@ new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! D:\desarrollo\laravel\admincontratas\resources\js\contratas.js */"./resources/js/contratas.js");
+module.exports = __webpack_require__(/*! G:\desarrollo\laravel\admincontratas\resources\js\contratas.js */"./resources/js/contratas.js");
 
 
 /***/ })

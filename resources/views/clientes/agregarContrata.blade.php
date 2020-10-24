@@ -116,7 +116,7 @@
                     </div>
                 </div>
                 <div class="form-group col-md-4">
-                    <label>Porcentaje de comisión</label>
+                    <label>Comisión mensual</label>
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon1">%</span>
                         <input type="number" class="form-control @error('porcentaje_comision') is-invalid @enderror" id="porcentaje_comision" name="porcentaje_comision" v-model="porcentajeComision" placeholder="0" readonly value="{{ old('porcentaje_comision') }}" autocomplete="pagos_contrata">

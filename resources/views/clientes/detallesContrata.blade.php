@@ -45,7 +45,7 @@
                 </div>
             </div>
             <div class="form-group col-md-4">
-                <label>Porcentaje de comisión</label>
+                <label>Comisión mensual</label>
                 <div class="input-group-prepend">
                     <input type="text" class="form-control" value="%{{ $contrata->comision_porcentaje }}" disabled>
                 </div>

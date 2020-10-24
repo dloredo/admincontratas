@@ -21,7 +21,7 @@ new Vue({
     computed: {
 
         porcentajeComision: function() {
-            return (this.comisionPrestamo * 100) / (this.prestamo)
+            return (((this.comisionPrestamo * 100) / (this.prestamo)) / 30).toFixed(2)
         }
     },
     watch:{
