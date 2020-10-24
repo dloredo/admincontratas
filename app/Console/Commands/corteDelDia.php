@@ -44,25 +44,64 @@ class corteDelDia extends Command
      */
     public function handle()
     {
-        $idCobradores = User::select("id")
-                        ->join("confirmacion_pagos","confirmacion_pagos.id_cobrador","users.id")
-                        ->get()
-                        ->disctinct();
+        try{
+            DB::beginTransaction();
+            $idCobradores = User::select("id")
+                            ->join("confirmacion_pagos","confirmacion_pagos.id_cobrador","usuarios.id")
+                            ->distinct()
+                            ->get();
 
-        foreach($idCobradores as $idCobrador)
-        {
-            $this->confirmarPagos($idCobrador);
-        }
-
-        $paagos = PagosContratas::where("fecha_pago",Carbon::now()->format("Y-m-d"))
-                        ->whereRaw("(pagos_contratas.estatus = 0 or pagos_contratas.estatus = 2 )")
-                        ->get();
-
-        foreach($pagos as $pago)
-        {
             
+            foreach($idCobradores as $idCobrador)
+            {
+                $this->confirmarPagos($idCobrador->id);
+            }
+
+            $now = Carbon::now();
+
+            $pagos = PagosContratas::where("fecha_pago",$now->format("Y-m-d"))
+                            ->whereRaw("(pagos_contratas.estatus = 0 or pagos_contratas.estatus = 2 )")
+                            ->get();
+
+            $tomorrow = $now->addDays(1);
+
+            foreach($pagos as $pago)
+            {
+                $contrata = Contratas::findOrFail($pago->id_contrata);
+                $pagoMañana = PagosContratas::where("fecha_pago",$tomorrow->format("Y-m-d"))
+                                ->where("id_contrata",$pago->id_contrata)
+                                ->get()
+                                ->first();
+
+
+                if($pago->estatus == 0)
+                {
+                    $pagoMañana->adeudo = $contrata->pagos_contrata;
+                    $contrata->adeudo += $contrata->pagos_contrata;
+                }
+                else
+                {
+                    $adeudo = $contrata->pagos_contrata - $pago->cantidad_pagada;
+                    $pagoMañana->adeudo = $adeudo;
+                    $contrata->adeudo += $adeudo;
+                }
+
+                $pago->estatus = 3;
+
+                $pago->update();
+                $pagoMañana->update();
+                $contrata->update();
+            }
+
+            DB::commit();
+            echo  "Corte realizado con éxito";
+        }
+        catch(Exception $e){
+            DB::rollBack();
+            echo  $e->getMessage();
         }
 
+        
     }
 
     function confirmarPagos($idCobrador)
@@ -102,6 +141,7 @@ class corteDelDia extends Command
         }
         catch(Exception $e){
             DB::rollBack();
+            throw new Exception($e->getMessage());
         }
 
         //return redirect()->route('historialCobranza')->with('message', 'Se confirmaron los pagos con éxito.')->with('estatus',true);
