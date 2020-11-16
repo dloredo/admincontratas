@@ -52,9 +52,12 @@ class corteDelDia extends Command
                             ->get();
 
             
-            foreach($idCobradores as $idCobrador)
-            {
-                $this->confirmarPagos($idCobrador->id);
+            if(sizeof($idCobradores) > 0){
+
+                foreach($idCobradores as $idCobrador)
+                {
+                    $this->confirmarPagos($idCobrador->id);
+                }
             }
 
             $now = Carbon::now();
@@ -63,34 +66,39 @@ class corteDelDia extends Command
                             ->whereRaw("(pagos_contratas.estatus = 0 or pagos_contratas.estatus = 2 )")
                             ->get();
 
-            $tomorrow = $now->addDays(1);
-
-            foreach($pagos as $pago)
+                            
+            if(sizeof($pagos)>0)
             {
-                $contrata = Contratas::findOrFail($pago->id_contrata);
-                $pagoMañana = PagosContratas::where("fecha_pago",$tomorrow->format("Y-m-d"))
-                                ->where("id_contrata",$pago->id_contrata)
-                                ->get()
-                                ->first();
 
-
-                if($pago->estatus == 0)
+                $tomorrow = $now->addDays(1);
+    
+                foreach($pagos as $pago)
                 {
-                    $pagoMañana->adeudo = $contrata->pagos_contrata;
-                    $contrata->adeudo += $contrata->pagos_contrata;
+                    $contrata = Contratas::findOrFail($pago->id_contrata);
+                    $pagoMañana = PagosContratas::where("fecha_pago",$tomorrow->format("Y-m-d"))
+                                    ->where("id_contrata",$pago->id_contrata)
+                                    ->get()
+                                    ->first();
+    
+    
+                    if($pago->estatus == 0)
+                    {
+                        $pagoMañana->adeudo = $contrata->pagos_contrata;
+                        $contrata->adeudo += $contrata->pagos_contrata;
+                    }
+                    else
+                    {
+                        $adeudo = $contrata->pagos_contrata - $pago->cantidad_pagada;
+                        $pagoMañana->adeudo = $adeudo;
+                        $contrata->adeudo += $adeudo;
+                    }
+    
+                    $pago->estatus = 3;
+    
+                    $pago->update();
+                    $pagoMañana->update();
+                    $contrata->update();
                 }
-                else
-                {
-                    $adeudo = $contrata->pagos_contrata - $pago->cantidad_pagada;
-                    $pagoMañana->adeudo = $adeudo;
-                    $contrata->adeudo += $adeudo;
-                }
-
-                $pago->estatus = 3;
-
-                $pago->update();
-                $pagoMañana->update();
-                $contrata->update();
             }
 
             DB::commit();

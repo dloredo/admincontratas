@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Contratas;
 use App\Clientes;
 use App\User;
-use App\PagosContratas;
 use App\ConfirmacionPagos;
 use App\HistorialCobrosDia;
 use Carbon\Carbon;
@@ -15,6 +14,9 @@ use Illuminate\Support\Facades\DB;
 use App\Capital;
 use Exception;
 use PagosContrata;
+use Maatwebsite\Excel\Facades\Excel;
+use App\PagosContratas;
+use App\Exports\PagosDiariosExportBook; 
 
 class CobranzaController extends Controller
 {
@@ -67,6 +69,18 @@ class CobranzaController extends Controller
             $validar = 2;
             return view('cobranza.verPagos' , ['total_pagado' => $total_pagado , 'id_contrata' => $id_contrata , 'validar' => $validar] ,compact('pagos' , 'contrata'));
         }
+    }
+
+    function descargarTarjetaContrata($id)
+    {
+        $fechas = PagosContratas::findByContrata($id);
+        $fechas->toArray();
+        $chunks_fechas = array_chunk($fechas->toArray(),80);
+        $contrata = Contratas::find($id);
+
+
+        return Excel::download(new PagosDiariosExportBook($chunks_fechas), 'Tarjeton'.$contrata->tipo_plan_contrata.'.xlsx');
+        
     }
 
     public function agregarPago($id,Request $request )

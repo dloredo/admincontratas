@@ -24,4 +24,9 @@ class PagosContratas extends Model
                                                 pc.confirmacion = 2
                         where id_cobrador = $idCobrador");
     }
+
+    static function findByContrata($id)
+    {
+        return self::where("id_contrata",$id)->get();
+    }
 }
