@@ -1,7 +1,7 @@
 @extends('layouts.layout')
 
 @section('main')
-<h2 class="content-heading">Agregar contrata nueva a {{ $cliente->nombres  }} {{ $cliente->apellidos }}</h2>
+<h2 class="content-heading">Agregar contrata nueva a {{ $cliente->nombres  }}</h2>
 
 <div class="block" id="app">
     <div class="block-content">
@@ -139,7 +139,7 @@
                     <input type="text" class="form-control @error('hora_cobro') is-invalid @enderror" id="hora_cobro" name="hora_cobro" value="{{ old('hora_cobro') }}" autocomplete="hora_cobro" placeholder="De 3 a 4 de la tarde">
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Agregar contrata nueva a {{ $cliente->nombres  }} {{ $cliente->apellidos }}</button>
+            <button type="submit" class="btn btn-primary">Agregar contrata nueva a {{ $cliente->nombres  }} </button>
         </form>
 
         <br>

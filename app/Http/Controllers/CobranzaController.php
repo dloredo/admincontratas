@@ -111,12 +111,6 @@ class CobranzaController extends Controller
                     {
                     
                         $pagos_contratas = PagosContratas::findOrFail($id+$aux);
-                        // $pagos_contratas->update([
-                        //     'cantidad_pagada'   => $contrata->pagos_contrata,
-                        //     'adeudo'            => 0,
-                        //     'adelanto'          => 0,
-                        //     'estatus'           => 1,
-                        // ]);
 
                         ConfirmacionPagos::create([
                             "id_pago_contrata"  => $pagos_contratas->id,
@@ -134,12 +128,6 @@ class CobranzaController extends Controller
                     {
                         $pagos_contratas = PagosContratas::findOrFail($id+$aux);
                         $saldo = $residuo % $pagar;
-                        // $pagos_contratas->update([
-                        //     'cantidad_pagada'   => $residuo % $pagar,
-                        //     'adeudo'            => $pagar - $saldo,
-                        //     'adelanto'          => 0,
-                        //     'estatus'           => 2,
-                        // ]);
 
                         ConfirmacionPagos::create([
                             "id_pago_contrata"  => $pagos_contratas->id,

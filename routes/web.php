@@ -69,6 +69,8 @@ Route::get('numeros-habiles' , 'ClientesHabilesController@index')->name('numeros
 |--------------------------------------------------------------------------
 */
 Route::get('/directorios' , 'ReportesController@reporteDirectorios')->name('reporteDirectorios');
+Route::get('/reporte_general_cobranza' , 'ReportesController@reporte_general_cobranza')->name('reporte_general_cobranza');
+Route::get('/estadoCuenta/{id}' , 'ReportesController@estadoCuenta')->name('estadoCuenta');
 /*
 |--------------------------------------------------------------------------
 |            FIN    REPORTES

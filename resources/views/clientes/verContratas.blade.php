@@ -36,7 +36,9 @@
                                 <a class="dropdown-item" href="{{ route('verPagosContrata' , $contrata->id) }}">
                                     <i class="fa fa-money mr-5"></i> Agregar pago
                                 </a>
-                                
+                                <a class="dropdown-item" href="{{ route('estadoCuenta',$contrata->id) }}">
+                                    <i class="si si-printer mr-5"></i> Imprimir estado de cuenta
+                                </a>
                                 @if ($contrata->tipo_plan_contrata == "Pagos diarios" )
                                     <a class="dropdown-item" href="{{ route('imprimirPagosDiarios',$contrata->id) }}">
                                         <i class="si si-printer mr-5"></i> Imprimir boleta a {{ $contrata->dias_plan_contrata }} dias

@@ -33,6 +33,31 @@
         <a href="{{ route('numerosHabiles') }}"><i class="fa fa-address-book-o"></i><span class="sidebar-mini-hide">Clientes vacantes</span></a>
     </li>
 
+    <li class="nav-main-heading"><span class="sidebar-mini-visible">UI</span><span class="sidebar-mini-hidden">Reportes</span></li>
+    
+    <li>
+        <a class="nav-submenu" data-toggle="nav-submenu" href="#"><span class="sidebar-mini-hide">Tipos de reportes</span></a>
+        <ul>
+            <li>
+                <a href="{{ route('reporteDirectorios') }}">Direcctorio de clientes</a>
+            </li>
+            <li>
+                <a href="{{ route('reporte_general_cobranza') }}">Reporte general de cobranza</a>
+            </li>
+            <li>
+                <a href="">Saldo global de clientes</a>
+            </li>
+            <li>
+                <a href="">Reporte de saldos, comisiones y gastos</a>
+            </li>
+            <li>
+                <a href="">Reporte de retiros y aportaciones</a>
+            </li>
+            <li>
+                <a href="">Reporte control de efectivo</a>
+            </li>
+        </ul>
+    </li>
     <li class="nav-main-heading"><span class="sidebar-mini-visible">UI</span><span class="sidebar-mini-hidden">Sistema</span></li>
     
     <li>
