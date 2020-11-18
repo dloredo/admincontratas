@@ -73,15 +73,25 @@ class CobranzaController extends Controller
 
     function descargarTarjetaContrata($id)
     {
+        $contrata = Contratas::with("cliente")->find($id);
         $fechas = PagosContratas::findByContrata($id);
         $fechas->toArray();
-        $chunks_fechas = array_chunk($fechas->toArray(),80);
-        $contrata = Contratas::with("cliente")->find($id);
 
-        $pdf = \PDF::loadView('cobranza.TarjetaDiaria', compact("contrata","chunks_fechas"))->setPaper('a4', 'landscape');
+        if($contrata->tipo_plan_contrata == "Pagos diarios")
+        {
+            $chunks_fechas = array_chunk($fechas->toArray(),80);
+            $pdf = \PDF::loadView('cobranza.TarjetaDiaria', compact("contrata","chunks_fechas"))->setPaper('a4', 'landscape');
+        }
+        else
+        {
+            $chunks_fechas = array_chunk($fechas->toArray(),10);
+            $pdf = \PDF::loadView('cobranza.TarjetaSemanal', compact("contrata","chunks_fechas"));
+        }
+        
+        
         return $pdf->stream();
 
-        //return view("cobranza.TarjetaDiaria");
+        //return view("cobranza.TarjetaDiaria", compact("contrata","chunks_fechas"));
         //return Excel::download(new PagosDiariosExportBook($chunks_fechas), 'Tarjeton'.$contrata->tipo_plan_contrata.'.xlsx');
         
     }
