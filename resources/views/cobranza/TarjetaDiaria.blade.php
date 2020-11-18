@@ -96,7 +96,7 @@
                     <thead>
                         <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Nombre</th>
+                        <th scope="col">Fecha</th>
                         <th scope="col">Cantidad</th>
                         <th scope="col">Firma</th>
                         </tr>
@@ -122,7 +122,7 @@
                     <thead>
                         <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Nombre</th>
+                        <th scope="col">Fecha</th>
                         <th scope="col">Cantidad</th>
                         <th scope="col">Firma</th>
                         </tr>
@@ -148,7 +148,7 @@
                     <thead>
                         <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Nombre</th>
+                        <th scope="col">Fecha</th>
                         <th scope="col">Cantidad</th>
                         <th scope="col">Firma</th>
                         </tr>
