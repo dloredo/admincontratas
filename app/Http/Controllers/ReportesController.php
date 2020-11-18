@@ -18,6 +18,7 @@ class ReportesController extends Controller
     {
         $clientes = Clientes::all();
         $pdf = \PDF::loadView('reportes.directorios' ,  compact('clientes'));
+        //$pdf->setPaper('a4', 'landscape');
         return $pdf->stream('Directorios.pdf');
     }
 
@@ -35,8 +36,22 @@ class ReportesController extends Controller
     }
     public function estadoCuenta($id)
     {
-        $clientes = Clientes::all();
-        $pdf = \PDF::loadView('reportes.directorios' ,  compact('clientes'));
-        return $pdf->stream('Directorios.pdf');
+        $cliente = Clientes::select("contratas.id","clientes.nombres","clientes.direccion","clientes.colonia","clientes.ciudad","clientes.telefono")
+        ->join("contratas" , "clientes.id" , "contratas.id_cliente")
+        ->where("contratas.id" , $id)
+        ->get();
+        $contrata = Contratas::where("contratas.id" , $id)->get();
+        $pagos = Contratas::select("contratas.cantidad_prestada","contratas.comision","contratas.cantidad_pagar","contratas.tipo_plan_contrata","contratas.dias_plan_contrata","pagos_contratas.*")
+        ->join("pagos_contratas" , "contratas.id","pagos_contratas.id_contrata")
+        ->where("contratas.id" , $id)
+        ->orderBy("pagos_contratas.fecha_pago")
+        ->get();
+        $saldo_actual = Contratas::select("pagos_contratas.cantidad_pagada")
+        ->join("pagos_contratas" , "contratas.id","pagos_contratas.id_contrata")
+        ->where("contratas.id" , $id)
+        ->sum("pagos_contratas.cantidad_pagada");
+        //dd($saldo_actual);
+        $pdf = \PDF::loadView('reportes.estado_cuenta_cliente' , ['saldo_actual' => $saldo_actual] ,compact('cliente', 'pagos','contrata'));
+        return $pdf->stream('Reporte-estado-cuenta-cliente.pdf');
     }
 }

@@ -39,6 +39,10 @@
                                 <a class="dropdown-item" href="{{ route('estadoCuenta',$contrata->id) }}">
                                     <i class="si si-printer mr-5"></i> Imprimir estado de cuenta
                                 </a>
+                                <a class="dropdown-item" href="{{ route('descargarTarjetaContrata' , $contrata->id) }}">
+                                    <i class="fa fa-book mr-5"></i> Descargar tarjeta
+                                </a>
+
                                 @if ($contrata->tipo_plan_contrata == "Pagos diarios" )
                                     <a class="dropdown-item" href="{{ route('imprimirPagosDiarios',$contrata->id) }}">
                                         <i class="si si-printer mr-5"></i> Imprimir boleta a {{ $contrata->dias_plan_contrata }} dias
