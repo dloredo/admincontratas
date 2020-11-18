@@ -76,10 +76,13 @@ class CobranzaController extends Controller
         $fechas = PagosContratas::findByContrata($id);
         $fechas->toArray();
         $chunks_fechas = array_chunk($fechas->toArray(),80);
-        $contrata = Contratas::find($id);
+        $contrata = Contratas::with("cliente")->find($id);
 
+        $pdf = \PDF::loadView('cobranza.TarjetaDiaria', compact("contrata","chunks_fechas"))->setPaper('a4', 'landscape');
+        return $pdf->stream();
 
-        return Excel::download(new PagosDiariosExportBook($chunks_fechas), 'Tarjeton'.$contrata->tipo_plan_contrata.'.xlsx');
+        //return view("cobranza.TarjetaDiaria");
+        //return Excel::download(new PagosDiariosExportBook($chunks_fechas), 'Tarjeton'.$contrata->tipo_plan_contrata.'.xlsx');
         
     }
 
