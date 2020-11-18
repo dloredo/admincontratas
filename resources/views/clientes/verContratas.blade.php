@@ -36,6 +36,9 @@
                                 <a class="dropdown-item" href="{{ route('verPagosContrata' , $contrata->id) }}">
                                     <i class="fa fa-money mr-5"></i> Agregar pago
                                 </a>
+                                <a class="dropdown-item" href="{{ route('estadoCuenta',$contrata->id) }}">
+                                    <i class="si si-printer mr-5"></i> Imprimir estado de cuenta
+                                </a>
                                 <a class="dropdown-item" href="{{ route('descargarTarjetaContrata' , $contrata->id) }}">
                                     <i class="fa fa-book mr-5"></i> Descargar tarjeta
                                 </a>
