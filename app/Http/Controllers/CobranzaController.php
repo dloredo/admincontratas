@@ -85,7 +85,7 @@ class CobranzaController extends Controller
         else
         {
             $chunks_fechas = array_chunk($fechas->toArray(),10);
-            $pdf = \PDF::loadView('cobranza.TarjetaSemanal', compact("contrata","chunks_fechas"));
+            $pdf = \PDF::loadView('cobranza.TarjetaSemanal', compact("contrata","chunks_fechas"))->setPaper('a4', 'landscape');
         }
         
         
