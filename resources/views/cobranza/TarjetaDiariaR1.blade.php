@@ -7,9 +7,9 @@
 </head>
 <body>
 <style>
-    @page { margin: 0px 10px; }
+    @page { margin: 5px 10px; }
     
-    body { margin: 0px 10px; }
+    body { margin: 5px 10px; }
 
     .table{
         width: 100%;
@@ -27,7 +27,6 @@
         border: 1px solid #dddddd;
         margin: 0px;
         font-size: 12px;
-        padding:0px;
     }
     .main-page{
         page-break-after: always;
@@ -45,12 +44,6 @@
     .outside-text{
         font-size: 22px;
     }
-    .header{
-        width: 100%;
-        padding:0px 10px;
-        margin-bottom: 0px;
-        
-    }
 </style>
 
     
@@ -61,16 +54,16 @@
         @endphp
         <div class="main-page">
             <div class="half-page">
+                <p class="outside-text">Forma de pago: <strong>{{$contrata->tipo_plan_contrata}}</strong></p>
+                <p class="outside-text">Capital total: <strong>${{$contrata->cantidad_pagar}}</strong></p>
             </div>
-            <div class="half-page" style="padding-top: 10%;">
+
+            <div class="half-page">
                 <p class="outside-text"><strong>{{$contrata->cliente->nombres}}</strong></p>
             </div>
         </div>
 
         <div class="{{ ($x < sizeof($chunks_fechas)-1)? 'main-page' : '' }}">
-            <div class="header">
-                <p style="margin-top: 10px; margin-bottom:0px;">Forma de pago: <strong>{{$contrata->dias_plan_contrata}} semanas x ${{$contrata->pagos_contrata}}</strong>&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;&nbsp;Capital total: <strong>${{$contrata->cantidad_pagar}}</strong></p>
-            </div>
             <div class="quarter-page">
                 <table class="table">
                     <thead>

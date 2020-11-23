@@ -8,7 +8,7 @@
 <body>
 <style>
     @page { margin: 5px 10px; }
-   
+    @page { size: 21.5cm 14.2cm;}
     body { margin: 5px 10px; }
 
     .table{
@@ -49,14 +49,7 @@
     }
     p{
         margin: 0px;
-        font-size: 20px;
-    }
-
-    .header{
-        width: 100%;
-        height: 25px;
-        padding:10px;
-        margin-bottom: 20px;
+        font-size: 17px;
     }
 </style>
 
@@ -66,38 +59,31 @@
             $fechas = $chunks_fechas[$x];
             $i = 1;
         @endphp
-
-        <div class="main-page">
-            <div class="half-page">
-            </div>
-
-            <div class="half-page" style="padding-top: 10%;">
-                <p class="outside-text"><strong>{{$contrata->cliente->nombres}}</strong></p>
-            </div>
-        </div>
-
         <div class="{{ ($x < sizeof($chunks_fechas)-1)? 'main-page' : '' }}">
-            <div class="header">
-                <p>Forma de pago: <strong>{{$contrata->dias_plan_contrata}} semanas x ${{$contrata->pagos_contrata}}</strong>&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;&nbsp;Capital total: <strong>${{$contrata->cantidad_pagar}}</strong></p>
-            </div>
-
             <div class="half-page">
                 <table class="table">
-                    @for($i; $i<=5; $i++)
+                    <tr>
+                        <td colspan="4" style="text-align: left; padding:5px; padding-bottom:69px;">
+                            <p><strong>{{$contrata->cliente->nombres}}</strong></p>
+                            <p>Forma de pago: <strong>{{$contrata->tipo_plan_contrata}}</strong></p>
+                            <p>Capital: <strong>{{$contrata->cantidad_pagar}}</strong></p>
+                        </td>
+                    </tr>
+                    @for($i; $i<=4; $i++)
                         @php
                             if($i > sizeof($fechas))
                                 break;
                         @endphp
                       
                        <tr>
-                           <td style="width: 10%; padding:15px 0px"><p>{{$i}}</p></td>
-                           <td style="width: 20%; padding:15px 0px"><p><strong>PAGO</strong></p></td>
-                           <td style="width: 30%; padding:15px 0px"><p><strong>{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</strong></p></td>
-                           <td style="width: 30%; padding:15px 0px"><p><strong>${{$contrata->pagos_contrata}}</strong></p></td>
+                           <td style="width: 10%; padding:4.8px 0px"><p>{{$i}}</p></td>
+                           <td style="width: 20%; padding:4.8px 0px"><p><strong>PAGO</strong></p></td>
+                           <td style="width: 30%; padding:4.8px 0px"><p><strong>{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</strong></p></td>
+                           <td style="width: 30%; padding:4.8px 0px"><p><strong>${{$contrata->pagos_contrata}}</strong></p></td>
                        </tr>
                        <tr>
-                           <td colspan="2" style="width: 30%; padding:15px 0px"><p>RECIBÍ</p></td>
-                           <td colspan="2" style="width: 70%; padding:15px 0px"></td>
+                           <td colspan="2" style="width: 30%; padding:4.8px 0px"><p>RECIBÍ</p></td>
+                           <td colspan="2" style="width: 70%; padding:4.8px 0px"></td>
                        </tr>
                        @endfor
                 </table>
@@ -112,14 +98,14 @@
                             @endphp
                         
                         <tr>
-                            <td style="width: 10%; padding:15px 0px"><p>{{$i}}</p></td>
-                            <td style="width: 20%; padding:15px 0px"><p><strong>PAGO</strong></p></td>
-                            <td style="width: 30%; padding:15px 0px"><p><strong>{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</strong></p></td>
-                            <td style="width: 30%; padding:15px 0px"><p><strong>${{$contrata->pagos_contrata}}</strong></p></td>
+                            <td style="width: 10%; padding:4.8px 0px"><p>{{$i}}</p></td>
+                            <td style="width: 20%; padding:4.8px 0px"><p><strong>PAGO</strong></p></td>
+                            <td style="width: 30%; padding:4.8px 0px"><p><strong>{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</strong></p></td>
+                            <td style="width: 30%; padding:4.8px 0px"><p><strong>${{$contrata->pagos_contrata}}</strong></p></td>
                         </tr>
                         <tr>
-                            <td colspan="2" style="width: 30%; padding:15px 0px"><p>RECIBÍ</p></td>
-                            <td colspan="2" style="width: 70%; padding:15px 0px"></td>
+                            <td colspan="2" style="width: 30%; padding:4.8px 0px"><p>RECIBÍ</p></td>
+                            <td colspan="2" style="width: 70%; padding:4.8px 0px"></td>
                         </tr>
                         @endfor
                     </tbody>
