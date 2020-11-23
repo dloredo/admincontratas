@@ -39,22 +39,22 @@
         <a class="nav-submenu" data-toggle="nav-submenu" href="#"><span class="sidebar-mini-hide">Tipos de reportes</span></a>
         <ul>
             <li>
-                <a href="{{ route('reporteDirectorios') }}">Direcctorio de clientes</a>
+                <a target="_blank" href="{{ route('reporteDirectorios') }}">Direcctorio de clientes</a>
             </li>
             <li>
-                <a href="{{ route('reporte_general_cobranza') }}">Reporte general de cobranza</a>
+                <a target="_blank" href="{{ route('reporte_general_cobranza') }}">Reporte general de cobranza</a>
             </li>
             <li>
-                <a href="">Saldo global de clientes</a>
+                <a target="_blank" href="{{ route('SaldoGlobalClientes') }}">Saldo global de clientes</a>
             </li>
             <li>
-                <a href="">Reporte de saldos, comisiones y gastos</a>
+                <a target="_blank" href="">Reporte de saldos, comisiones y gastos</a>
             </li>
             <li>
-                <a href="">Reporte de retiros y aportaciones</a>
+                <a target="_blank" href="">Reporte de retiros y aportaciones</a>
             </li>
             <li>
-                <a href="">Reporte control de efectivo</a>
+                <a target="_blank" href="">Reporte control de efectivo</a>
             </li>
         </ul>
     </li>

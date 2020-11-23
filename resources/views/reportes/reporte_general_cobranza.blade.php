@@ -71,10 +71,10 @@
             <tr style="text-align: center;">
                 <td></td>
                 <td></td>
-                <td>{{"$" . number_format(round(((float)$actual_total)),2,'.',',')}}</td>
-                <td>{{"$" . number_format(round(((float)$atraso_total)),2,'.',',')}}</td>
-                <td>{{"$" . number_format(round(((float)$adelanto_total)),2,'.',',')}}</td>
-                <td>{{"$" . number_format(round(((float)$pago_total)),2,'.',',')}}</td>
+                <td>{{"$" . number_format(round(((float)$actual_total)),0,'.',',')}}</td>
+                <td>{{"$" . number_format(round(((float)$atraso_total)),0,'.',',')}}</td>
+                <td>{{"$" . number_format(round(((float)$adelanto_total)),0,'.',',')}}</td>
+                <td>{{"$" . number_format(round(((float)$pago_total)),0,'.',',')}}</td>
                 <td></td>
                 <td></td>
                 <td></td>

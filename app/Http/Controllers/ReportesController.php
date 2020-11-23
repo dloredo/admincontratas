@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Clientes;
 use Carbon\Carbon;
 use App\Contratas;
+use Illuminate\Support\Facades\DB;
 
 class ReportesController extends Controller
 {
@@ -44,6 +45,7 @@ class ReportesController extends Controller
         $pagos = Contratas::select("contratas.cantidad_prestada","contratas.comision","contratas.cantidad_pagar","contratas.tipo_plan_contrata","contratas.dias_plan_contrata","pagos_contratas.*")
         ->join("pagos_contratas" , "contratas.id","pagos_contratas.id_contrata")
         ->where("contratas.id" , $id)
+        ->where("pagos_contratas.confirmacion",2)
         ->orderBy("pagos_contratas.fecha_pago")
         ->get();
         $saldo_actual = Contratas::select("pagos_contratas.cantidad_pagada")
@@ -53,5 +55,17 @@ class ReportesController extends Controller
         //dd($saldo_actual);
         $pdf = \PDF::loadView('reportes.estado_cuenta_cliente' , ['saldo_actual' => $saldo_actual] ,compact('cliente', 'pagos','contrata'));
         return $pdf->stream('Reporte-estado-cuenta-cliente.pdf');
+    }
+
+    public function SaldoGlobalClientes()
+    {
+        $clientes = Clientes::select("contratas.id" , "clientes.nombres","contratas.cantidad_pagar","pagos_contratas.cantidad_pagada" )
+        ->join("contratas" , "clientes.id","contratas.id_cliente")
+        ->join("pagos_contratas" , "contratas.id","pagos_contratas.id_contrata")
+        ->selectRaw(" sum(pagos_contratas.cantidad_pagada) as parcial ")
+        ->groupBy("contratas.id")
+        ->get();
+        $pdf = \PDF::loadView('reportes.saldo_global_clientes' , compact('clientes'));
+        return $pdf->stream('Reporte-saldo-global-clientes.pdf');
     }
 }

@@ -62,6 +62,10 @@
       <td>{{ "$" . number_format(round(((float)$dato->cantidad_pagar-$saldo_actual)),2,'.',',') }}</td> 
       <td>{{ "$" . number_format(round(((float)$dato->pagos_contrata)),2,'.',',') }} {{ $dato->tipo_plan_contrata }}</td>  
     </tr>
+    <?php $cantidad_pagar = 0;  ?>
+    <?php $cantidad_pagar = $dato->cantidad_pagar;  ?>
+    <?php $cantidad_pagar_tem = 0;  ?>
+    <?php $cantidad_pagar_tem = $dato->cantidad_pagar;  ?>
     @endforeach
   </tbody>
 </table>
@@ -72,19 +76,22 @@
       <th scope="col">FECHA</th>
       <th scope="col">CARGO</th>}
       <th scope="col">ABONO</th>
-      <th scope="col">SALDO ACTUAL</th>
+      <th scope="col">ADELANTOS</th>
+      <th scope="col">ATRASOS</th>
       <th scope="col">SALDO</th>
     </tr>
   </thead>
   <tbody>
-    @foreach ($contrata as $dato)
-    <tr style="text-align: center;">
-      <td>{{ "$" . number_format(round(((float)$dato->cantidad_prestada)),2,'.',',') }}</td>  
-      <td>{{ "$" . number_format(round(((float)$dato->comision)),2,'.',',') }}</td> 
-      <td>{{ "$" . number_format(round(((float)$dato->cantidad_pagar)),2,'.',',') }}</td> 
-      <td>{{ "$" . number_format(round(((float)$dato->cantidad_pagar-$saldo_actual)),2,'.',',') }}</td> 
-      <td>{{ "$" . number_format(round(((float)$dato->pagos_contrata)),2,'.',',') }} {{ $dato->tipo_plan_contrata }}</td>  
-    </tr>
+    @foreach ($pagos as $dato)
+      <tr style="text-align: center;">
+        <td>{{ date('d-m-Y', strtotime( $dato->fecha_pago )) }}</td>  
+        <td>{{ "$" . number_format(round(((float)$cantidad_pagar_tem)),0,'.',',') }}</td> 
+        <td>{{ "$" . number_format(round(((float)$dato->cantidad_pagada)),0,'.',',') }}</td> 
+        <td>{{ "$" . number_format(round(((float)$dato->adelanto)),0,'.',',') }}</td> 
+        <td>{{ "$" . number_format(round(((float)$dato->adeudo)),0,'.',',') }}</td>
+        <td>{{ "$" . number_format(round(((float)$cantidad_pagar-=$dato->cantidad_pagada)),0,'.',',') }}</td> 
+        <?php $cantidad_pagar_tem -=$dato->cantidad_pagada ?> 
+      </tr>
     @endforeach
   </tbody>
 </table>

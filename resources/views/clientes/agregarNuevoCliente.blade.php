@@ -39,6 +39,15 @@
                 @enderror
             </div>
             <div class="form-group col-md-4">
+                <label>Telefóno 2</label>
+                <input type="text" class="form-control @error('telefono_2') is-invalid @enderror" id="telefono_2" name="telefono_2" value="{{ old('telefono_2') }}" autocomplete="telefono_2" placeholder="+52 3124567891">
+                @error('telefono_2')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </div>
+            <div class="form-group col-md-4">
                 <label>Colonia</label>
                 <input type="text" class="form-control @error('colonia') is-invalid @enderror" id="colonia" name="colonia" value="{{ old('colonia') }}" autocomplete="colonia" placeholder="Prados del sur">
                 @error('colonia')

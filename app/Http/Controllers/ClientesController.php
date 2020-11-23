@@ -68,13 +68,14 @@ class ClientesController extends Controller
             'telefono' => 'required',
             'telefono' => 'numeric',
             'colonia' => 'required',
-            'ciudad' => 'required'
+            'ciudad' => 'required',
         ]);
         $fecha = Carbon::now();
         Clientes::create([
             'nombres'         => $request['nombres'],
             'direccion'       => $request['direccion'],
             'telefono'        => $request['telefono'],
+            'telefono_2'        => $request['telefono_2'],
             'activo'          => true,
             'fecha_registro'  => $fecha->format('Y-m-d'),
             'colonia'      => $request['colonia'],

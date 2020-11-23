@@ -20,6 +20,7 @@ class Clientes extends Migration
             $table->string('nombres');
             $table->string('direccion');
             $table->string('telefono');
+            $table->string('telefono_2');
 
             $table->string('colonia');
             $table->string('ciudad');

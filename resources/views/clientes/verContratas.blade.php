@@ -30,28 +30,18 @@
                             </button>
                             <div class="dropdown-menu dropdown-menu-right min-width-200" aria-labelledby="page-header-user-dropdown">
                                 <h5 class="h6 text-center py-10 mb-5 border-b text-uppercase">Opciones</h5>
-                                <a class="dropdown-item" href="{{ route('detallesContrata',[$cliente->id,$contrata->id]) }}">
+                                <a class="dropdown-item" target="_blank" href="{{ route('detallesContrata',[$cliente->id,$contrata->id]) }}">
                                     <i class="fa fa-money mr-5"></i> Ver detalles y pagos
                                 </a>
                                 <a class="dropdown-item" href="{{ route('verPagosContrata' , $contrata->id) }}">
                                     <i class="fa fa-money mr-5"></i> Agregar pago
                                 </a>
-                                <a class="dropdown-item" href="{{ route('estadoCuenta',$contrata->id) }}">
+                                <a class="dropdown-item" target="_blank" href="{{ route('estadoCuenta',$contrata->id) }}">
                                     <i class="si si-printer mr-5"></i> Imprimir estado de cuenta
                                 </a>
-                                <a class="dropdown-item" href="{{ route('descargarTarjetaContrata' , $contrata->id) }}">
+                                <a class="dropdown-item" target="_blank" href="{{ route('descargarTarjetaContrata' , $contrata->id) }}">
                                     <i class="fa fa-book mr-5"></i> Descargar tarjeta
                                 </a>
-
-                                @if ($contrata->tipo_plan_contrata == "Pagos diarios" )
-                                    <a class="dropdown-item" href="{{ route('imprimirPagosDiarios',$contrata->id) }}">
-                                        <i class="si si-printer mr-5"></i> Imprimir boleta a {{ $contrata->dias_plan_contrata }} dias
-                                    </a>
-                                @elseif($contrata->tipo_plan_contrata == "Pagos por semana" )
-                                    <a class="dropdown-item" href="{{ route('imprimirPagosSemanales',$contrata->id) }}">
-                                        <i class="si si-printer mr-5"></i> Imprimir boleta a {{ $contrata->dias_plan_contrata }} semanas
-                                    </a>
-                                @endif
 
                             </div>
                         </div>

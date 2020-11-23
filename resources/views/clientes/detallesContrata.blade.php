@@ -125,29 +125,29 @@
 <script src="{{ asset('assets/js/plugins/datatables/buttons/vfs_fonts.js')  }}"></script>
 <script>
 
-    $('#table').DataTable({
-                    dom: 'Blfrtip',
-                    buttons: [
-                        {
-                        extend: 'pdf',
-                        title: 'Historial de pagos de contrata de {!! $cliente->nombres !!} {!! $cliente->apellidos !!}',
-                        customize: function(doc) {
-                            doc.styles.title = {
-                            fontSize: '20',
-                            alignment: 'center'
-                            }   
+$('#table').DataTable({
+    dom: 'Blfrtip',
+    buttons: [
+        {
+        extend: 'pdf',
+        title: 'Historial de pagos de contrata de {!! $cliente->nombres !!} {!! $cliente->apellidos !!}',
+        customize: function(doc) {
+            doc.styles.title = {
+            fontSize: '20',
+            alignment: 'center'
+            }   
 
-                            doc.content[0].text += `
-                            Prestamo total:  \${!! $contrata->cantidad_prestada + $contrata->comision !!} `
-                        }  
-                        },
-                        {
-                        extend: 'print',
-                        title: 'Historial de pagos de contrata de {!! $cliente->nombres !!} {!! $cliente->apellidos !!} \n Prestamo total:  \${!! $contrata->cantidad_prestada +$contrata->comision !!}',
-                          
-                        }
-                    ]
-                });
+            doc.content[0].text += `
+            Prestamo total:  \${!! $contrata->cantidad_prestada + $contrata->comision !!} `
+        }  
+        },
+        {
+        extend: 'print',
+        title: 'Historial de pagos de contrata de {!! $cliente->nombres !!} {!! $cliente->apellidos !!} \n Prestamo total:  \${!! $contrata->cantidad_prestada +$contrata->comision !!}',
+            
+        }
+    ]
+});
 </script>
 
 @endsection
