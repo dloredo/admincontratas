@@ -77,7 +77,7 @@
                         <tr>
                         <th scope="col">#</th>
                         <th scope="col">Fecha</th>
-                        <th scope="col">Cantidad</th>
+                        <th scope="col">Pago</th>
                         <th scope="col">Firma</th>
                         </tr>
                     </thead>
@@ -90,9 +90,9 @@
                             
                             <tr>
                                 <td style="width: 10%;">{{$i}}</td>
-                                <td style="width: 30%;">{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</td>
-                                <td style="width: 20%;">${{$contrata->pagos_contrata}}</td>
-                                <td style="width: 40%;"></td>        
+                                <td style="width: 25%;">{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</td>
+                                <td style="width: 15%;">${{$contrata->pagos_contrata}}</td>
+                                <td style="width: 50%;"></td>        
                             </tr>
                         @endfor
                     </tbody>
@@ -104,7 +104,7 @@
                         <tr>
                         <th scope="col">#</th>
                         <th scope="col">Fecha</th>
-                        <th scope="col">Cantidad</th>
+                        <th scope="col">Pago</th>
                         <th scope="col">Firma</th>
                         </tr>
                     </thead>
@@ -116,9 +116,9 @@
                             @endphp
                             <tr>
                             <td style="width: 10%;">{{$i}}</td>
-                                <td style="width: 30%;">{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</td>
-                                <td style="width: 20%;">${{$contrata->pagos_contrata}}</td>
-                                <td style="width: 40%;"></td>      
+                                <td style="width: 25%;">{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</td>
+                                <td style="width: 15%;">${{$contrata->pagos_contrata}}</td>
+                                <td style="width: 50%;"></td>      
                             </tr>
                         @endfor
                     </tbody>
@@ -130,7 +130,7 @@
                         <tr>
                         <th scope="col">#</th>
                         <th scope="col">Fecha</th>
-                        <th scope="col">Cantidad</th>
+                        <th scope="col">Pago</th>
                         <th scope="col">Firma</th>
                         </tr>
                     </thead>
@@ -142,9 +142,9 @@
                             @endphp
                             <tr>
                             <td style="width: 10%;">{{$i}}</td>
-                                <td style="width: 30%;">{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</td>
-                                <td style="width: 20%;">${{$contrata->pagos_contrata}}</td>
-                                <td style="width: 40%;"></td>           
+                                <td style="width: 25%;">{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</td>
+                                <td style="width: 15%;">${{$contrata->pagos_contrata}}</td>
+                                <td style="width: 50%;"></td>           
                             </tr>
                         @endfor
                     </tbody>
@@ -156,7 +156,7 @@
                         <tr>
                         <th scope="col">#</th>
                         <th scope="col">Fecha</th>
-                        <th scope="col">Cantidad</th>
+                        <th scope="col">Pago</th>
                         <th scope="col">Firma</th>
                         </tr>
                     </thead>
@@ -168,9 +168,9 @@
                             @endphp
                             <tr>
                             <td style="width: 10%;">{{$i}}</td>
-                                <td style="width: 30%;">{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</td>
-                                <td style="width: 20%;">${{$contrata->pagos_contrata}}</td>
-                                <td style="width: 40%;"></td>        
+                                <td style="width: 25%;">{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</td>
+                                <td style="width: 15%;">${{$contrata->pagos_contrata}}</td>
+                                <td style="width: 50%;"></td>        
                             </tr>
                         @endfor
                     </tbody>
