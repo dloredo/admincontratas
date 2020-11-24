@@ -9,13 +9,13 @@
 <table style="width: 100%;">
   <thead>
     <tr style="text-align: center;">
-      <td colspan="6">Fecha: {{ date('d-m-Y') }}</td>
+      <td colspan="7">Fecha: {{ date('d-m-Y') }}</td>
     </tr>
     <tr style="text-align: center;"> 
-      <th colspan="6" scope="col" style="font-size: 24px;" >ESTADO DE CUENTA</th>
+      <th colspan="7" scope="col" style="font-size: 24px;" >ESTADO DE CUENTA</th>
     </tr>
     <tr style="text-align: center;"> 
-      <th colspan="6" scope="col"> <br> </th>
+      <th colspan="7" scope="col"> <br> </th>
     </tr>
     <tr style="text-align: center;">
       <th scope="col">NO.</th>
@@ -24,6 +24,7 @@
       <th scope="col">COLONIA</th>
       <th scope="col">CIUDAD</th>
       <th scope="col">TELEFONO</th>
+      <th scope="col">TELEFONO 2</th>
     </tr>
   </thead>
   <tbody>
@@ -36,6 +37,7 @@
       <td>{{ $cliente->colonia }}</td>
       <td>{{ $cliente->ciudad }}</td>
       <td>{{ $cliente->telefono }}</td>
+      <td>{{ $cliente->telefono_2 }}</td>
     </tr>
     @endforeach
   </tbody>

@@ -37,7 +37,7 @@ class ReportesController extends Controller
     }
     public function estadoCuenta($id)
     {
-        $cliente = Clientes::select("contratas.id","clientes.nombres","clientes.direccion","clientes.colonia","clientes.ciudad","clientes.telefono")
+        $cliente = Clientes::select("contratas.id","clientes.nombres","clientes.direccion","clientes.colonia","clientes.ciudad","clientes.telefono","clientes.telefono_2")
         ->join("contratas" , "clientes.id" , "contratas.id_cliente")
         ->where("contratas.id" , $id)
         ->get();
