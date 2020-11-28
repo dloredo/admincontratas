@@ -165,7 +165,7 @@ class ClientesController extends Controller
     function getDesestimateDays()
     {
 
-        $fechas = FechasDesestimadas::where("anio", Carbon::now()->year)->orderBy("fecha_inicio","asc")->get();
+        $fechas = FechasDesestimadas::orderBy("fecha_inicio","asc")->get();
         $arrayFechas = [];
 
         foreach($fechas as $fecha)
