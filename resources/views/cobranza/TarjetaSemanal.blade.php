@@ -45,7 +45,7 @@
     .half-page{width: 50%; text-align: center;}
 
     .outside-text{
-        font-size: 22px;
+        font-size: 30px;
     }
     p{
         margin: 0px;
@@ -54,10 +54,26 @@
 
     .header{
         width: 100%;
-        height: 25px;
-        padding:10px;
-        margin-bottom: 20px;
+        padding:0px 10px;
+        margin-bottom: 0px;
+        display: inline-block;
+        height: 50px;
     }
+
+    .half-page-header{
+        display: inline;  
+        text-align: center;
+    }
+    
+    .left{
+        float: left;
+        width: 50%;
+    }
+   
+   .right{
+       float: right;
+       width: 50%;
+   }
 </style>
 
     
@@ -78,9 +94,16 @@
 
         <div class="{{ ($x < sizeof($chunks_fechas)-1)? 'main-page' : '' }}">
             <div class="header">
-                <p>Forma de pago: <strong>{{$contrata->dias_plan_contrata}} semanas x ${{$contrata->pagos_contrata}}</strong>&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;&nbsp;Capital total: <strong>${{$contrata->cantidad_pagar}}</strong></p>
+                <div class="half-page-header left">
+                    <p style="margin-top: 10px; margin-bottom:0px;">Forma de pago: <strong>{{$contrata->dias_plan_contrata}} semanas x ${{$contrata->pagos_contrata}}</strong></p>
+                </div>
+                <div class="half-page-header right">
+                    <p style="margin-top: 10px; margin-bottom:0px;">Capital total: <strong>${{$contrata->cantidad_pagar}}</strong></p>
+                </div>
+              
             </div>
 
+            <div style="clear: both;">
             <div class="half-page">
                 <table class="table">
                     @for($i; $i<=5; $i++)
@@ -125,6 +148,8 @@
                     </tbody>
                 </table>
             </div>
+            </div>
+            
             
         </div>
     @endfor

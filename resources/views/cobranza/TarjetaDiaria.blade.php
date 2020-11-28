@@ -43,14 +43,30 @@
     .half-page{width: 50%; text-align: center;}
 
     .outside-text{
-        font-size: 22px;
+        font-size: 30px;
     }
     .header{
         width: 100%;
         padding:0px 10px;
         margin-bottom: 0px;
-        
+        display: inline-block;
+        height: 50px;
     }
+
+    .half-page-header{
+        display: inline;  
+        text-align: center;
+    }
+    
+    .left{
+        float: left;
+        width: 50%;
+    }
+   
+   .right{
+       float: right;
+       width: 50%;
+   }
 </style>
 
     
@@ -62,119 +78,128 @@
         <div class="main-page">
             <div class="half-page">
             </div>
-            <div class="half-page" style="padding-top: 10%;">
+            <div class="half-page">
                 <p class="outside-text"><strong>{{$contrata->cliente->nombres}}</strong></p>
             </div>
         </div>
 
         <div class="{{ ($x < sizeof($chunks_fechas)-1)? 'main-page' : '' }}">
             <div class="header">
-                <p style="margin-top: 10px; margin-bottom:0px;">Forma de pago: <strong>{{$contrata->dias_plan_contrata}} semanas x ${{$contrata->pagos_contrata}}</strong>&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;&nbsp;Capital total: <strong>${{$contrata->cantidad_pagar}}</strong></p>
+                <div class="half-page-header left">
+                    <p style="margin-top: 10px; margin-bottom:0px;">Forma de pago: <strong>{{$contrata->dias_plan_contrata}} días x ${{$contrata->pagos_contrata}}</strong></p>
+                </div>
+                <div class="half-page-header right">
+                    <p style="margin-top: 10px; margin-bottom:0px;">Capital total: <strong>${{$contrata->cantidad_pagar}}</strong></p>
+                </div>
+              
             </div>
-            <div class="quarter-page">
-                <table class="table">
-                    <thead>
-                        <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Fecha</th>
-                        <th scope="col">Pago</th>
-                        <th scope="col">Firma</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for($i; $i<=20; $i++)
-                            @php
-                                if($i > sizeof($fechas))
-                                    break;
-                            @endphp
-                            
+            <div style="clear:both;">
+
+                <div class="quarter-page">
+                    <table class="table">
+                        <thead>
                             <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Fecha</th>
+                            <th scope="col">Pago</th>
+                            <th scope="col">Firma</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for($i; $i<=20; $i++)
+                                @php
+                                    if($i > sizeof($fechas))
+                                        break;
+                                @endphp
+                                
+                                <tr>
+                                    <td style="width: 10%;">{{$i}}</td>
+                                    <td style="width: 25%;">{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</td>
+                                    <td style="width: 15%;">${{$contrata->pagos_contrata}}</td>
+                                    <td style="width: 50%;"></td>        
+                                </tr>
+                            @endfor
+                        </tbody>
+                    </table>
+                </div>
+                <div class="quarter-page">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Fecha</th>
+                            <th scope="col">Pago</th>
+                            <th scope="col">Firma</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for($i; $i<=40; $i++)
+                                @php
+                                    if($i > sizeof($fechas))
+                                        break;
+                                @endphp
+                                <tr>
                                 <td style="width: 10%;">{{$i}}</td>
-                                <td style="width: 25%;">{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</td>
-                                <td style="width: 15%;">${{$contrata->pagos_contrata}}</td>
-                                <td style="width: 50%;"></td>        
-                            </tr>
-                        @endfor
-                    </tbody>
-                </table>
-            </div>
-            <div class="quarter-page">
-                <table class="table">
-                    <thead>
-                        <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Fecha</th>
-                        <th scope="col">Pago</th>
-                        <th scope="col">Firma</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for($i; $i<=40; $i++)
-                            @php
-                                if($i > sizeof($fechas))
-                                    break;
-                            @endphp
+                                    <td style="width: 25%;">{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</td>
+                                    <td style="width: 15%;">${{$contrata->pagos_contrata}}</td>
+                                    <td style="width: 50%;"></td>      
+                                </tr>
+                            @endfor
+                        </tbody>
+                    </table>
+                </div>
+                <div class="quarter-page">
+                    <table class="table">
+                        <thead>
                             <tr>
-                            <td style="width: 10%;">{{$i}}</td>
-                                <td style="width: 25%;">{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</td>
-                                <td style="width: 15%;">${{$contrata->pagos_contrata}}</td>
-                                <td style="width: 50%;"></td>      
+                            <th scope="col">#</th>
+                            <th scope="col">Fecha</th>
+                            <th scope="col">Pago</th>
+                            <th scope="col">Firma</th>
                             </tr>
-                        @endfor
-                    </tbody>
-                </table>
-            </div>
-            <div class="quarter-page">
-                <table class="table">
-                    <thead>
-                        <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Fecha</th>
-                        <th scope="col">Pago</th>
-                        <th scope="col">Firma</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for($i; $i<=60; $i++)
-                            @php
-                                if($i > sizeof($fechas))
-                                    break;
-                            @endphp
+                        </thead>
+                        <tbody>
+                            @for($i; $i<=60; $i++)
+                                @php
+                                    if($i > sizeof($fechas))
+                                        break;
+                                @endphp
+                                <tr>
+                                <td style="width: 10%;">{{$i}}</td>
+                                    <td style="width: 25%;">{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</td>
+                                    <td style="width: 15%;">${{$contrata->pagos_contrata}}</td>
+                                    <td style="width: 50%;"></td>           
+                                </tr>
+                            @endfor
+                        </tbody>
+                    </table>
+                </div>
+                <div class="quarter-page">
+                    <table class="table">
+                        <thead>
                             <tr>
-                            <td style="width: 10%;">{{$i}}</td>
-                                <td style="width: 25%;">{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</td>
-                                <td style="width: 15%;">${{$contrata->pagos_contrata}}</td>
-                                <td style="width: 50%;"></td>           
+                            <th scope="col">#</th>
+                            <th scope="col">Fecha</th>
+                            <th scope="col">Pago</th>
+                            <th scope="col">Firma</th>
                             </tr>
-                        @endfor
-                    </tbody>
-                </table>
-            </div>
-            <div class="quarter-page">
-                <table class="table">
-                    <thead>
-                        <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Fecha</th>
-                        <th scope="col">Pago</th>
-                        <th scope="col">Firma</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for($i; $i<=80; $i++)
-                            @php
-                                if($i > sizeof($fechas))
-                                    break;
-                            @endphp
-                            <tr>
-                            <td style="width: 10%;">{{$i}}</td>
-                                <td style="width: 25%;">{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</td>
-                                <td style="width: 15%;">${{$contrata->pagos_contrata}}</td>
-                                <td style="width: 50%;"></td>        
-                            </tr>
-                        @endfor
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @for($i; $i<=80; $i++)
+                                @php
+                                    if($i > sizeof($fechas))
+                                        break;
+                                @endphp
+                                <tr>
+                                <td style="width: 10%;">{{$i}}</td>
+                                    <td style="width: 25%;">{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</td>
+                                    <td style="width: 15%;">${{$contrata->pagos_contrata}}</td>
+                                    <td style="width: 50%;"></td>        
+                                </tr>
+                            @endfor
+                        </tbody>
+                    </table>
+                </div>
             </div>
             
         </div>
