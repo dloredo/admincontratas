@@ -13,10 +13,10 @@ class ClientesHabilesController extends Controller
     }
     public function index()
     {
-        $clienteshabiles = DB::select('select * from admincontratas.clientes c2 
+        $clienteshabiles = DB::select('select * from clientes c2 
         left join
         (select count(estatus) as total , estatus ,id_cliente from
-        admincontratas.contratas c
+        contratas c
         where estatus = 0
         group by estatus ,id_cliente) as cd on cd.id_cliente = c2.id 
         where estatus is null'); 
