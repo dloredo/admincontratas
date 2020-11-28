@@ -69,7 +69,7 @@
 
         <div class="{{ ($x < sizeof($chunks_fechas)-1)? 'main-page' : '' }}">
             <div class="header">
-                <p style="margin-top: 10px; margin-bottom:0px;">Forma de pago: <strong>{{$contrata->dias_plan_contrata}} semanas x ${{$contrata->pagos_contrata}}</strong>&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;&nbsp;Capital total: <strong>${{$contrata->cantidad_pagar}}</strong></p>
+                <p style="margin-top: 10px; margin-bottom:0px;">Forma de pago: <strong>{{$contrata->dias_plan_contrata}} días x ${{$contrata->pagos_contrata}}</strong>&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;&nbsp;Capital total: <strong>${{$contrata->cantidad_pagar}}</strong></p>
             </div>
             <div class="quarter-page">
                 <table class="table">
