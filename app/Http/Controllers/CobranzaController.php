@@ -109,7 +109,7 @@ class CobranzaController extends Controller
             DB::beginTransaction();
 
 
-            if( $pagos_contratas->estatus == 2 )
+            if( $pagos_contratas->estatus == 2 || $pagos_contratas->estatus == 3)
             {
                 $pago_anterior = $pagos_contratas->cantidad_pagada;
                 if( $request['cantidad_pagada'] + $pago_anterior > $contrata->pagos_contrata  )
