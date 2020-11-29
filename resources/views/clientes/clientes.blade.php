@@ -70,6 +70,9 @@
                                 <a class="dropdown-item" href="{{ route('vista.agregarContrata' , $cliente->id) }}">
                                     <i class="si si-user mr-5"></i> Dar contrata
                                 </a>
+                                <a  class="dropdown-item" href="javascript:void(0)" onclick="mostrarDatosCliente('{{$cliente->id}}' , '{{ $cliente->nombres }}', '{{ $cliente->direccion }}', '{{ $cliente->telefono }}', '{{ $cliente->telefono_2 }}', '{{ $cliente->colonia }}', '{{ $cliente->ciudad }}' )">
+                                    <i class="fa fa-edit mr-5"></i> Editar cliente
+                                </a>
 
                                 <a class="dropdown-item" href="{{ route('edit.cambiarEstatusCliente' , [ 'id' => $cliente->id, 'estatus' => $cliente->activo]) }}">
                                     <i class="si {{($cliente->activo == 'Activo')? 'si-close' : 'si-check' }} mr-5"></i> {{($cliente->activo == 'Activo')? 'Inactivar' : 'Activar' }}
@@ -162,6 +165,59 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="modal-editar-cliente" tabindex="-1" role="dialog" aria-labelledby="modal-popin" aria-modal="true">
+    <div class="modal-dialog modal-dialog-popin" role="document">
+        <div class="modal-content">
+            <div class="block block-themed block-transparent mb-0">
+                <div class="block-header bg-primary-dark">
+                    <h3 class="block-title">Editar cliente</h3>
+                    <div class="block-options">
+                        <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+                            <i class="si si-close"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="block-content">
+                    <form id="formEditar" action="{{ route('updateCliente') }}" method="POST"> 
+                        @csrf
+                        <div class="form-group">
+                            <label for="nombres">Nombre(s)*</label>
+                            <input type="text" class="form-control" id="nombres" name="nombres" value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="direccion">Dirección*</label>
+                            <input type="text" class="form-control" id="direccion" name="direccion" value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="telefono">Telefono 1*</label>
+                            <input type="text" class="form-control" id="telefono" name="telefono" value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="telefono_2">Telefono 2*</label>
+                            <input type="text" class="form-control" id="telefono_2" name="telefono_2" value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="colonia">Colonia*</label>
+                            <input type="text" class="form-control" id="colonia" name="colonia" value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="ciudad">Ciudad*</label>
+                            <input type="text" class="form-control" id="ciudad" name="ciudad" value="">
+                            <input type="hidden" name="id_cliente" id="id_cliente" value="">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-alt-secondary" data-dismiss="modal">Cancelar</button>
+                <button onclick="document.getElementById('formEditar').submit()" type="button" class="btn btn-alt-success">
+                    <i class="fa fa-check"></i> Editar cliente
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('styles')
@@ -181,6 +237,19 @@
     function mostrarAgregarCobrador(idCliente) {
         document.getElementById('cliente_id').value  = idCliente;
         $('#modal-asignar-cobrador').modal('show');
+    }
+
+    function mostrarDatosCliente(id_cliente,nombres,direccion,telefono,telefono_2,colonia,ciudad)
+    {
+        document.getElementById('nombres').value = nombres;
+        document.getElementById('direccion').value = direccion;
+        document.getElementById('telefono').value = telefono;
+        document.getElementById('telefono_2').value = telefono_2;
+        document.getElementById('colonia').value = colonia;
+        document.getElementById('ciudad').value = ciudad;
+
+        document.getElementById('id_cliente').value = id_cliente;
+        $('#modal-editar-cliente').modal('show');
     }
 </script>
 @endsection

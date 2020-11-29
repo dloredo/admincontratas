@@ -45,6 +45,8 @@ Route::post('/añadirContrata/{id}' , 'ClientesController@agregarContrataNueva')
 Route::get('/detallesContrata/{idCliente}/{idContrata}' , 'ClientesController@detallesContrata')->name('detallesContrata');
 Route::get('/getAllDesestimateDays' , 'ClientesController@getDesestimateDays');
 
+Route::post('/update-cliente' , 'ClientesController@updateCliente')->name('updateCliente');
+
 Route::get('/verContratas/{id}' , 'ClientesController@verContratas')->name('verContratas');
 Route::get('/imprimirPagosDiarios/{id}' , 'ClientesController@imprimirPagosDiarios')->name('imprimirPagosDiarios');
 Route::get('/imprimirPagosSemanales/{id}' , 'ClientesController@imprimirPagosSemanales')->name('imprimirPagosSemanales');

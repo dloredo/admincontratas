@@ -66,7 +66,7 @@ class ClientesController extends Controller
             'nombres' => 'required',
             'direccion' => 'required',
             'telefono' => 'required',
-            'telefono' => 'numeric',
+            'telefono_2' => 'required',
             'colonia' => 'required',
             'ciudad' => 'required',
         ]);
@@ -82,6 +82,29 @@ class ClientesController extends Controller
             'ciudad'      => $request['ciudad'],
         ]);
         return redirect()->route('vista.clientes')->with('estatus',true)->with('message', 'El cliente fue agregado correctamente');
+    }
+    public function updateCliente(Request $request)
+    {
+        $id = $request['id_cliente'];
+        $cliente = Clientes::findOrFail($id);
+
+        request()->validate([
+            'nombres' => 'required',
+            'direccion' => 'required',
+            'telefono' => 'required',
+            'telefono_2' => 'required',
+            'colonia' => 'required',
+            'ciudad' => 'required',
+        ]);
+        $cliente->update([
+            'nombres'     => $request['nombres'],
+            'direccion'   => $request['direccion'],
+            'telefono'    => $request['telefono'],
+            'telefono_2'  => $request['telefono_2'],
+            'colonia'     => $request['colonia'],
+            'ciudad'      => $request['ciudad'],
+        ]);
+        return redirect()->route('vista.clientes')->with('estatus',true)->with('message', 'El cliente fue editado correctamente');
     }
 
     public function vista_agregarContrata($id)
