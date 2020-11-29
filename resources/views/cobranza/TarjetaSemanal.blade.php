@@ -8,7 +8,7 @@
 <body>
 <style>
     @page { margin: 5px 10px; }
-   
+    @page { size: 21.5cm 13.6cm;}
     body { margin: 5px 10px; }
 
     .table{
@@ -45,11 +45,11 @@
     .half-page{width: 50%; text-align: center;}
 
     .outside-text{
-        font-size: 30px;
+        font-size: 25px;
     }
     p{
         margin: 0px;
-        font-size: 20px;
+        font-size: 17px;
     }
 
     .header{
@@ -75,7 +75,9 @@
        width: 50%;
    }
 </style>
-
+    @php
+         $count = 1;
+    @endphp
     
     @for($x = 0; $x < sizeof($chunks_fechas); $x++)
         @php
@@ -113,15 +115,19 @@
                         @endphp
                       
                        <tr>
-                           <td style="width: 10%; padding:15px 0px"><p>{{$i}}</p></td>
-                           <td style="width: 20%; padding:15px 0px"><p><strong>PAGO</strong></p></td>
-                           <td style="width: 30%; padding:15px 0px"><p><strong>{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</strong></p></td>
-                           <td style="width: 30%; padding:15px 0px"><p><strong>${{$contrata->pagos_contrata}}</strong></p></td>
+                           <td style="width: 10%; padding:5px 0px"><p>{{$count}}</p></td>
+                           <td style="width: 20%; padding:5px 0px"><p><strong>PAGO</strong></p></td>
+                           <td style="width: 30%; padding:5px 0px"><p><strong>{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</strong></p></td>
+                           <td style="width: 30%; padding:5px 0px"><p><strong>${{$contrata->pagos_contrata}}</strong></p></td>
                        </tr>
                        <tr>
-                           <td colspan="2" style="width: 30%; padding:15px 0px"><p>RECIBÍ</p></td>
-                           <td colspan="2" style="width: 70%; padding:15px 0px"></td>
+                           <td colspan="2" style="width: 30%; padding:5px 0px"><p>RECIBÍ</p></td>
+                           <td colspan="2" style="width: 70%; padding:5px 0px"></td>
                        </tr>
+
+                       @php
+                         $count++;  
+                       @endphp
                        @endfor
                 </table>
             </div>
@@ -135,15 +141,19 @@
                             @endphp
                         
                         <tr>
-                            <td style="width: 10%; padding:15px 0px"><p>{{$i}}</p></td>
-                            <td style="width: 20%; padding:15px 0px"><p><strong>PAGO</strong></p></td>
-                            <td style="width: 30%; padding:15px 0px"><p><strong>{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</strong></p></td>
-                            <td style="width: 30%; padding:15px 0px"><p><strong>${{$contrata->pagos_contrata}}</strong></p></td>
+                            <td style="width: 10%; padding:5px 0px"><p>{{$count}}</p></td>
+                            <td style="width: 20%; padding:5px 0px"><p><strong>PAGO</strong></p></td>
+                            <td style="width: 30%; padding:5px 0px"><p><strong>{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</strong></p></td>
+                            <td style="width: 30%; padding:5px 0px"><p><strong>${{$contrata->pagos_contrata}}</strong></p></td>
                         </tr>
                         <tr>
-                            <td colspan="2" style="width: 30%; padding:15px 0px"><p>RECIBÍ</p></td>
-                            <td colspan="2" style="width: 70%; padding:15px 0px"></td>
+                            <td colspan="2" style="width: 30%; padding:5px 0px"><p>RECIBÍ</p></td>
+                            <td colspan="2" style="width: 70%; padding:5px 0px"></td>
                         </tr>
+
+                        @php
+                            $count++;  
+                        @endphp
                         @endfor
                     </tbody>
                 </table>

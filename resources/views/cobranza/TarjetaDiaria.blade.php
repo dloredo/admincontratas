@@ -69,6 +69,9 @@
    }
 </style>
 
+    @php
+         $count = 1;
+    @endphp
     
     @for($x = 0; $x < sizeof($chunks_fechas); $x++)
         @php
@@ -113,11 +116,14 @@
                                 @endphp
                                 
                                 <tr>
-                                    <td style="width: 10%;">{{$i}}</td>
+                                    <td style="width: 10%;">{{$count}}</td>
                                     <td style="width: 25%;">{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</td>
                                     <td style="width: 15%;">${{$contrata->pagos_contrata}}</td>
                                     <td style="width: 50%;"></td>        
                                 </tr>
+                                @php
+                                    $count++;  
+                                @endphp
                             @endfor
                         </tbody>
                     </table>
@@ -139,11 +145,14 @@
                                         break;
                                 @endphp
                                 <tr>
-                                <td style="width: 10%;">{{$i}}</td>
+                                <td style="width: 10%;">{{$count}}</td>
                                     <td style="width: 25%;">{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</td>
                                     <td style="width: 15%;">${{$contrata->pagos_contrata}}</td>
                                     <td style="width: 50%;"></td>      
                                 </tr>
+                                @php
+                                    $count++;  
+                                @endphp
                             @endfor
                         </tbody>
                     </table>
@@ -165,11 +174,14 @@
                                         break;
                                 @endphp
                                 <tr>
-                                <td style="width: 10%;">{{$i}}</td>
+                                <td style="width: 10%;">{{$count}}</td>
                                     <td style="width: 25%;">{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</td>
                                     <td style="width: 15%;">${{$contrata->pagos_contrata}}</td>
                                     <td style="width: 50%;"></td>           
                                 </tr>
+                                @php
+                                    $count++;  
+                                @endphp
                             @endfor
                         </tbody>
                     </table>
@@ -191,11 +203,14 @@
                                         break;
                                 @endphp
                                 <tr>
-                                <td style="width: 10%;">{{$i}}</td>
+                                <td style="width: 10%;">{{$count}}</td>
                                     <td style="width: 25%;">{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</td>
                                     <td style="width: 15%;">${{$contrata->pagos_contrata}}</td>
                                     <td style="width: 50%;"></td>        
                                 </tr>
+                                @php
+                                    $count++;  
+                                @endphp
                             @endfor
                         </tbody>
                     </table>
