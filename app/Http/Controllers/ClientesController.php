@@ -180,7 +180,7 @@ class ClientesController extends Controller
             else
                 $date->addWeeks(1);
 
-            if ((in_array($date->format("Y-m-d"),$desestimateDays)) || (!in_array($date->dayOfWeek,$dow)) )
+            if ((in_array($date->format("Y-m-d"),$desestimateDays)) || ( !is_null($dow) && (!in_array($date->dayOfWeek,$dow))) )
                 $i--;
         }
     }
