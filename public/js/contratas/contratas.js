@@ -14419,11 +14419,7 @@ new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   },
   watch: {
     prestamo: function prestamo(val, oldVal) {
-      if (document.getElementById("fecha_inicio").value != '') this.getEndTime({
-        target: {
-          value: document.getElementById("fecha_inicio").value
-        }
-      }, 1);
+      this.calcularDatos(4);
     }
   },
   methods: {
@@ -14432,68 +14428,57 @@ new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
         target: {
           value: document.getElementById("fecha_inicio").value
         }
-      }, 1);
+      });
     },
     diasPlanKeyUp: function diasPlanKeyUp() {
+      this.calcularDatos(1);
       if (document.getElementById("fecha_inicio").value != '') this.getEndTime({
         target: {
           value: document.getElementById("fecha_inicio").value
         }
-      }, 1);
+      });
     },
     comisionPrestamoKeyUp: function comisionPrestamoKeyUp() {
-      if (document.getElementById("fecha_inicio").value != '') this.getEndTime({
-        target: {
-          value: document.getElementById("fecha_inicio").value
-        }
-      }, 2);
+      this.calcularDatos(2);
     },
     pagosContrataKeyUp: function pagosContrataKeyUp() {
-      if (document.getElementById("fecha_inicio").value != '') this.getEndTime({
-        target: {
-          value: document.getElementById("fecha_inicio").value
-        }
-      }, 3);
+      this.calcularDatos(3);
     },
     resetEndDate: function resetEndDate() {
       document.getElementById("fecha_termino").value = "";
     },
-    calcularDatos: function calcularDatos(diasRestantes, type) {
-      var dias = this.tipoPagos == "Pagos diarios" && this.opcionesPago == 2 ? diasRestantes : this.diasPlan;
+    calcularDatos: function calcularDatos(type) {
+      var dias = this.diasPlan;
+      if (this.prestamo == 0 || this.prestamo == "") return;
 
-      if (typeof type == "undefined" || type == 1) {
-        if ((this.cantidadPago == 0 || this.cantidadPago == "") && (this.comisionPrestamo == 0 || this.comisionPrestamo == "")) return;
-
-        if ((this.cantidadPago != 0 || this.cantidadPago != "") && (this.comisionPrestamo != 0 || this.comisionPrestamo != "")) {
-          this.cantidadPago = (parseInt(this.prestamo) + parseInt(this.comisionPrestamo)) / dias;
-          this.comisionPrestamo = this.cantidadPago * dias - this.prestamo;
+      if (type == 1) {
+        if (parseInt(this.comisionPrestamo) < 0 || String(this.comisionPrestamo) == "") {
           return;
         }
 
-        if (this.cantidadPago == 0 || this.cantidadPago == "") {
-          this.cantidadPago = (parseInt(this.prestamo) + parseInt(this.comisionPrestamo)) / dias;
-          return;
-        }
-
-        if (this.comisionPrestamo == 0 || this.comisionPrestamo == "") {
-          this.comisionPrestamo = this.cantidadPago * dias - this.prestamo;
-          return;
-        }
+        this.cantidadPago = (parseInt(this.prestamo) + parseInt(this.comisionPrestamo)) / dias;
+        return;
       }
 
       if (type == 2) {
+        if (parseInt(this.diasPlan) == 0 || String(this.diasPlan) == "") return;
         this.cantidadPago = (parseInt(this.prestamo) + parseInt(this.comisionPrestamo)) / dias;
         return;
       }
 
       if (type == 3) {
+        if (parseInt(this.diasPlan) == 0 || String(this.diasPlan) == "") return;
         this.comisionPrestamo = this.cantidadPago * dias - this.prestamo;
         return;
       }
-    },
-    getEndTime: function getEndTime(e, type) {
-      var _this = this;
 
+      if (type == 4) {
+        if ((parseInt(this.diasPlan) == 0 || String(this.diasPlan) == "") && (parseInt(this.comisionPrestamo) < 0 || String(this.comisionPrestamo) == "")) return;
+        this.cantidadPago = (parseInt(this.prestamo) + parseInt(this.comisionPrestamo)) / dias;
+        return;
+      }
+    },
+    getEndTime: function getEndTime(e) {
       if (this.diasPlan == "") return;
       if (this.tipoPagos == "Pagos diarios" && this.opcionesPago == 2 && this.daysOfWeek.length == 0) return;
       var strInitDate = e.target.value;
@@ -14505,7 +14490,6 @@ new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
         daysOfWeek: this.daysOfWeek
       };
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("/obtenerFechasPagos", sendDataObject).then(function (response) {
-        if (_this.tipoPagos == "Pagos diarios" && _this.opcionesPago == 2) _this.calcularDatos(response.data.diasRestantes, type);else _this.calcularDatos(0, type);
         document.getElementById("fecha_termino").value = response.data.endTime;
       });
     }

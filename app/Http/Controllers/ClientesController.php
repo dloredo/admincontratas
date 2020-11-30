@@ -103,14 +103,14 @@ class ClientesController extends Controller
 
         if($request->input("tipoPagos") == "Pagos diarios")
         {
-            $dow = null;
+            $dow = [0,1,2,3,4,5,6,7];
 
             if($request->input("opcionesPago") != 1)
             {
                 $dow = $request->input("daysOfWeek");
-                $initDate = Carbon::createFromFormat('Y-m-d', $request->input("initDate"));
-                $days = $this->getDays($request->input("diasPlan"), $initDate , $request->input("daysOfWeek"),$desestimateDays);
-                $data["diasRestantes"] = $days;
+                // $initDate = Carbon::createFromFormat('Y-m-d', $request->input("initDate"));
+                // $days = $this->getDays($request->input("diasPlan"), $initDate , $request->input("daysOfWeek"),$desestimateDays);
+                //$data["diasRestantes"] = $request->input("diasPlan");
             }
 
             $this->getEndDate($date, $request->input("diasPlan"),$desestimateDays, 1,$dow);
@@ -157,7 +157,7 @@ class ClientesController extends Controller
             else
                 $date->addWeeks(1);
 
-            if ((in_array($date->format("Y-m-d"),$desestimateDays)) || ((!is_null($dow) && $i == $days-1) && !in_array($date->dayOfWeek,$dow)) )
+            if ((in_array($date->format("Y-m-d"),$desestimateDays)) || (!in_array($date->dayOfWeek,$dow)) )
                 $i--;
         }
     }
