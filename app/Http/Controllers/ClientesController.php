@@ -275,6 +275,8 @@ class ClientesController extends Controller
         $desestimateDays = $this->getDesestimateDays(); 
         $fechasPagos = $this->obtenerDiasPagos($request['fecha_inicio'],$request['fecha_termino'],$desestimateDays,$type,$daysOfWeek);
         
+        
+
         $comision = $request['comision'];
         $cantidad_prestada = $request['cantidad_prestada'];
         $comision_procentaje = ($comision * 100)/$cantidad_prestada;
@@ -282,6 +284,11 @@ class ClientesController extends Controller
 
         DB::beginTransaction();
         try{
+
+            if(sizeof($fechasPagos) == 0 || is_null($fechasPagos))
+                throw new \Exception ("Hubo un error al generar los pagos, verifique la información");
+
+
             $contrata = Contratas::create([
                 'id_cliente'            => $id,
                 'cantidad_prestada'     => $request['cantidad_prestada'],
@@ -343,7 +350,7 @@ class ClientesController extends Controller
         }
         catch(\Exception $e){
             DB::rollback();
-            return redirect()->route('vista.clientes')->with('estatus',false)->with('message', 'Hubo un error al guardar la contrata');
+            return redirect()->route('vista.clientes')->with('estatus',false)->with('message', 'Hubo un error al guardar la contrata, verifique la información');
         }
         
 
@@ -354,10 +361,10 @@ class ClientesController extends Controller
     function obtenerDiasPagos($fechaInicio,$fechaTermino,$desestimateDays,$type,$dow)
     {
         $fechaInicio  = Carbon::createFromFormat("Y-m-d",$fechaInicio);
-
-        ($fechaInicio->format("Y-m-d") != $fechaTermino);
-
         $dates = [];
+        
+        if($fechaInicio->format("Y-m-d") > $fechaTermino) return $dates;
+ 
         while(strtotime($fechaInicio->format("Y-m-d")) <= strtotime($fechaTermino) )
         {
             if (!in_array($fechaInicio->format("Y-m-d"),$desestimateDays) && in_array($fechaInicio->dayOfWeek,$dow) ) 
