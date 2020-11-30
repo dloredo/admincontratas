@@ -49,6 +49,8 @@ class PrincipalController extends Controller
                             ->where('pagos_contratas.confirmacion', 0 )
                             ->get();
 
+
+
             }
             else{
 
@@ -62,6 +64,16 @@ class PrincipalController extends Controller
                             ->whereRaw("(pagos_contratas.estatus = 0 or pagos_contratas.estatus = 2 )")
                             ->where('pagos_contratas.confirmacion', 0 )
                             ->get();
+                // $data["infoTable1"] = Contratas::select("contratas.*","clientes.nombres",'pagos_contratas.id as idPago' , 'pagos_contratas.cantidad_pagada')
+                // ->join("clientes",function($join){
+                //     $join->on("clientes.id","contratas.id_cliente");
+                //     $join->where("clientes.cobrador_id",Auth::user()->id);
+                // })
+                // ->join("pagos_contratas","pagos_contratas.id_contrata","contratas.id")
+                // ->where('pagos_contratas.fecha_pago', Carbon::now()->format("Y-m-d") )
+                // ->whereRaw("(pagos_contratas.estatus = 0 or pagos_contratas.estatus = 2 )")
+                // ->where('pagos_contratas.confirmacion', 0 )
+                // ->get();
             }
             
         }

@@ -45,6 +45,8 @@ Route::post('/añadirContrata/{id}' , 'ClientesController@agregarContrataNueva')
 Route::get('/detallesContrata/{idCliente}/{idContrata}' , 'ClientesController@detallesContrata')->name('detallesContrata');
 Route::get('/getAllDesestimateDays' , 'ClientesController@getDesestimateDays');
 
+Route::post('/update-cliente' , 'ClientesController@updateCliente')->name('updateCliente');
+
 Route::get('/verContratas/{id}' , 'ClientesController@verContratas')->name('verContratas');
 Route::get('/imprimirPagosDiarios/{id}' , 'ClientesController@imprimirPagosDiarios')->name('imprimirPagosDiarios');
 Route::get('/imprimirPagosSemanales/{id}' , 'ClientesController@imprimirPagosSemanales')->name('imprimirPagosSemanales');
@@ -155,7 +157,7 @@ Route::post('/obtenerFechasPorAño' , 'AdministracionController@obtenerFechasPor
 |               PAGINA PRINCIPAL
 |--------------------------------------------------------------------------
 */
-Route::get('/principal' , 'PrincipalController@index')->name('vista.principal')->middleware('auth.admin');
+Route::get('/principal' , 'PrincipalController@index')->name('vista.principal');
 Route::get('/contratas-a-vencer' , 'PrincipalController@contratasAVencer')->name('vista.contratas.vencer')->middleware('auth.admin');
 Route::get('/pagos-del-dia' , 'PrincipalController@index')->name('vista.pagosDias');
 Route::post('/liquidar-cliente/{id}' , 'PrincipalController@liquidar_cobrador')->name('liquidar_cobrador');
