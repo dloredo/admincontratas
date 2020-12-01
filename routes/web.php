@@ -92,6 +92,7 @@ Route::get('/cobranza' , 'CobranzaController@index')->name('vista.contratas_cobr
 Route::get('/cobranza/contratas/{id}' , 'CobranzaController@verContratasCliente')->name('verContratasCliente');
 Route::get('/cobranza/contratas/pagos/{id}' , 'CobranzaController@verPagosContrata')->name('verPagosContrata');
 Route::get('/cobranza/contratas/descargarTarjetaContrata/{id}' , 'CobranzaController@descargarTarjetaContrata')->name('descargarTarjetaContrata');
+Route::get('/cobranza/contratas/renovarContrata/{id}' , 'ClientesController@renovarContrata')->name('renovarContrata');
 Route::get('/cobranza/historial/' , 'CobranzaController@hitorialCobros')->name('historialCobranza');
 Route::get('/cobranza/historial/{fecha}/{id}' , 'CobranzaController@hitorialCobros')->name('historialCobranza.filtro');
 Route::get('/cobranza/historial/{fecha}' , 'CobranzaController@hitorialCobros')->name('historialCobranza.filtro_fecha');
