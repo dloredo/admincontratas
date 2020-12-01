@@ -243,6 +243,7 @@ class ClientesController extends Controller
     {
         
         request()->validate([
+            'numero_contrata'    => 'required',
             'cantidad_prestada'  => 'required',
             'comision'           => 'required',
             'tipo_plan_contrata' => 'required',
@@ -288,27 +289,55 @@ class ClientesController extends Controller
             if(sizeof($fechasPagos) == 0 || is_null($fechasPagos))
                 throw new \Exception ("Hubo un error al generar los pagos, verifique la información");
 
+            $contrata = Contratas::encontrarNumeroContrata($id,$request['numero_contrata']);
 
-            $contrata = Contratas::create([
-                'id_cliente'            => $id,
-                'cantidad_prestada'     => $request['cantidad_prestada'],
-                'comision'              => $comision,
-                'comision_porcentaje'   => round($comision_procentaje,2),
-                'cantidad_pagar'        => $cantidad_pagar,
-                'dias_plan_contrata'    => $request['dias_plan_contrata'],
-                'pagos_contrata'        => $request['pagos_contrata'],
-                'tipo_plan_contrata'    => $request['tipo_plan_contrata'],
-                "dias_pago"             => json_encode($daysOfWeek),
-                'fecha_inicio'          => $request['fecha_inicio'],
-                'fecha_entrega'         => $request['fecha_entrega'],
-                'estatus'               => 0,
-                'fecha_termino'         => $request['fecha_termino'],
-                'hora_cobro'            => $request['hora_cobro'],
-                'bonificacion'          => 0,    
-                'control_pago'          => 0,
-                'adeudo'                => 0
-            ]);
+            if($contrata)
+            {
+                if($contrata->estatus == 0)
+                    throw new \Exception ("Ya existe una contrata con ese número");
+                
+                $contrata->cantidad_prestada     = $request['cantidad_prestada'];
+                $contrata->comision              = $comision;
+                $contrata->comision_porcentaje   = round($comision_procentaje,2);
+                $contrata->cantidad_pagar        = $cantidad_pagar;
+                $contrata->dias_plan_contrata    = $request['dias_plan_contrata'];
+                $contrata->pagos_contrata        = $request['pagos_contrata'];
+                $contrata->tipo_plan_contrata    = $request['tipo_plan_contrata'];
+                $contrata->dias_pago             = json_encode($daysOfWeek);
+                $contrata->fecha_inicio          = $request['fecha_inicio'];
+                $contrata->fecha_entrega         = $request['fecha_entrega'];
+                $contrata->estatus               = 0;
+                $contrata->fecha_termino         = $request['fecha_termino'];
+                $contrata->hora_cobro            = $request['hora_cobro'];
+                $contrata->bonificacion          = 0;    
+                $contrata->control_pago          = 0;
+                $contrata->adeudo                = 0;
+                $contrata->save();
 
+                PagosContratas::where("id_contrata",$contrata->id)->delete();
+            }
+            else{
+                $contrata = Contratas::create([
+                    'id_cliente'            => $id,
+                    'cantidad_prestada'     => $request['cantidad_prestada'],
+                    'comision'              => $comision,
+                    'comision_porcentaje'   => round($comision_procentaje,2),
+                    'cantidad_pagar'        => $cantidad_pagar,
+                    'dias_plan_contrata'    => $request['dias_plan_contrata'],
+                    'pagos_contrata'        => $request['pagos_contrata'],
+                    'tipo_plan_contrata'    => $request['tipo_plan_contrata'],
+                    "dias_pago"             => json_encode($daysOfWeek),
+                    'fecha_inicio'          => $request['fecha_inicio'],
+                    'fecha_entrega'         => $request['fecha_entrega'],
+                    'estatus'               => 0,
+                    'fecha_termino'         => $request['fecha_termino'],
+                    'hora_cobro'            => $request['hora_cobro'],
+                    'bonificacion'          => 0,    
+                    'control_pago'          => 0,
+                    'adeudo'                => 0,
+                    'numero_contrata'       => $request['numero_contrata'],
+                ]);
+            }
 
             foreach ($fechasPagos as $fecha)
             {
@@ -350,7 +379,7 @@ class ClientesController extends Controller
         }
         catch(\Exception $e){
             DB::rollback();
-            return redirect()->route('vista.clientes')->with('estatus',false)->with('message', 'Hubo un error al guardar la contrata, verifique la información');
+            return redirect()->route('vista.clientes')->with('estatus',false)->with('message', 'Hubo un error al guardar la contrata: '. $e->getMessage());
         }
         
 

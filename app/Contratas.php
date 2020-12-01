@@ -12,7 +12,7 @@ class Contratas extends Model
     protected $fillable = [
         'id_cliente' , 'cantidad_prestada' , 'comision' , 'comision_porcentaje' , 'cantidad_pagar',
         'dias_plan_contrata' , 'pagos_contrata' , 'tipo_plan_contrata' , 'fecha_inicio',
-        'estatus' , 'fecha_termino' , 'bonificacion' , 'control_pago','fecha_entrega','dias_pago','adeudo' , 'hora_cobro'
+        'estatus' , 'fecha_termino' , 'bonificacion' , 'control_pago','fecha_entrega','dias_pago','adeudo' , 'hora_cobro','numero_contrata'
     ];
 
 
@@ -26,5 +26,13 @@ class Contratas extends Model
         return $query->whereHas('cliente' , function($query) use ($idCobrador){
             $query->where('cobrador_id',$idCobrador);
         })->with('cliente');
+    }
+
+    static function encontrarNumeroContrata($id_cliente, $numero_contrata)
+    {
+        return static::where("id_cliente",$id_cliente)
+                        ->where("numero_contrata",$numero_contrata)
+                        ->get()
+                        ->first();
     }
 }

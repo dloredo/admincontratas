@@ -7,6 +7,16 @@
     <div class="block-content">
         <form action="{{ route('agregarContrataNueva' , $cliente->id) }}" method="post">
             @csrf
+
+            <div class="form-row">
+                <div class="form-group col-sm-4 col-md-2">
+                    <label>Número de contrata</label>
+                    <div class="input-group-prepend">
+                        <input type="number" class="form-control @error('numero_contrata') is-invalid @enderror" id="numero_contrata" name="numero_contrata" value="{{ old('numero_contrata') }}" required>
+                    </div>
+                </div>
+            </div>
+
             <div class="form-row">
                 <div class="form-group col-md-4">
                     <label>Cantidad a prestar</label>

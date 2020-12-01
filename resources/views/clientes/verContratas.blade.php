@@ -7,6 +7,7 @@
     <table class="table table-bordered table-striped table-vcenter js-dataTable-full">
         <thead>
             <tr>
+                <th style="text-align: center">No de contrata</th>
                 <th style="text-align: center">Tipos de pagos</th>
                 <th style="text-align: center">Fecha de inicio</th>
                 <th style="text-align: center">Fecha de termino</th>
@@ -17,6 +18,7 @@
         @foreach ($contratas as $contrata)
             
                 <tr>
+                    <td style="text-align: center; width:5%;">{{ $contrata->numero_contrata }}</td>
                     <td style="text-align: center">{{ $contrata->tipo_plan_contrata }}</td>
                     <td style="text-align: center">{{ $contrata->fecha_inicio }}</td>
                     <td style="text-align: center">{{ $contrata->fecha_termino }}</td>
