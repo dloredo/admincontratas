@@ -44,6 +44,13 @@
                                 <a class="dropdown-item" target="_blank" href="{{ route('descargarTarjetaContrata' , $contrata->id) }}">
                                     <i class="fa fa-book mr-5"></i> Descargar tarjeta
                                 </a>
+                                @if($contrata->estatus != 0)
+
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{{ route('renovarContrata' , $contrata->id) }}">
+                                        <i class="fa fa-refresh mr-5"></i> Renovar contrata
+                                    </a>
+                                @endif
 
                             </div>
                         </div>

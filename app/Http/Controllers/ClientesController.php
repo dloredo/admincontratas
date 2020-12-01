@@ -118,6 +118,19 @@ class ClientesController extends Controller
         return view('clientes.agregarContrata', ['cliente' => $cliente , 'fecha' => $fecha , 'fecha_finalizacion' => $fecha_finalizacion, 'fecha_finalizacion_semana' => $fecha_finalizacion_semana]);
     }
 
+    public function renovarContrata($idContrata)
+    {
+        $contrata = Contratas::find($idContrata);
+        $cliente = Clientes::where('id', $contrata->id_cliente)->firstOrFail();
+        $fecha = Carbon::now();
+        $fecha_aux = Carbon::now();
+        $fecha_finalizacion = $fecha_aux->addDays(80);
+        $fecha_aux_semana = Carbon::now();
+        $fecha_finalizacion_semana = $fecha_aux_semana->addWeeks(10);
+        return view('clientes.agregarContrata', ['cliente' => $cliente , 'fecha' => $fecha , 'fecha_finalizacion' => $fecha_finalizacion, 'fecha_finalizacion_semana' => $fecha_finalizacion_semana, "contrata" => $contrata]);
+
+    }
+
     function obtenerFechasPagos(Request $request)
     {
         $data = [];

@@ -96,6 +96,7 @@ class CobranzaController extends Controller
         
     }
 
+
     public function agregarPago($id,Request $request )
     {
         $id_cobrador = User::findOrFail(Auth::user()->id);

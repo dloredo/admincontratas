@@ -12,7 +12,7 @@
                 <div class="form-group col-sm-4 col-md-2">
                     <label>Número de contrata</label>
                     <div class="input-group-prepend">
-                        <input type="number" class="form-control @error('numero_contrata') is-invalid @enderror" id="numero_contrata" name="numero_contrata" value="{{ old('numero_contrata') }}" required>
+                        <input type="number" class="form-control @error('numero_contrata') is-invalid @enderror" id="numero_contrata" name="numero_contrata" value="{{ (isset($contrata))?$contrata->numero_contrata:old('numero_contrata') }}" {{ (isset($contrata))? "readonly" : '' }} required>
                     </div>
                 </div>
             </div>
@@ -22,7 +22,7 @@
                     <label>Cantidad a prestar</label>
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon1">$</span>
-                        <input type="number" class="form-control @error('cantidad_prestada') is-invalid @enderror" id="cantidad_prestada" name="cantidad_prestada" placeholder="Ingrese el prestamo que se hara" value="{{ old('cantidad_prestada') }}" v-model="prestamo" autocomplete="cantidad_prestada">
+                        <input type="number" class="form-control @error('cantidad_prestada') is-invalid @enderror" id="cantidad_prestada" name="cantidad_prestada" placeholder="Ingrese el prestamo que se hara" v-model="prestamo" autocomplete="cantidad_prestada">
                     </div>
                 </div>
                 <div class="form-group col-md-4">
