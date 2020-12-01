@@ -7,22 +7,22 @@
     <div class="block-content">
         <table class="table table-hover">
             <thead>
-                <tr>
+                <tr style="text-align: center;">
                     <th scope="col">#</th>
                     <th scope="col">Nombre</th>
-                    <th scope="col">Dirección</th>
-                    <th scope="col">Teléfono</th>
+                    <th scope="col">Fecha Inicio</th>
+                    <th scope="col">Fecha termino</th>
                     <th style="text-align: center;">Cantidad prestada</th>
                     <th scope="col">Acciones</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($contratas as $contrata)
-                        <tr>
-                            <th scope="row">{{$contrata->cliente->id}}</th>
-                            <td>{{ $contrata->cliente->nombres }} {{ $contrata->cliente->apellidos }}</td>
-                            <td>{{ $contrata->cliente->direccion }}</td>
-                            <td>{{ $contrata->cliente->telefono }}</td>
+                        <tr style="text-align: center;">
+                            <th scope="row">{{$contrata->id}}</th>
+                            <td>{{ $contrata->nombres }}</td>
+                            <td>{{date('d-m-Y', strtotime($contrata->fecha_inicio))}}</td>
+                            <td>{{date('d-m-Y', strtotime($contrata->fecha_termino))}}</td>
                             <td style="text-align: center;"><?php echo "$" . number_format(round(((float)$contrata->cantidad_prestada)),2,'.',',');?> </td>
                             <td>
                             <div class="btn-group" role="group">
@@ -33,20 +33,12 @@
                             </button>
                             <div class="dropdown-menu dropdown-menu-right min-width-200" aria-labelledby="page-header-user-dropdown">
                                 <h5 class="h6 text-center py-10 mb-5 border-b text-uppercase">Opciones</h5>
-                                <a class="dropdown-item" href="{{ route('detallesContrata',[$contrata->cliente->id,$contrata->id]) }}">
-                                    <i class="fa fa-money mr-5"></i> Ver detalles y pagos
+                                <a class="dropdown-item" target="_blank" href="{{ route('verPagosContrata' , $contrata->id) }}">
+                                    <i class="fa fa-money mr-5"></i> Agregar pago
                                 </a>
-                                
-                                @if ($contrata->tipo_plan_contrata == "Pagos diarios" )
-                                    <a class="dropdown-item" href="{{ route('imprimirPagosDiarios',$contrata->id) }}">
-                                        <i class="si si-printer mr-5"></i> Imprimir boleta a {{ $contrata->dias_plan_contrata }} dias
-                                    </a>
-                                @elseif($contrata->tipo_plan_contrata == "Pagos por semana" )
-                                    <a class="dropdown-item" href="{{ route('imprimirPagosSemanales',$contrata->id) }}">
-                                        <i class="si si-printer mr-5"></i> Imprimir boleta a {{ $contrata->dias_plan_contrata }} semanas
-                                    </a>
-                                @endif
-
+                                <a class="dropdown-item" target="_blank" href="{{ route('editarContrata' , $contrata->id) }}">
+                                    <i class="fa fa-edit mr-5"></i> Editar contrata
+                                </a>
                             </div>
                         </div>
                             </td>

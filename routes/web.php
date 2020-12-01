@@ -57,6 +57,10 @@ Route::post('/clientes/asignarCobrador' , 'ClientesController@asignarCobrador')-
 
 Route::post('obtenerFechasPagos' , 'ClientesController@obtenerFechasPagos')->name('clientes.obtenerFechasPagos');
 
+Route::get('/editar-contrata/{id}' , 'ContratasController@edit')->name("editarContrata");
+
+Route::post('/update-contrata/{id}' , 'ContratasController@update')->name('updateContrata');
+
 //NUMEROS HABILES
 Route::get('numeros-habiles' , 'ClientesHabilesController@index')->name('numerosHabiles');
 
