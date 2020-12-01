@@ -74,9 +74,9 @@
                                     <i class="fa fa-edit mr-5"></i> Editar cliente
                                 </a>
 
-                                <a class="dropdown-item" href="{{ route('edit.cambiarEstatusCliente' , [ 'id' => $cliente->id, 'estatus' => $cliente->activo]) }}">
+                                {{-- <a class="dropdown-item" href="{{ route('edit.cambiarEstatusCliente' , [ 'id' => $cliente->id, 'estatus' => $cliente->activo]) }}">
                                     <i class="si {{($cliente->activo == 'Activo')? 'si-close' : 'si-check' }} mr-5"></i> {{($cliente->activo == 'Activo')? 'Inactivar' : 'Activar' }}
-                                </a>
+                                </a> --}}
 
                                 <div class="dropdown-divider"></div>
 
