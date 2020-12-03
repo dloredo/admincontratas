@@ -16,7 +16,7 @@
         @if(Auth::user()->id_rol == 1)
         <div style="float: right">
             <a href="{{ route('vista.agregarCliente') }}"><button type="button" class="btn btn-primary">Añadir nuevo cliente</button></a>
-            <div class="btn-group" role="group">
+            {{-- <div class="btn-group" role="group">
                 <button type="button" class="btn btn-rounded btn-outline-primary" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-user d-sm-none"></i>
                     <span class="d-none d-sm-inline-block">Reportes</span>
@@ -28,7 +28,7 @@
                     <a class="dropdown-item" href="{{ route('reporteDirectorios') }}"><i class="si si-printer mr-5"></i>Directorios de clientes</a>
                     
                 </div>
-            </div>
+            </div> --}}
         </div>
         @endif
     </div>
@@ -67,24 +67,24 @@
                                     <i class="si si-printer mr-5"></i> Ver contratas
                                 </a>
                                 @if(Auth::user()->id_rol == 1)
-                                <a class="dropdown-item" href="{{ route('vista.agregarContrata' , $cliente->id) }}">
-                                    <i class="si si-user mr-5"></i> Dar contrata
-                                </a>
-                                <a  class="dropdown-item" href="javascript:void(0)" onclick="mostrarDatosCliente('{{$cliente->id}}' , '{{ $cliente->nombres }}', '{{ $cliente->direccion }}', '{{ $cliente->telefono }}', '{{ $cliente->telefono_2 }}', '{{ $cliente->colonia }}', '{{ $cliente->ciudad }}' )">
-                                    <i class="fa fa-edit mr-5"></i> Editar cliente
-                                </a>
+                                    <a class="dropdown-item" href="{{ route('vista.agregarContrata' , $cliente->id) }}">
+                                        <i class="si si-user mr-5"></i> Dar contrata
+                                    </a>
+                                    <a  class="dropdown-item" href="javascript:void(0)" onclick="mostrarDatosCliente('{{$cliente->id}}' , '{{ $cliente->nombres }}', '{{ $cliente->direccion }}', '{{ $cliente->telefono }}', '{{ $cliente->telefono_2 }}', '{{ $cliente->colonia }}', '{{ $cliente->ciudad }}' )">
+                                        <i class="fa fa-edit mr-5"></i> Editar cliente
+                                    </a>
 
-                                <a class="dropdown-item" href="{{ route('edit.cambiarEstatusCliente' , [ 'id' => $cliente->id, 'estatus' => $cliente->activo]) }}">
-                                    <i class="si {{($cliente->activo == 'Activo')? 'si-close' : 'si-check' }} mr-5"></i> {{($cliente->activo == 'Activo')? 'Inactivar' : 'Activar' }}
-                                </a>
+                                    {{-- <a class="dropdown-item" href="{{ route('edit.cambiarEstatusCliente' , [ 'id' => $cliente->id, 'estatus' => $cliente->activo]) }}">
+                                        <i class="si {{($cliente->activo == 'Activo')? 'si-close' : 'si-check' }} mr-5"></i> {{($cliente->activo == 'Activo')? 'Inactivar' : 'Activar' }}
+                                    </a> --}}
 
-                                <div class="dropdown-divider"></div>
+                                    <div class="dropdown-divider"></div>
 
-                                <!-- Toggle Side Overlay -->
-                                <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
-                                <a class="dropdown-item" href="javascript:void(0)" onclick="mostrarAgregarCobrador('{{$cliente->id}}')">
-                                    <i class="fa fa-handshake-o mr-5"></i> Agregar cobrador
-                                </a>
+                                    <!-- Toggle Side Overlay -->
+                                    <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
+                                    <a class="dropdown-item" href="javascript:void(0)" onclick="mostrarAgregarCobrador('{{$cliente->id}}')">
+                                        <i class="fa fa-handshake-o mr-5"></i> Agregar cobrador
+                                    </a>
                                 @endif
 
                             </div>
