@@ -1,6 +1,15 @@
 @extends('layouts.layout')
 
 @section('main')
+@if($message = Session::get('message'))
+<div class="alert {{ (Session::get('estatus'))? 'alert-success' : 'alert-danger' }} alert-dismissable" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">×</span>
+    </button>
+    <h3 class="alert-heading font-size-h4 font-w400">{{ (Session::get('estatus'))? 'Correcto' : 'Error' }}</h3>
+    <p class="mb-0">{{ $message }}</p>
+</div>
+@endif
 <h2 class="content-heading">Contratas de todos los usuarios</h2>
 
 <div class="block">
@@ -19,7 +28,7 @@
             <tbody>
                 @foreach ($contratas as $contrata)
                         <tr style="text-align: center;">
-                            <th scope="row">{{$contrata->id}}</th>
+                            <th scope="row">{{$contrata->numero_contrata}}</th>
                             <td>{{ $contrata->nombres }}</td>
                             <td>{{date('d-m-Y', strtotime($contrata->fecha_inicio))}}</td>
                             <td>{{date('d-m-Y', strtotime($contrata->fecha_termino))}}</td>
@@ -36,7 +45,7 @@
                                 <a class="dropdown-item" target="_blank" href="{{ route('verPagosContrata' , $contrata->id) }}">
                                     <i class="fa fa-money mr-5"></i> Agregar pago
                                 </a>
-                                <a class="dropdown-item" target="_blank" href="{{ route('editarContrata' , $contrata->id) }}">
+                                <a class="dropdown-item" href="{{ route('editarContrata' , $contrata->id) }}">
                                     <i class="fa fa-edit mr-5"></i> Editar contrata
                                 </a>
                             </div>
