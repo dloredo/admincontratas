@@ -21,7 +21,8 @@
       <th scope="col">NO.</th>}
       <th scope="col">NOMBRE</th>
       <th scope="col">PRESTAMO TOTAL</th>
-      <th scope="col">PARCIAL</th>
+      <th scope="col">ABONO</th>
+      <th scope="col">C. PARCIAL</th>
     </tr>
   </thead>
   <tbody>

@@ -22,7 +22,7 @@ class CapitalController extends Controller
     {
         $capital = Capital::find(1);
         $cortes = Cortes::all();
-        $prestamos_totales = Contratas::where('estatus' , 0)->sum('cantidad_prestada');
+        $prestamos_totales = Contratas::where('estatus' , 0)->sum('cantidad_pagar');
         $pagos_totales = PagosContratas::sum('cantidad_pagada');
         $comisiones = Contratas::sum('comision');
         $contratas_vigentes = Contratas::where('estatus' , 0)->count();
