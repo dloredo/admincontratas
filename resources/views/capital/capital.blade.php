@@ -51,6 +51,13 @@
                             <div class="float-right mt-15 d-none d-sm-block">
                                 <i class="si si-users fa-2x text-info"></i>
                             </div>
+                            <div class="font-size-h3 font-w600 text-info js-count-to-enabled" data-toggle="countTo" data-speed="1000" data-to="0">{{ $clientes }}</div>
+                            <div class="font-size-sm font-w600 text-uppercase text-info-light">Clientes</div>
+                        </div>
+                        <div class="py-15 px-20 clearfix border-black-op-b">
+                            <div class="float-right mt-15 d-none d-sm-block">
+                                <i class="si si-users fa-2x text-info"></i>
+                            </div>
                             <div class="font-size-h3 font-w600 text-info js-count-to-enabled" data-toggle="countTo" data-speed="1000" data-to="{{$capital->comisiones}}"><?php echo "$" . number_format(round(((float)$prestamos_totales)),2,'.',',');?></div>
                             <div class="font-size-sm font-w600 text-uppercase text-info-light">Prestamos totales</div>
                         </div>

@@ -29,7 +29,7 @@
   <?php $parcial_suma = 0 ?>
   @foreach($clientes as $cliente)
     <tr style="text-align: center; font-size: 15px;">
-      <td>{{ $cliente->id }}</td>
+      <td>{{ $cliente->numero_contrata }}</td>
       <td>{{ $cliente->nombres }}</td>
       <td>{{"$" . number_format(round(((float)$cliente->cantidad_pagar)),0,'.',',')}}</td>
       <td>{{"$" . number_format(round(((float)$cliente->parcial)),0,'.',',')}}</td>

@@ -48,6 +48,9 @@
                                 <a class="dropdown-item" href="{{ route('editarContrata' , $contrata->id) }}">
                                     <i class="fa fa-edit mr-5"></i> Editar contrata
                                 </a>
+                                <a class="dropdown-item" target="_blank" href="{{ route('descargarTarjetaContrata' , $contrata->id) }}">
+                                    <i class="fa fa-book mr-5"></i> Descargar tarjeta
+                                </a>
                             </div>
                         </div>
                             </td>

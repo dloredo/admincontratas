@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Capital;
+use App\Clientes;
 use App\Cortes;
 use App\Movimiento;
 use App\Contratas;
@@ -25,8 +26,9 @@ class CapitalController extends Controller
         $pagos_totales = PagosContratas::sum('cantidad_pagada');
         $comisiones = Contratas::sum('comision');
         $contratas_vigentes = Contratas::where('estatus' , 0)->count();
+        $clientes = Clientes::count();
         //dd($pagos_totales);
-        return view("capital.capital", ['prestamos_totales' => $prestamos_totales ,'pagos_totales' => $pagos_totales, 'comisiones' => $comisiones , 'contratas_vigentes' => $contratas_vigentes], compact("capital","cortes"));
+        return view("capital.capital", ['prestamos_totales' => $prestamos_totales ,'pagos_totales' => $pagos_totales, 'comisiones' => $comisiones , 'contratas_vigentes' => $contratas_vigentes , 'clientes' => $clientes], compact("capital","cortes"));
     }
 
     function generarCorte()
@@ -59,7 +61,8 @@ class CapitalController extends Controller
         $pagos_totales = PagosContratas::sum('cantidad_pagada');
         $comisiones = Contratas::sum('comision');
         $contratas_vigentes = Contratas::where('estatus' , 0)->count();
-        return view("capital.capital" ,['prestamos_totales' => $prestamos_totales ,'pagos_totales' => $pagos_totales, 'comisiones' => $comisiones, 'contratas_vigentes' => $contratas_vigentes], compact("capital","movimientos"));
+        $clientes = Clientes::count();
+        return view("capital.capital" ,['prestamos_totales' => $prestamos_totales ,'pagos_totales' => $pagos_totales, 'comisiones' => $comisiones, 'contratas_vigentes' => $contratas_vigentes , 'clientes' => $clientes], compact("capital","movimientos"));
     }
 
     function crearMovimientoCapital(Request $request)
