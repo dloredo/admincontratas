@@ -190,7 +190,6 @@ class ContratasController extends Controller
                 'bonificacion'          => 0,    
                 'control_pago'          => 0,
                 'adeudo'                => 0,
-                'numero_contrata'       => $request['numero_contrata'],
             ]);
 
             if(empty($pagos))
@@ -253,11 +252,11 @@ class ContratasController extends Controller
         }
         catch(\Exception $e){
             DB::rollback();
-            return redirect()->route('vista.clientes')->with('estatus',false)->with('message', 'Hubo un error al guardar la contrata, verifique la información');
+            return redirect()->route('vista.contratas')->with('estatus',false)->with('message', 'Hubo un error al guardar la contrata, verifique la información');
         }
         
 
         //  AGREGAR NUMERO DE PAGOS TOTALES
-        return redirect()->route('vista.clientes')->with('estatus',true)->with('message', 'Se le añadio una contrata con éxito');
+        return redirect()->route('vista.contratas')->with('estatus',true)->with('message', 'Se edito o renovo la contrata con éxito');
     }
 }

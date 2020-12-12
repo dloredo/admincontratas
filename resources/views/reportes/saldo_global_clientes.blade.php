@@ -21,7 +21,8 @@
       <th scope="col">NO.</th>}
       <th scope="col">NOMBRE</th>
       <th scope="col">PRESTAMO TOTAL</th>
-      <th scope="col">PARCIAL</th>
+      <th scope="col">ABONO</th>
+      <th scope="col">C. PARCIAL</th>
     </tr>
   </thead>
   <tbody>
@@ -29,7 +30,7 @@
   <?php $parcial_suma = 0 ?>
   @foreach($clientes as $cliente)
     <tr style="text-align: center; font-size: 15px;">
-      <td>{{ $cliente->id }}</td>
+      <td>{{ $cliente->numero_contrata }}</td>
       <td>{{ $cliente->nombres }}</td>
       <td>{{"$" . number_format(round(((float)$cliente->cantidad_pagar)),0,'.',',')}}</td>
       <td>{{"$" . number_format(round(((float)$cliente->parcial)),0,'.',',')}}</td>
