@@ -63,7 +63,7 @@ class corteDelDia extends Command
             $now = Carbon::now();
 
             $pagos = PagosContratas::where("fecha_pago",$now->format("Y-m-d"))
-                            ->whereRaw("(pagos_contratas.estatus = 0 or pagos_contratas.estatus = 2 )")
+                            ->whereIn("estatus",[0,2,3])
                             ->get();
 
                             
