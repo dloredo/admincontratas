@@ -56,6 +56,28 @@
         </div>
 
     </div>
+
+    @if(Request::is('pagos-del-dia'))
+    <hr style="width: 100%;"/>
+    <div class="block-content block-content-full">
+
+        <div class="row gutters-tiny js-appear-enabled animated fadeIn" data-toggle="appear">
+            <!-- Row #3 -->
+            <div class="block-content tab-content">
+                <div class="block block-themed block-mode-loading-inverse block-transparen w-100">
+                   
+                        
+                @include ('principal._deudores')
+                        
+                    
+                </div>
+            </div>
+
+            <!-- END Row #3 -->
+        </div>
+
+    </div>
+    @endif
 </div>
 
 

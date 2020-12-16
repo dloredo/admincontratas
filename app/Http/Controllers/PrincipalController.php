@@ -50,6 +50,13 @@ class PrincipalController extends Controller
                             ->get();
 
 
+            // $data["infoTableDeudores"] = Contratas::select("contratas.*","clientes.nombres")
+            //                 ->join("clientes","clientes.id","contratas.id_cliente")
+            //                 ->join("pagos_contratas","pagos_contratas.id_contrata","contratas.id")
+            //                 ->where('contratas.tipo_plan_contrata', 'Pagos por semana')
+            //                 ->where("(contratas.adeudo", ">", 0)
+            //                 ->where('pagos_contratas.fecha_pago', "<",   Carbon::now()->format("Y-m-d"))
+            //                 ->get();
 
             }
             else{
@@ -64,6 +71,20 @@ class PrincipalController extends Controller
                             ->whereRaw("(pagos_contratas.estatus = 0 or pagos_contratas.estatus = 2 )")
                             ->where('pagos_contratas.confirmacion', 0 )
                             ->get();
+                
+
+                // $data["infoTableDeudores"] = Contratas::select("contratas.*","clientes.nombres")
+                //             ->join("clientes",function($join){
+                //                 $join->on("clientes.id","contratas.id_cliente");
+                //                 $join->where("clientes.cobrador_id",Auth::user()->id);
+                //             })
+                //             ->join("pagos_contratas","pagos_contratas.id_contrata","contratas.id")
+                //             ->where('contratas.tipo_plan_contrata', 'Pagos por semana')
+                //             ->where("(contratas.adeudo", ">", 0)
+                //             ->where('pagos_contratas.fecha_pago', "<",   Carbon::now()->format("Y-m-d"))
+                //             ->get();
+
+                
                 // $data["infoTable1"] = Contratas::select("contratas.*","clientes.nombres",'pagos_contratas.id as idPago' , 'pagos_contratas.cantidad_pagada')
                 // ->join("clientes",function($join){
                 //     $join->on("clientes.id","contratas.id_cliente");

@@ -6,7 +6,7 @@
             <th scope="col">Nombre</th>
             <th scope="col">Telefono</th>
             <th scope="col">Saldo</th>
-            <th scope="col">Liquidar</th>
+            @if(auth()->user()->id_rol == 1)<th scope="col">Liquidar</th>@endif
         </tr>
     </thead>
     <tbody>
@@ -16,10 +16,12 @@
             <td>{{ $cobrador->nombres }}</td>
             <td>{{ $cobrador->telefono }}</td>
             <td>{{ "$" . number_format(round(((float)$cobrador->saldo)),2,'.',',') }}</td>
+            @if(auth()->user()->id_rol == 1)
             <td>
                 <button class="btn btn-primary" data-toggle="modal" data-target="#entregar{{ $cobrador->id }}">Entregar</button>
                 <button class="btn btn-primary" data-toggle="modal" data-target="#recibi{{ $cobrador->id }}">Recibi</button>
             </td>
+            @endif
         </tr>
         @endforeach
     </tbody>

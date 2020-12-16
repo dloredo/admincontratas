@@ -49,10 +49,10 @@
                     <td>
                         {{ $contrata->hora_cobro }}
                     </td>
-                    <td>
+                    <td width="30%">
                         <form action="{{ route('agregarPago' , $contrata->idPago) }}" method="post" id="form_{{ $contrata->idPago }}">
                             @csrf
-                            <input type="number" name="cantidad_pagada" id="cantidad_pagada" class="form-control">
+                            <input type="number" name="cantidad_pagada" id="cantidad_pagada" class="form-control" style="min-width:150px !important; ">
                             
                         </form>
                     </td>

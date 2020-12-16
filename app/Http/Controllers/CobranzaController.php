@@ -750,7 +750,7 @@ class CobranzaController extends Controller
             
             PagosContratas::confirmarPagos(Auth::user()->id);
     
-            $pagos = ConfirmacionPagos::selectRaw("sum(cantidad_pagada) as toal_pagado, sum(adeudo) as total_adeudo, id_contrata")
+            $pagos = ConfirmacionPagos::selectRaw("sum(cantidad_pagada) as total_pagado, sum(adeudo) as total_adeudo, id_contrata")
                                         ->where("id_cobrador",Auth::user()->id)
                                         ->groupBy("id_contrata")
                                         ->get();
@@ -763,14 +763,14 @@ class CobranzaController extends Controller
                 $contrata->update();
             }
 
-            $saldo = ConfirmacionPagos::selectRaw("sum(cantidad_pagada) as toal_pagado")
+            $saldo = ConfirmacionPagos::selectRaw("sum(cantidad_pagada) as total_pagado")
                                         ->where("id_cobrador",Auth::user()->id)
                                         ->get()
                                         ->first();
 
             $cobrador = User::findOrFail(Auth::user()->id);
-            $cobrador->saldo += $saldo->toal_pagado;
-
+            $cobrador->saldo += $saldo->total_pagado;
+            $cobrador->update();
 
             ConfirmacionPagos::where("id_cobrador",Auth::user()->id)->delete();
 
