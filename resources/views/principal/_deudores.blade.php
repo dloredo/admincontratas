@@ -1,4 +1,4 @@
-<h3>Deudores</h3>
+<h3>Atrasos</h3>
 <div class="table-responsive">
     <table class="table">
         <thead>
@@ -10,7 +10,23 @@
             </tr>
         </thead>
         <tbody>
-            
+            @foreach ($infoTableDeudores as $contrata)
+                <tr>
+                    <td>
+                        {{$contrata->nombres}}
+                    </td>
+                    <td>
+                        {{$contrata->numero_contrata}}
+                    </td>
+                    <td>
+                        {{$contrata->adeudo}}
+                    </td>
+                    <td>
+                        {{$contrata->fecha_termino}}
+                    </td>
+
+                </tr>
+            @endforeach
             
         </tbody>
     </table>

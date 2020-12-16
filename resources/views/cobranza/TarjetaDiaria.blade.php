@@ -71,6 +71,7 @@
 
     @php
          $count = 1;
+         $today = \Carbon\Carbon::now()->format("Y-m-d");
     @endphp
     
     @for($x = 0; $x < sizeof($chunks_fechas); $x++)
@@ -119,7 +120,14 @@
                                     <td style="width: 10%;">{{$count}}</td>
                                     <td style="width: 25%;">{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</td>
                                     <td style="width: 15%;">${{$contrata->pagos_contrata}}</td>
-                                    <td style="width: 50%;"></td>        
+                                    <td style="width: 50%;">
+
+                                        @if (in_array($fechas[$i-1]["estatus"], [1,2,3]) )
+                                           <strong>
+                                               PAGADO
+                                            </strong> 
+                                        @endif
+                                    </td>        
                                 </tr>
                                 @php
                                     $count++;  
@@ -148,7 +156,13 @@
                                 <td style="width: 10%;">{{$count}}</td>
                                     <td style="width: 25%;">{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</td>
                                     <td style="width: 15%;">${{$contrata->pagos_contrata}}</td>
-                                    <td style="width: 50%;"></td>      
+                                    <td style="width: 50%;">
+                                        @if (in_array($fechas[$i-1]["estatus"], [1,2,3]) )
+                                           <strong>
+                                               PAGADO
+                                            </strong> 
+                                        @endif
+                                    </td>      
                                 </tr>
                                 @php
                                     $count++;  
@@ -177,7 +191,13 @@
                                 <td style="width: 10%;">{{$count}}</td>
                                     <td style="width: 25%;">{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</td>
                                     <td style="width: 15%;">${{$contrata->pagos_contrata}}</td>
-                                    <td style="width: 50%;"></td>           
+                                    <td style="width: 50%;">
+                                        @if (in_array($fechas[$i-1]["estatus"], [1,2,3]) )
+                                           <strong>
+                                               PAGADO
+                                            </strong> 
+                                        @endif
+                                    </td>           
                                 </tr>
                                 @php
                                     $count++;  
@@ -206,7 +226,13 @@
                                 <td style="width: 10%;">{{$count}}</td>
                                     <td style="width: 25%;">{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</td>
                                     <td style="width: 15%;">${{$contrata->pagos_contrata}}</td>
-                                    <td style="width: 50%;"></td>        
+                                    <td style="width: 50%;">
+                                        @if (in_array($fechas[$i-1]["estatus"], [1,2,3]) )
+                                           <strong>
+                                               PAGADO
+                                            </strong> 
+                                        @endif
+                                    </td>        
                                 </tr>
                                 @php
                                     $count++;  

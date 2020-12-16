@@ -77,6 +77,7 @@
 </style>
     @php
          $count = 1;
+         $today = \Carbon\Carbon::now()->format("Y-m-d");
     @endphp
     
     @for($x = 0; $x < sizeof($chunks_fechas); $x++)
@@ -122,7 +123,13 @@
                        </tr>
                        <tr>
                            <td colspan="2" style="width: 30%; padding:5px 0px"><p>RECIBÍ</p></td>
-                           <td colspan="2" style="width: 70%; padding:5px 0px"></td>
+                           <td colspan="2" style="width: 70%; padding:5px 0px">
+                                @if (in_array($fechas[$i-1]["estatus"], [1,2,3]) )
+                                    <p><strong>
+                                        PAGADO
+                                    </strong></p> 
+                                @endif
+                            </td>
                        </tr>
 
                        @php
@@ -148,7 +155,13 @@
                         </tr>
                         <tr>
                             <td colspan="2" style="width: 30%; padding:5px 0px"><p>RECIBÍ</p></td>
-                            <td colspan="2" style="width: 70%; padding:5px 0px"></td>
+                            <td colspan="2" style="width: 70%; padding:5px 0px">
+                                @if (in_array($fechas[$i-1]["estatus"], [1,2,3]) )
+                                    <p><strong>
+                                        PAGADO
+                                    </strong> </p>
+                                @endif
+                            </td>
                         </tr>
 
                         @php
