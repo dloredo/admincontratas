@@ -61,7 +61,6 @@ class corteDelDia extends Command
             }
 
             $now = Carbon::now();
-            $now->addDays(3);
             $pagos = PagosContratas::where("fecha_pago",$now->format("Y-m-d"))
                             ->whereIn("estatus",[0,2])
                             ->get();
