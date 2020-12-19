@@ -96,8 +96,8 @@
                                         Pagado
                                     </div>
                                 @elseif ($pago->estatus == 3)
-                                    <div class="p-2 bg-success text-white">
-                                        Pagado con adeudo
+                                    <div class="p-2 bg-warning text-black">
+                                        Adeudo
                                     </div>
                                 @else
                                 <div class="p-2 bg-warning">
