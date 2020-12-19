@@ -7,6 +7,7 @@ use App\Gastos;
 use App\User;
 use App\Capital;
 use App\Historial;
+use App\HistorialCobrador;
 use App\SubCategorias;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -160,6 +161,12 @@ class TiposGastosController extends Controller
             'tipo_movimiento' => 'Aportacion',
             'id_cobrador' => $id,
         ]);
+
+        HistorialCobrador::create([
+            'monto' => $cantidad,
+            'id_cobrador' => $id,
+        ]);
+
         $id_cobrador->saldo += $cantidad;
         $id_cobrador->save();
         return back();        
@@ -172,6 +179,10 @@ class TiposGastosController extends Controller
         Historial::create([
             'cantidad' => $cantidad,
             'tipo_movimiento' => 'Retiro',
+            'id_cobrador' => $id,
+        ]);
+        HistorialCobrador::create([
+            'monto' => $cantidad,
             'id_cobrador' => $id,
         ]);
         $id_cobrador->saldo -= $cantidad;
