@@ -72,53 +72,34 @@ class corteDelDia extends Command
                 foreach($pagos as $pago)
                 {
                     $contrata = Contratas::findOrFail($pago->id_contrata);
-                    $pagoMañana = PagosContratas::where("id",">",$pago->id)
+                    $pagoAnterior = PagosContratas::where("id","<",$pago->id)
                                     ->where("id_contrata",$pago->id_contrata)
                                     ->orderBy("id","asc")
                                     ->get()
                                     ->first();
     
-                    if($pagoMañana){
+                    if($pagoAnterior){
 
                         if($pago->estatus == 0)
                         {
                             $contrata->adeudo += $contrata->pagos_contrata;
-                            $pagoMañana->adeudo = $contrata->pagos_contrata + $pago->adeudo;
+                            $pago->adeudo = ($pagoAnterior->estatus == 3)?  $contrata->pagos_contrata + $pagoAnterior->adeudo : $contrata->pagos_contrata;
                         }
                         else if($pago->estatus == 2)
                         {
                             $adeudo = $contrata->pagos_contrata - $pago->cantidad_pagada;
                             $contrata->adeudo += $adeudo;
 
-                            $adeudo += $pago->adeudo;
-                            $pagoMañana->adeudo = $adeudo;
-                            
-                        }
-        
-                        $pago->estatus = 3;
-        
-                        $pago->update();
-                        $pagoMañana->update();
-                        $contrata->update();
-                    }
-                    else
-                    {
+                            if($pagoAnterior->estatus == 3)
+                                $adeudo += $pagoAnterior->adeudo;
 
-                        if($pago->estatus == 0)
-                        {
-                            $contrata->adeudo += $contrata->pagos_contrata;
-                        }
-                        else if($pago->estatus == 2)
-                        {
-                            $adeudo = $contrata->pagos_contrata - $pago->cantidad_pagada;
-                            $contrata->adeudo += $adeudo;
+                            $pago->adeudo = $adeudo;
                         }
         
                         $pago->estatus = 3;
         
                         $pago->update();
                         $contrata->update();
-
                     }
                     
                 }
