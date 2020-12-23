@@ -6,10 +6,7 @@
                 <th scope="col">Nombre</th>
                 <th scope="col">No.</th>
                 <th scope="col">Atraso</th>
-<<<<<<< HEAD
                 <th scope="col">Fecha de vencimiento</th>
-=======
->>>>>>> e1bd083b93798ce7da8e2369ce897a1a545a925c
                 <th scope="col">Pago</th>
             </tr>
         </thead>
@@ -41,7 +38,6 @@
                     <td>
                         <button type="button" class="btn btn-primary btn-sm" onclick=" document.getElementById('form_deudores{{ $contrata->idPago }}').submit() " >Agregar pago</button>
                     </td>
-<<<<<<< HEAD
                     <td width="30%">
                         <form action="{{ route('agregarPago' , $contrata->idPago) }}" method="post" id="form_{{ $contrata->idPago }}">
                             @csrf
@@ -49,8 +45,6 @@
                             
                         </form>
                     </td>
-=======
->>>>>>> e1bd083b93798ce7da8e2369ce897a1a545a925c
                 </tr>
             @endforeach
             <tr>
