@@ -428,7 +428,8 @@ class CobranzaController extends Controller
         request()->validate([
             'cantidad_pagada'   => 'required',
         ]);
-        //dd($pagos_contratas);
+        
+
         try{
             DB::beginTransaction();
 
@@ -458,6 +459,8 @@ class CobranzaController extends Controller
                         'adeudo'            => 0,
                         'adelanto'          => $residuo,
                         'estatus'           => 1,
+                        'pago_atrasado'     => true,
+                        'cantidad_pago_atrasado' => $adeudo_anterior
                     ]);
 
                     $id = $pagos_contratas->id;
@@ -505,10 +508,12 @@ class CobranzaController extends Controller
                         "id_pago_contrata"  => $pagos_contratas->id,
                         'id_cobrador'       => Auth::user()->id,
                         'id_contrata'       => $contrata->id,
-                        'cantidad_pagada'   => $request['cantidad_pagada'],
+                        'cantidad_pagada'   => $request['cantidad_pagada'] + $pago_anterior,
                         'adeudo'            => 0,
                         'adelanto'          => 0,
                         'estatus'           => 1,
+                        'pago_atrasado'     => true,
+                        'cantidad_pago_atrasado' => $request['cantidad_pagada']
                     ]);
 
                 }
@@ -526,6 +531,8 @@ class CobranzaController extends Controller
                         'adeudo'            => $adeudo_anterior - $request['cantidad_pagada'],
                         'adelanto'          => 0,
                         'estatus'           => 3,
+                        'pago_atrasado'     => true,
+                        'cantidad_pago_atrasado' => $request['cantidad_pagada']
                     ]);
                 }
             }
