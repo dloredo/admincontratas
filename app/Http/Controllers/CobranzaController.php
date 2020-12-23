@@ -106,7 +106,7 @@ class CobranzaController extends Controller
         request()->validate([
             'cantidad_pagada'   => 'required',
         ]);
-        dd($pagos_contratas);
+        //dd($pagos_contratas);
         try{
             DB::beginTransaction();
 
