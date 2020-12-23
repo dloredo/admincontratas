@@ -58,7 +58,9 @@ Route::post('/clientes/asignarCobrador' , 'ClientesController@asignarCobrador')-
 Route::post('obtenerFechasPagos' , 'ClientesController@obtenerFechasPagos')->name('clientes.obtenerFechasPagos');
 
 Route::get('/editar-contrata/{id}' , 'ContratasController@edit')->name("editarContrata");
+Route::get('/renovaredit-contrata/{id}' , 'ContratasController@editRenovar')->name("editRenovar");
 
+Route::post('/renovar-contrata/{id}' , 'ContratasController@renovar')->name("renovarContrata");
 Route::post('/update-contrata/{id}' , 'ContratasController@update')->name('updateContrata');
 
 //NUMEROS HABILES
@@ -96,7 +98,7 @@ Route::get('/cobranza' , 'CobranzaController@index')->name('vista.contratas_cobr
 Route::get('/cobranza/contratas/{id}' , 'CobranzaController@verContratasCliente')->name('verContratasCliente');
 Route::get('/cobranza/contratas/pagos/{id}' , 'CobranzaController@verPagosContrata')->name('verPagosContrata');
 Route::get('/cobranza/contratas/descargarTarjetaContrata/{id}' , 'CobranzaController@descargarTarjetaContrata')->name('descargarTarjetaContrata');
-Route::get('/cobranza/contratas/renovarContrata/{id}' , 'ClientesController@renovarContrata')->name('renovarContrata');
+Route::get('/cobranza/contratas/renovarContrata/{id}' , 'ClientesController@renovarContrata')->name('renovarContrata22');
 Route::get('/cobranza/historial/' , 'CobranzaController@hitorialCobros')->name('historialCobranza');
 Route::get('/cobranza/historial/{fecha}/{id}' , 'CobranzaController@hitorialCobros')->name('historialCobranza.filtro');
 Route::get('/cobranza/historial/{fecha}' , 'CobranzaController@hitorialCobros')->name('historialCobranza.filtro_fecha');

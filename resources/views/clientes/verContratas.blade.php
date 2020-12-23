@@ -1,7 +1,7 @@
 @extends('layouts.layout')
 
 @section('main')
-<h2 class="content-heading">Contratas de {{ $cliente->nombres }} {{ $cliente->apellidos }}</h2>
+<h2 class="content-heading">Contratas de {{ $cliente->nombres }}</h2>
 <div class="block">
     <div class="block-content">
     <table class="table table-bordered table-striped table-vcenter js-dataTable-full">

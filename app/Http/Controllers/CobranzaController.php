@@ -97,7 +97,7 @@ class CobranzaController extends Controller
     }
 
 
-    public function agregarPago($id,Request $request )
+    public function agregarPago($id,Request $request)
     {
         $id_cobrador = User::findOrFail(Auth::user()->id);
         $saldo_cobrador = $request['cantidad_pagada'];
@@ -106,11 +106,12 @@ class CobranzaController extends Controller
         request()->validate([
             'cantidad_pagada'   => 'required',
         ]);
+        dd($pagos_contratas);
         try{
             DB::beginTransaction();
 
 
-            if( $pagos_contratas->estatus == 2 || $pagos_contratas->estatus == 3)
+            if( $pagos_contratas->estatus == 2 || $pagos_contratas->estatus == 3 )
             {
                 $pago_anterior = $pagos_contratas->cantidad_pagada;
                 if( $request['cantidad_pagada'] + $pago_anterior > $contrata->pagos_contrata  )

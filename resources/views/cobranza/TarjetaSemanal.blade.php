@@ -124,7 +124,7 @@
                        <tr>
                            <td colspan="2" style="width: 30%; padding:5px 0px"><p>RECIBÍ</p></td>
                            <td colspan="2" style="width: 70%; padding:5px 0px">
-                                @if (in_array($fechas[$i-1]["estatus"], [1,2,3]) )
+                                @if (in_array($fechas[$i-1]["estatus"], [1]) )
                                     <p><strong>
                                         PAGADO
                                     </strong></p> 
@@ -156,7 +156,7 @@
                         <tr>
                             <td colspan="2" style="width: 30%; padding:5px 0px"><p>RECIBÍ</p></td>
                             <td colspan="2" style="width: 70%; padding:5px 0px">
-                                @if (in_array($fechas[$i-1]["estatus"], [1,2,3]) )
+                                @if (in_array($fechas[$i-1]["estatus"], [1]) )
                                     <p><strong>
                                         PAGADO
                                     </strong> </p>

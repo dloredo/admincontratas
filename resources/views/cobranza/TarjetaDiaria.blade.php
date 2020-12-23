@@ -122,7 +122,7 @@
                                     <td style="width: 15%;">${{$contrata->pagos_contrata}}</td>
                                     <td style="width: 50%;">
 
-                                        @if (in_array($fechas[$i-1]["estatus"], [1,2,3]) )
+                                        @if (in_array($fechas[$i-1]["estatus"], [1]) )
                                            <strong>
                                                PAGADO
                                             </strong> 
@@ -157,7 +157,7 @@
                                     <td style="width: 25%;">{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</td>
                                     <td style="width: 15%;">${{$contrata->pagos_contrata}}</td>
                                     <td style="width: 50%;">
-                                        @if (in_array($fechas[$i-1]["estatus"], [1,2,3]) )
+                                        @if (in_array($fechas[$i-1]["estatus"], [1]) )
                                            <strong>
                                                PAGADO
                                             </strong> 
@@ -192,7 +192,7 @@
                                     <td style="width: 25%;">{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</td>
                                     <td style="width: 15%;">${{$contrata->pagos_contrata}}</td>
                                     <td style="width: 50%;">
-                                        @if (in_array($fechas[$i-1]["estatus"], [1,2,3]) )
+                                        @if (in_array($fechas[$i-1]["estatus"], [1]) )
                                            <strong>
                                                PAGADO
                                             </strong> 
@@ -227,7 +227,7 @@
                                     <td style="width: 25%;">{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</td>
                                     <td style="width: 15%;">${{$contrata->pagos_contrata}}</td>
                                     <td style="width: 50%;">
-                                        @if (in_array($fechas[$i-1]["estatus"], [1,2,3]) )
+                                        @if (in_array($fechas[$i-1]["estatus"], [1]) )
                                            <strong>
                                                PAGADO
                                             </strong> 

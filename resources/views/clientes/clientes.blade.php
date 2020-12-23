@@ -49,7 +49,7 @@
                 @foreach ($clientes as $cliente)
                 <tr>
                     <td class="text-center">{{ $cliente->id }}</td>
-                    <td class="font-w600">{{ $cliente->nombres }} {{ $cliente->apellidos }}</td>
+                    <td class="font-w600">{{ $cliente->nombres }}</td>
                     <td class="d-none d-sm-table-cell">{{ $cliente->telefono }}</td>
                     <td class="d-none d-sm-table-cell">{{ $cliente->direccion }}</td>
                     <td class="d-none d-sm-table-cell">{{ ($cliente->cobrador)? $cliente->cobrador->nombres : 'Sin cobrador' }}</td>
