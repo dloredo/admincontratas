@@ -7,6 +7,7 @@
                 <th scope="col">No.</th>
                 <th scope="col">Atraso</th>
                 <th scope="col">Fecha de vencimiento</th>
+                <th scope="col">Pago</th>
             </tr>
         </thead>
         <tbody>
@@ -24,7 +25,13 @@
                     <td>
                         {{$contrata->fecha_termino}}
                     </td>
-
+                    <td width="30%">
+                        <form action="{{ route('agregarPago' , $contrata->idPago) }}" method="post" id="form_{{ $contrata->idPago }}">
+                            @csrf
+                            <input type="number" name="cantidad_pagada" id="cantidad_pagada" class="form-control" style="min-width:150px !important; ">
+                            
+                        </form>
+                    </td>
                 </tr>
             @endforeach
             
