@@ -384,7 +384,6 @@ class ClientesController extends Controller
 
             $capital = Capital::find(1);
             $capital->saldo_efectivo -= $request['cantidad_prestada'];
-            $capital->capital_parcial += $request['cantidad_prestada'];
             $capital->comisiones += $comision;
             $capital->save();
 

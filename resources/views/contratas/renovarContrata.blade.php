@@ -2,10 +2,10 @@
 
 @section('main')
 @foreach ($contrata as $dato)
-<h2 class="content-heading">Editar contrata a {{ $dato->nombres }}</h2>
+<h2 class="content-heading">Renovar contrata a {{ $dato->nombres }}</h2>
 <div class="block" id="app">
     <div class="block-content">
-        <form action="{{ route('updateContrata' , $dato->id) }}" method="post">
+        <form action="{{ route('renovarContrata' , $dato->id) }}" method="post">
             @csrf
 
             <div class="form-row">

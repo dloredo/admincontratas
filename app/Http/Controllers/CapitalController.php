@@ -26,9 +26,14 @@ class CapitalController extends Controller
         $pagos_totales = PagosContratas::sum('cantidad_pagada');
         $comisiones = Contratas::sum('comision');
         $contratas_vigentes = Contratas::where('estatus' , 0)->count();
+        $parcial = Clientes::selectRaw(" (contratas.cantidad_pagar - sum(pagos_contratas.cantidad_pagada)) as parcial ")
+        ->join("contratas" , "clientes.id","contratas.id_cliente")
+        ->join("pagos_contratas" , "contratas.id","pagos_contratas.id_contrata")
+        ->groupBy("contratas.id")
+        ->get();
         $clientes = Clientes::count();
         //dd($pagos_totales);
-        return view("capital.capital", ['prestamos_totales' => $prestamos_totales ,'pagos_totales' => $pagos_totales, 'comisiones' => $comisiones , 'contratas_vigentes' => $contratas_vigentes , 'clientes' => $clientes], compact("capital","cortes"));
+        return view("capital.capital", ['prestamos_totales' => $prestamos_totales ,'pagos_totales' => $pagos_totales, 'comisiones' => $comisiones , 'contratas_vigentes' => $contratas_vigentes , 'clientes' => $clientes], compact("capital","cortes","parcial"));
     }
 
     function generarCorte()

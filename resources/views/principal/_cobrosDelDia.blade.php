@@ -2,7 +2,7 @@
 <div class="table-responsive">
     <table class="table">
         <thead>
-            <tr>
+            <tr style="text-align: center;">
                 <th scope="col">Nombre</th>
                 <th scope="col">No.</th>
                 <th scope="col">Pago actual</th>
@@ -10,8 +10,7 @@
                 <th scope="col">Adelanto</th>
                 <th scope="col">Pago total</th>
                 <th scope="col">Fecha de vencimiento</th>
-                <th scope="col">Hora</th>
-                <th scope="col">Pago</th>
+                <th scope="col" style="text-align: left;">Pago</th>
             </tr>
         </thead>
         <tbody>
@@ -20,34 +19,31 @@
             <?php $adelanto_total = 0 ?>
             <?php $actual_total = 0 ?>
             @foreach($infoTable as $contrata)
-                <tr>
-                    <td>
-                        {{$contrata->nombres}}
+                <tr style="text-align: center;">
+                    <td style="text-align: left;">
+                        {{substr(ucwords(strtolower($contrata->nombres)), 0, 18)}}
                     </td>
                     <td>
-                        {{$contrata->id}}
+                        {{$contrata->numero_contrata}}
                     </td>
                     <td>
-                        {{"$" . number_format(round(((float)$contrata->pagos_contrata)),2,'.',',')}}
+                        {{"$" . number_format(round(((float)$contrata->pagos_contrata)),0,'.',',')}}
                         <?php $actual_total += $contrata->pagos_contrata ?>
                     </td>
                     <td>
-                        {{"$" . number_format(round(((float)$contrata->adeudo)),2,'.',',')}}
+                        {{"$" . number_format(round(((float)$contrata->adeudo)),0,'.',',')}}
                         <?php $atraso_total += $contrata->adeudo ?>
                     </td>
                     <td>
-                        {{"$" . number_format(round(((float)$contrata->cantidad_pagada)),2,'.',',')}}
+                        {{"$" . number_format(round(((float)$contrata->cantidad_pagada)),0,'.',',')}}
                         <?php $adelanto_total += $contrata->cantidad_pagada ?>
                     </td>
                     <td>
-                        {{"$" . number_format(round(((float)$contrata->pagos_contrata + $contrata->adeudo - $contrata->cantidad_pagada)),2,'.',',')}}
+                        {{"$" . number_format(round(((float)$contrata->pagos_contrata + $contrata->adeudo - $contrata->cantidad_pagada)),0,'.',',')}}
                         <?php $pago_total += $contrata->pagos_contrata + $contrata->adeudo - $contrata->cantidad_pagada ?>
                     </td>
                     <td>
-                        {{$contrata->fecha_termino}}
-                    </td>
-                    <td>
-                        {{ $contrata->hora_cobro }}
+                        {{date('d-m-Y', strtotime($contrata->fecha_termino))}}
                     </td>
                     <td width="30%">
                         <form action="{{ route('agregarPago' , $contrata->idPago) }}" method="post" id="form_{{ $contrata->idPago }}">
@@ -57,17 +53,17 @@
                         </form>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-primary btn-sm" onclick=" document.getElementById('form_{{ $contrata->idPago }}').submit() " >Agregar pago</button>
+                        <button style="font-size: 12px;" type="button" class="btn btn-primary btn-sm" onclick=" document.getElementById('form_{{ $contrata->idPago }}').submit() " >Agregar</button>
                     </td>
                 </tr>
             @endforeach
-                <tr>
+                <tr style="text-align: center;">
                     <td></td>
-                    <td></td>
-                    <td>{{"$" . number_format(round(((float)$actual_total)),2,'.',',')}}</td>
-                    <td>{{"$" . number_format(round(((float)$atraso_total)),2,'.',',')}}</td>
-                    <td>{{"$" . number_format(round(((float)$adelanto_total)),2,'.',',')}}</td>
-                    <td>{{"$" . number_format(round(((float)$pago_total)),2,'.',',')}}</td>
+                    <td style="text-align:right;">TOTAL:</td>
+                    <td>{{"$" . number_format(round(((float)$actual_total)),0,'.',',')}}</td>
+                    <td>{{"$" . number_format(round(((float)$atraso_total)),0,'.',',')}}</td>
+                    <td>{{"$" . number_format(round(((float)$adelanto_total)),0,'.',',')}}</td>
+                    <td>{{"$" . number_format(round(((float)$pago_total)),0,'.',',')}}</td>
                     <td></td>
                     <td></td>
                     <td></td>
