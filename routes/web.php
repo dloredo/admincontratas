@@ -109,6 +109,7 @@ Route::post('/cobranza/historial/eliminar' , 'CobranzaController@eliminarCobro')
 
 Route::post('/cobranza/historial/confirmarPagos' , 'CobranzaController@confirmarPagos')->name('historialCobranza.confirmarPagos');
 Route::post('/agregarPago/{id}' , 'CobranzaController@agregarPago')->name('agregarPago');
+Route::post('/agregarPagoAdeudo/{contrata}' , 'CobranzaController@agregarPagoAdeudo')->name('agregarPagoAdeudo');
 /*
 |--------------------------------------------------------------------------
 |            FIN    VER CONTRATAS Y HISTORIAL DE PAGOS

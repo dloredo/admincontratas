@@ -29,17 +29,13 @@
                         @endphp
                     </td>
                     <td width="30%">
-                        <form action="" method="post" id="form_deudores{{ $contrata->idPago }}">
-                            @csrf
-                            <input type="number" name="cantidad_pagada" id="cantidad_pagada" class="form-control" style="min-width:150px !important; ">
-                            
-                        </form>
+                        {{$contrata->fecha_termino}}
                     </td>
                     <td>
                         <button type="button" class="btn btn-primary btn-sm" onclick=" document.getElementById('form_deudores{{ $contrata->idPago }}').submit() " >Agregar pago</button>
                     </td>
                     <td width="30%">
-                        <form action="{{ route('agregarPago' , $contrata->idPago) }}" method="post" id="form_{{ $contrata->idPago }}">
+                        <form action="{{ route('agregarPagoAdeudo' , $contrata) }}" method="post" id="form_deudores{{ $contrata->idPago }}">
                             @csrf
                             <input type="number" name="cantidad_pagada" id="cantidad_pagada" class="form-control" style="min-width:150px !important; ">
                             
