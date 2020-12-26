@@ -19,10 +19,10 @@
                                 {{$contrata->id}}
                             </td>
                             <td>
-                                {{$contrata->nombres}}
+                                {{substr(ucwords(strtolower($contrata->nombres)), 0, 18)}}
                             </td>
                             <td>
-                                {{$contrata->cantidad_pagar - $contrata->control_pago}}
+                                {{"$" . number_format(round(((float)$contrata->cantidad_pagar - $contrata->control_pago)),0,'.',',')}}
                             </td>
                             <td>
                                 {{$contrata->tipo_plan_contrata}}

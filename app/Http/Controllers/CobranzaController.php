@@ -884,7 +884,7 @@ class CobranzaController extends Controller
         ConfirmacionPagos::where("id_contrata",$contrata_id)->delete();
         HistorialCobrosDia::where("id_contrata",$contrata_id)->delete();
         
-        return back()->with('message', 'Se elimmino el cobro con éxito.')->with('estatus',true);
+        return back()->with('message', 'Se elimino el cobro con éxito.')->with('estatus',true);
     }
 
     function confirmarPagos()

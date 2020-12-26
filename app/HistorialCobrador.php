@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class HistorialCobrador extends Model
 {
-    protected $table = "historial_cobradores";
+    protected $table = "historial_saldo_cobrador";
     protected $fillable = [
-        'monto' , 'id_cobrador' 
+        'cantidad' , 'id_cobrador' , 'tipo'
     ];
 }

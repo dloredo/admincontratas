@@ -163,8 +163,9 @@ class TiposGastosController extends Controller
         ]);
 
         HistorialCobrador::create([
-            'monto' => $cantidad,
+            'cantidad' => $cantidad,
             'id_cobrador' => $id,
+            'tipo' => "Cargo"
         ]);
 
         $id_cobrador->saldo += $cantidad;
@@ -182,8 +183,9 @@ class TiposGastosController extends Controller
             'id_cobrador' => $id,
         ]);
         HistorialCobrador::create([
-            'monto' => $cantidad,
+            'cantidad' => $cantidad,
             'id_cobrador' => $id,
+            'tipo' => "Abono"
         ]);
         $id_cobrador->saldo -= $cantidad;
         $id_cobrador->save();

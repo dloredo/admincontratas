@@ -167,6 +167,49 @@
 </div>
 @endforeach
 
+@foreach ($infoTableHistorialCobradores as $cobrador)
+<div class="modal fade" id="historial{{ $cobrador->id_cobrador }}" tabindex="-1" role="dialog" aria-labelledby="historial" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-popin" role="document">
+        <div class="modal-content">
+            <div class="block block-themed block-transparent mb-0">
+                <div class="block-header bg-primary-dark">
+                    <h3 class="block-title">Agregar gasto</h3>
+                    <div class="block-options">
+                        <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+                            <i class="si si-close"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="block-content">
+                <table class="table">
+                    <thead>
+                        <tr>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">Fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>{{$cobrador->cantidad}}</th>
+                            <td>{{$cobrador->created_at}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+            </div>
+            <br>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-alt-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-alt-success">
+                    <i class="fa fa-check"></i> Entregar dinero
+                </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
+
 @endsection
 
 @section('styles')

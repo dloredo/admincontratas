@@ -7,6 +7,7 @@ use App\Contratas;
 use App\User;
 use App\Clientes;
 use App\Capital;
+use App\HistorialCobrador;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -26,7 +27,7 @@ class PrincipalController extends Controller
             $data["total_cobradores"] = User::where('id_rol', 2)->count();
             $data["capital_total"] = Capital::all();
             $data["saldo_esperado"] = User::where('id_rol' , 2)->sum('saldo');
-
+            $data["infoTableHistorialCobradores"] = HistorialCobrador::all();
             $data["total_clientes"] = Clientes::count();
 
         }
@@ -72,7 +73,6 @@ class PrincipalController extends Controller
                             ->whereRaw("(pagos_contratas.estatus = 0 or pagos_contratas.estatus = 2 )")
                             ->where('pagos_contratas.confirmacion', 0 )
                             ->get();
-                
 
                 $data["infoTableDeudores"] = Contratas::select("contratas.*","clientes.nombres")
                             ->join("clientes",function($join){
@@ -135,7 +135,7 @@ class PrincipalController extends Controller
                             ->orWhere('contratas.fecha_termino', "<=", $fechaFin )
                             ->where("contratas.estatus",0)
                             ->get();
-
+        $data["infoTableHistorialCobradores"] = HistorialCobrador::all();
         return view("principal.principal" ,$data);
     }
 }
