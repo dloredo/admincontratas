@@ -25,7 +25,9 @@ class PagosContratas extends Model
                         where id_cobrador = $idCobrador");
 
 
-        $pagos = self::where("id_cobrador",$idCobrador)
+        $pagos = self::select("pagos_contratas.*")
+                        ->join("confirmacion_pagos","confirmacion_pagos.id_pago_contrata","pagos_contratas.id")                
+                        ->where("confirmacion_pagos.id_cobrador",$idCobrador)
                         ->groupBy("id_contrata")
                         ->get();
 
