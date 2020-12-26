@@ -23,6 +23,30 @@ class PagosContratas extends Model
                                                 pc.estatus = cp.estatus,
                                                 pc.confirmacion = 2
                         where id_cobrador = $idCobrador");
+
+
+        $pagos = self::where("id_cobrador",$idCobrador)
+                        ->groupBy("id_contrata")
+                        ->get();
+
+        foreach($pagos as $pago){
+            $adeudo = self::where("id_contrata", $pago->id_contrata)
+                            ->where("id","<", $pago->id)
+                            ->orderBy("id", "desc")
+                            ->first();
+
+            if($adeudo->estatus != 1 && $pago->cantidad_pagada >= $adeudo->adeudo ){
+
+                self::where("id_contrata", $adeudo->id_contrata)
+                        ->where("fecha_pago","<", $adeudo->fecha_pago)
+                        ->update([
+                            "estatus" => 1
+                        ]);
+            }
+
+            
+        }
+
     }
 
     static function findByContrata($id)

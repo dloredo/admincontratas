@@ -125,8 +125,9 @@ class corteDelDia extends Command
             
             PagosContratas::confirmarPagos($idCobrador);
     
-            $pagos = ConfirmacionPagos::selectRaw("sum(cantidad_pagada) as toal_pagado, sum(adeudo) as total_adeudo, id_contrata")
+            $pagos = ConfirmacionPagos::selectRaw("sum(cantidad_pagada) as total_pagado, sum(adeudo) as total_adeudo, id_contrata")
                                         ->where("id_cobrador",$idCobrador)
+                                        ->where("pago_atrasado",false)
                                         ->groupBy("id_contrata")
                                         ->get();
             
@@ -138,14 +139,36 @@ class corteDelDia extends Command
                 $contrata->update();
             }
 
-            $saldo = ConfirmacionPagos::selectRaw("sum(cantidad_pagada) as toal_pagado")
+            $pagosAtrasados = ConfirmacionPagos::selectRaw("sum(cantidad_pago_atrasado) as total_pagado, id_contrata")
                                         ->where("id_cobrador",$idCobrador)
+                                        ->where("pago_atrasado",true)
+                                        ->groupBy("id_contrata")
+                                        ->get();
+            
+            foreach($pagosAtrasados as $pago)
+            {
+                $contrata = Contratas::findOrFail($pago->id_contrata);
+                $contrata->control_pago += $pago->total_pagado;
+                $contrata->update();
+            }
+
+            
+
+            $saldo = ConfirmacionPagos::selectRaw("sum(cantidad_pagada) as total_pagado")
+                                        ->where("id_cobrador",$idCobrador)
+                                        ->where("pago_atrasado",false)
+                                        ->get()
+                                        ->first();
+
+            $saldoAdeudo = ConfirmacionPagos::selectRaw("sum(cantidad_pago_atrasado) as total_pagado")
+                                        ->where("id_cobrador",$idCobrador)
+                                        ->where("pago_atrasado",true)
                                         ->get()
                                         ->first();
 
             $cobrador = User::findOrFail($idCobrador);
-            $cobrador->saldo += $saldo->toal_pagado;
-
+            $cobrador->saldo += ($saldo->total_pagado + $saldoAdeudo->total_pagado);
+            $cobrador->update();
 
             ConfirmacionPagos::where("id_cobrador",$idCobrador)->delete();
 
