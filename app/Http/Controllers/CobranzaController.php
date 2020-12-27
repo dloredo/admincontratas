@@ -423,7 +423,6 @@ class CobranzaController extends Controller
                                             ->orderBy("fecha_pago","desc")
                                             ->first();
 
-        return $pagos_contratas;
 
         request()->validate([
             'cantidad_pagada'   => 'required',

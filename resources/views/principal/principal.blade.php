@@ -199,11 +199,7 @@
             </div>
             <br>
             <div class="modal-footer">
-                <button type="button" class="btn btn-alt-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-alt-success">
-                    <i class="fa fa-check"></i> Entregar dinero
-                </button>
-                </form>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>

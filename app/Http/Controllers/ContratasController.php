@@ -34,6 +34,7 @@ class ContratasController extends Controller
             $contratas = Clientes::select("*")
             ->join("contratas","clientes.id" , "contratas.id_cliente")
             ->orderBy("contratas.id")
+            ->where("renovacion" , 0)
             ->get();
         }
         
@@ -268,9 +269,12 @@ class ContratasController extends Controller
     }
     public function renovar($id,Request $request)
     {
-        $contrata = Contratas::find($id);
-        $pagos = PagosContratas::where("id_contrata" , $id)->get();
-        //dd($pagos);
+        $contrata_renovar = Contratas::find($id);
+        $numero_contrata = $contrata_renovar->numero_contrata;
+        $contrata_renovar->update([
+            'renovacion' => true,
+            'numero_contrata' => 0,
+        ]);
         request()->validate([
             'cantidad_prestada'  => 'required',
             'comision'           => 'required',
@@ -316,8 +320,8 @@ class ContratasController extends Controller
             if(sizeof($fechasPagos) == 0 || is_null($fechasPagos))
                 throw new \Exception ("Hubo un error al generar los pagos, verifique la información");
 
-
-            $contrata -> update([
+            $contrata = Contratas::create([
+                'id_cliente'            => $contrata_renovar->id_cliente,
                 'cantidad_prestada'     => $request['cantidad_prestada'],
                 'comision'              => $comision,
                 'comision_porcentaje'   => round($comision_procentaje,2),
@@ -334,40 +338,21 @@ class ContratasController extends Controller
                 'bonificacion'          => 0,    
                 'control_pago'          => 0,
                 'adeudo'                => 0,
+                'numero_contrata'       => $numero_contrata,
             ]);
 
-            if(empty($pagos))
+            foreach ($fechasPagos as $fecha)
             {
-                foreach ($fechasPagos as $fecha)
-                {
-                    PagosContratas::create([
-                        'id_contrata' => $id,
-                        'fecha_pago'  => $fecha,
-                        'cantidad_pagada' => 0,
-                        'adeudo' => 0,
-                        'adelanto' => 0,
-                        'estatus' => 0,
-                        'confirmacion' => 0,
-                    ]);
-                }   
+                PagosContratas::create([
+                    'id_contrata' => $contrata->id,
+                    'fecha_pago'  => $fecha,
+                    'cantidad_pagada' => 0,
+                    'adeudo' => 0,
+                    'adelanto' => 0,
+                    'estatus' => 0,
+                    'confirmacion' => 0,
+                ]);
             }
-            else
-            {
-                $pagos->each->delete();
-                foreach ($fechasPagos as $fecha)
-                {
-                    PagosContratas::create([
-                        'id_contrata' => $id,
-                        'fecha_pago'  => $fecha,
-                        'cantidad_pagada' => 0,
-                        'adeudo' => 0,
-                        'adelanto' => 0,
-                        'estatus' => 0,
-                        'confirmacion' => 0,
-                    ]);
-                }
-            }
-            
             
             $fechaActual = Carbon::now()->format("Y-m-d");
             if($fechaActual > $fechaInicio->format("Y-m-d"))
@@ -387,6 +372,7 @@ class ContratasController extends Controller
             }
 
             $capital = Capital::find(1);
+            $capital->saldo_efectivo -= $request['cantidad_prestada'];
             $capital->comisiones += $comision;
             $capital->save();
 
@@ -394,7 +380,7 @@ class ContratasController extends Controller
         }
         catch(\Exception $e){
             DB::rollback();
-            return redirect()->route('vista.contratas')->with('estatus',false)->with('message', 'Hubo un error al guardar la contrata, verifique la información');
+            return redirect()->route('vista.contratas')->with('estatus',false)->with('message', 'Hubo un error al renovar la contrata: '. $e->getMessage());
         }
         
         return redirect()->route('vista.contratas')->with('estatus',true)->with('message', 'Se edito o renovo la contrata con éxito');

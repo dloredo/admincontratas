@@ -63,7 +63,10 @@ class ReportesController extends Controller
         ->join("contratas" , "clientes.id","contratas.id_cliente")
         ->join("pagos_contratas" , "contratas.id","pagos_contratas.id_contrata")
         ->selectRaw(" (contratas.cantidad_pagar - sum(pagos_contratas.cantidad_pagada)) as parcial ")
+        ->selectRaw(" (sum(pagos_contratas.cantidad_pagada)) as abono ")
+        ->where("renovacion" , 0)
         ->groupBy("contratas.id")
+        ->orderBy("contratas.numero_contrata")
         ->get();
         $pdf = \PDF::loadView('reportes.saldo_global_clientes' , compact('clientes'));
         return $pdf->stream('Reporte-saldo-global-clientes.pdf');
