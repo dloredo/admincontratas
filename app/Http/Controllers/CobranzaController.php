@@ -106,52 +106,55 @@ class CobranzaController extends Controller
         request()->validate([
             'cantidad_pagada'   => 'required',
         ]);
-        if($contrata->adeudo > 0)
+        $cantidad_pagada = $request['cantidad_pagada'];
+        $pagar = $contrata->pagos_contrata;
+        $residuo = $cantidad_pagada;
+
+        $idAux = 0;
+        
+        foreach ($pagos_contratas as $pago)
         {
-            $cantidad_pagada = $request['cantidad_pagada'];
-            $contador = $cantidad_pagada / $contrata->pagos_contrata;
-            $pagar = $contrata->pagos_contrata;
-            $residuo = $cantidad_pagada;
-
-            $idAux = 0;
-            
-            foreach ($pagos_contratas as $pago)
+            if($pago->estatus != 1)
             {
-                if($pago->estatus != 1)
-                {
-                    $pago->update([
-                        'cantidad_pagada'   => $pagar,
-                        'adeudo'            => 0,
-                        'adelanto'          => 0,
-                        'estatus'           => 1,
-                    ]);
-
-                    $idAux = $pago->id;
-                    $residuo -= $pagar;
-
-                    if($residuo < $pagar) break;
-                }
-            }
-
-            if($residuo % $pagar)
-            {
-                $pagos_contratas = PagosContratas::findOrFail($idAux + 1);
-                $saldo = $residuo % $pagar;
-
-                $pagos_contratas->update([
-                    'cantidad_pagada'   => $saldo,
-                    'adeudo'            => $contrata->pagos_contrata - $saldo,
+                $pago->update([
+                    'cantidad_pagada'   => $pagar,
+                    'adeudo'            => 0,
                     'adelanto'          => 0,
-                    'estatus'           => 3,
+                    'estatus'           => 1,
                 ]);
 
-                //$contrata->adeudo = $pagar - $saldo;
+                $idAux = $pago->id;
+                $residuo -= $pagar;
+
+                if($residuo < $pagar) break;
             }
+        }
+        $saldo = $residuo % $pagar;
+        if($residuo % $pagar)
+        {
+            $pagos_contratas = PagosContratas::findOrFail($idAux + 1);
+            
+
+            $pagos_contratas->update([
+                'cantidad_pagada'   => $saldo,
+                'adeudo'            => $contrata->pagos_contrata - $saldo,
+                'adelanto'          => 0,
+                'estatus'           => 3,
+            ]);
+            
+        }
+        
+        if( $cantidad_pagada >= $contrata->adeudo )
+        {
+            $contrata->adeudo = 0;
+            $contrata->save();
         }
         else
         {
-
-        }     
+            $contrata->adeudo += $pagar - $saldo;
+            $contrata->save();
+        }
+        
     }
 
     public function agregarPago($id,Request $request)
