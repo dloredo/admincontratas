@@ -101,7 +101,7 @@ class CobranzaController extends Controller
         $pagos_con = PagosContratas::findOrFail($id);
         $contrata = Contratas::findOrFail($pagos_con->id_contrata);
         $pagos_contratas = PagosContratas::where("id_contrata", $pagos_con->id_contrata)
-                            ->where("id","<=", $id)
+                            //->where("id","<=", $id)
                             ->get();
         request()->validate([
             'cantidad_pagada'   => 'required',
