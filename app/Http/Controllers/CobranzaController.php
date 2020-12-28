@@ -112,25 +112,30 @@ class CobranzaController extends Controller
             $contador = $cantidad_pagada / $contrata->pagos_contrata;
             $pagar = $contrata->pagos_contrata;
             $residuo = $cantidad_pagada;
-            for( $i=0; $i<intval($contador); $i++)
+
+            $idAux = 0;
+            
+            foreach ($pagos_contratas as $pago)
             {
-                foreach ($pagos_contratas as $pago)
+                if($pago->estatus != 1)
                 {
-                    if($pago->estatus != 1)
-                    {
-                        $pago->update([
-                            'cantidad_pagada'   => $pagar,
-                            'adeudo'            => 0,
-                            'adelanto'          => 0,
-                            'estatus'           => 1,
-                        ]);
-                    }
+                    $pago->update([
+                        'cantidad_pagada'   => $pagar,
+                        'adeudo'            => 0,
+                        'adelanto'          => 0,
+                        'estatus'           => 1,
+                    ]);
+
+                    $idAux = $pago->id;
+                    $residuo -= $pagar;
+
+                    if($residuo < $pagar) break;
                 }
-                $residuo -= $pagar;
             }
+
             if($residuo % $pagar)
             {
-                $pagos_contratas = PagosContratas::findOrFail($id+1);
+                $pagos_contratas = PagosContratas::findOrFail($idAux + 1);
                 $saldo = $residuo % $pagar;
 
                 $pagos_contratas->update([
