@@ -118,75 +118,6 @@
         </div>
     </div>
 </div>
-
-<!--<div class="block">
-    <div class="block-header block-header-default">
-        <h3 class="block-title">Agregar nuevo pago</h3>
-    </div>
-    <div class="block-content">
-        <form action="{{ route('agregarPago' , $id_contrata) }}" method="post">
-            @csrf
-            <div class="form-row align-items-center">
-                <div class="col-sm-3 my-1">
-                    <label>Fecha de pago</label>
-                    <input type="date" class="form-control @error('fecha_pago') is-invalid @enderror" id="fecha_pago" name="fecha_pago" value="{{ date('Y-m-d') }}">
-                    @error('fecha_pago')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-                <div class="col-sm-3 my-1">
-                    <label>Cantidad a pagar</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">$</div>
-                        </div>
-                        <input type="number" class="form-control @error('cantidad_pagada') is-invalid @enderror" id="cantidad_pagada" name="cantidad_pagada" value="{{ isset($cantidad_pagar_esperada) ? $cantidad_pagar_esperada : '' }}" value="{{ old('cantidad_pagada') }}" autocomplete="cantidad_pagada" placeholder="Cantidad a pagar">
-                        @error('cantidad_pagada')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-                </div>
-                <div class="col-sm-3 my-1">
-                    <label>Adeudo</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">$</div>
-                        </div>
-                        <input type="number" class="form-control @error('adeudo') is-invalid @enderror" id="adeudo" name="adeudo" value="{{ old('adeudo') }}" autocomplete="adeudo" placeholder="Adeudo">
-                        @error('adeudo')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-                </div>
-                <div class="col-sm-3 my-1">
-                    <label>Adelanto</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">$</div>
-                        </div>
-                        <input type="number" class="form-control @error('adelanto') is-invalid @enderror" id="adelanto" name="adelanto" value="{{ old('adelanto') }}" autocomplete="adelanto" placeholder="Adelanto">
-                        @error('adelanto')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-                </div>
-                <div class="col-auto my-1">
-                    <input type="hidden" id="cantidad_pagar_dia" name="cantidad_pagar_dia" value="{{ isset($cantidad_pagar) ? $cantidad_pagar : '' }}">
-                    <button type="submit" class="btn btn-primary">Agregar pago</button>
-                </div>
-            </div>
-        </form>
-        <br>
-    </div>
-</div> -->
 @foreach ($pagos as $pago) 
 <div class="modal fade" id="pagar{{ $pago->id }}" tabindex="-1" role="dialog" aria-labelledby="modal-popin" aria-hidden="true">
     <div class="modal-dialog modal-dialog-popin" role="document">
@@ -202,7 +133,7 @@
                 </div>
                 <div class="block-content">
                 <h3>Por pagar: {{"$" . number_format(round(((float)$cantidad_pagar_esperada )),2,'.',',') }}</h3>
-                    <form action="{{ route('agregarPago' , $pago->id) }}" method="post">
+                    <form action="{{ route('agregarPagoPrototipo' , $pago->id) }}" method="post">
                         @csrf
                         <div class="form-row align-items-center">
                         <label>Cantidad a pagar</label>

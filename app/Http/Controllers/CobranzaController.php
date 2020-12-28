@@ -96,6 +96,58 @@ class CobranzaController extends Controller
         
     }
 
+    public function agregarPagoPrototipo($id , Request $request)
+    {
+        $pagos_con = PagosContratas::findOrFail($id);
+        $contrata = Contratas::findOrFail($pagos_con->id_contrata);
+        $pagos_contratas = PagosContratas::where("id_contrata", $pagos_con->id_contrata)
+                            ->where("id","<=", $id)
+                            ->get();
+        request()->validate([
+            'cantidad_pagada'   => 'required',
+        ]);
+        if($contrata->adeudo > 0)
+        {
+            $cantidad_pagada = $request['cantidad_pagada'];
+            $contador = $cantidad_pagada / $contrata->pagos_contrata;
+            $pagar = $contrata->pagos_contrata;
+            $residuo = $cantidad_pagada;
+            for( $i=0; $i<intval($contador); $i++)
+            {
+                foreach ($pagos_contratas as $pago)
+                {
+                    if($pago->estatus != 1)
+                    {
+                        $pago->update([
+                            'cantidad_pagada'   => $pagar,
+                            'adeudo'            => 0,
+                            'adelanto'          => 0,
+                            'estatus'           => 1,
+                        ]);
+                    }
+                }
+                $residuo -= $pagar;
+            }
+            if($residuo % $pagar)
+            {
+                $pagos_contratas = PagosContratas::findOrFail($id+1);
+                $saldo = $residuo % $pagar;
+
+                $pagos_contratas->update([
+                    'cantidad_pagada'   => $saldo,
+                    'adeudo'            => $contrata->pagos_contrata - $saldo,
+                    'adelanto'          => 0,
+                    'estatus'           => 3,
+                ]);
+
+                //$contrata->adeudo = $pagar - $saldo;
+            }
+        }
+        else
+        {
+
+        }     
+    }
 
     public function agregarPago($id,Request $request)
     {
@@ -606,7 +658,8 @@ class CobranzaController extends Controller
         return view("cobranza.historialCobros",compact("cobros","cobroTotal","confirmar", "cobradores"));
     }
 
-    function editarCobro(Request $request){
+    function editarCobro(Request $request)
+    {
         /*
             Confirmacion: 0 no se ha confirmado
                           1 en espera de confirmacion
