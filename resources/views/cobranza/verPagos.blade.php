@@ -106,7 +106,9 @@
                                 @endif
                             </td>
                             <td style="text-align: center;">
-                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#pagar{{ $pago->id }}">Pagar</button>
+                            @if($pago->estatus != 1)
+                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#pagar{{ $pago->id }}">Pagar</button>
+                            @endif
                             </td>
                         </tr>                
                     @endforeach
