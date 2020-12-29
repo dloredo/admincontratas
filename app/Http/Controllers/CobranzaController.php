@@ -111,7 +111,7 @@ class CobranzaController extends Controller
         $residuo = $cantidad_pagada;
 
         $idAux = 0;
-        if( $cantidad_pagada == $pagar )
+        if( $cantidad_pagada == $pagar && $contrata->adeudo == 0)
         {
             $pagos_con->update([
                 'cantidad_pagada'   => $cantidad_pagada,
@@ -126,14 +126,14 @@ class CobranzaController extends Controller
         {
             $pagos_con->update([
                 'cantidad_pagada'   => $cantidad_pagada,
-                'adeudo'            => $pagar-$cantidad_pagada,
+                'adeudo'            => ($pagar + $contrata->adeudo) - $cantidad_pagada,
                 'adelanto'          => 0,
                 'estatus'           => 3,
             ]);
-            $contrata->adeudo += $pagar-$cantidad_pagada;
+            $contrata->adeudo += ($pagar + $contrata->adeudo) - $cantidad_pagada;
             $contrata->save();
         }
-        else if( $cantidad_pagada > $pagar + $contrata->adeudo )
+        else if( $cantidad_pagada >= $pagar + $contrata->adeudo )
         {
             foreach ($pagos_contratas as $pago)
             {
