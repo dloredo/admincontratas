@@ -14,10 +14,11 @@
             </tr>
         </thead>
         <tbody>
-            <?php $pago_total = 0 ?>
-            <?php $atraso_total = 0 ?>
-            <?php $adelanto_total = 0 ?>
-            <?php $actual_total = 0 ?>
+            @php $pago_total = 0;
+                $atraso_total = 0;
+                $adelanto_total = 0;
+                $actual_total = 0;
+            @endphp
             @foreach($infoTable as $contrata)
                 <tr style="text-align: center;">
                     <td style="text-align: left;">

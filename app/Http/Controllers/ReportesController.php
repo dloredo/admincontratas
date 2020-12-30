@@ -29,7 +29,7 @@ class ReportesController extends Controller
         ->join("clientes","clientes.id","contratas.id_cliente")
         ->join("pagos_contratas","pagos_contratas.id_contrata","contratas.id")
         ->where('pagos_contratas.fecha_pago', Carbon::now()->format("Y-m-d") )
-        ->whereRaw("(pagos_contratas.estatus = 0 or pagos_contratas.estatus = 2 )")
+        ->whereRaw("(pagos_contratas.estatus = 0 or pagos_contratas.estatus = 3 )")
         ->where('pagos_contratas.confirmacion', 0 )
         ->get();
         $pdf = \PDF::loadView('reportes.reporte_general_cobranza' ,  compact('cobranza'));
