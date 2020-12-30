@@ -72,8 +72,8 @@
                         <tr>
                             <th style="text-align: center;">Fecha</th>
                             <th style="text-align: center;">Cantidad pagada</th>
-                            <th style="text-align: center;">Adeudo</th>
-                            <th style="text-align: center;">Adelanto</th>
+                            {{-- <th style="text-align: center;">Adeudo</th>
+                            <th style="text-align: center;">Adelanto</th> --}}
                             <th style="text-align: center;">Estado</th>
                             <th style="text-align: center;">Accion</th>
                         </tr>
@@ -84,8 +84,8 @@
                         <tr>
                             <td style="text-align: center;">{{ date('d-m-Y', strtotime($pago->fecha_pago)) }}</td>
                             <td style="text-align: center;"><?php echo "$" . number_format(round(((float)$pago->cantidad_pagada )),2,'.',',');?></td>
-                            <td style="text-align: center;"><?php echo "$" . number_format(round(((float)$pago->adeudo )),2,'.',',');?></td>
-                            <td style="text-align: center;"><?php echo "$" . number_format(round(((float)$pago->adelanto )),2,'.',',');?></td>
+                            {{-- <td style="text-align: center;"><?php //echo "$" . number_format(round(((float)$pago->adeudo )),2,'.',',');?></td>
+                            <td style="text-align: center;"><?php //echo "$" . number_format(round(((float)$pago->adelanto )),2,'.',',');?></td> --}}
                             <td style="text-align: center; align-items: center; vertical-align: middle">
                                 @if ($pago->estatus == 0)
                                     <div class="p-2 bg-danger text-white">

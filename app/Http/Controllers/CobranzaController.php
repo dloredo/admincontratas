@@ -109,13 +109,9 @@ class CobranzaController extends Controller
                             ->orderBy("id", "asc")
                             ->get();
 
-        $pagos_contratas_anterior = PagosContratas::where("id_contrata", $pagos_con->id_contrata)
-                                           ->where("id","<=", $id)
-                                           ->first();
-                        
+       
         $cantidad_pagada = $request['cantidad_pagada'];
         $pagar = $contrata->pagos_contrata;
-        $totalPagarAdeudo = $pagos_contratas_anterior->adeudo + $pagar;
         $residuo = $cantidad_pagada;
 
         $idAux = 0;
@@ -135,35 +131,30 @@ class CobranzaController extends Controller
             $pago = $pagos_contratas[0];
 
             $pago_cantidad_pagada = $pago->cantidad_pagada;
-            $pago_adeudo = $pago->adeudo;
 
             if($pago_cantidad_pagada > 0){
-                $pago_cantidad_pagada += $residuo;
+                
+                if(($pago_cantidad_pagada + $residuo) <= $pagar){
 
-                if($pago_cantidad_pagada == $pagar){
-                    $pago_adeudo = 0;
-                }
-                else if ($pago_cantidad_pagada < $pagar)
-                {
-                    $pago_adeudo = $pagar - $pago_cantidad_pagada;
+                    $estatus = (($pago_cantidad_pagada + $residuo) == $pagar)? 1: 3;
+
+                    $pago->update([
+                        'cantidad_pagada'   => ($pago_cantidad_pagada + $residuo),
+                        'estatus'           => $estatus,
+                    ]);
+
                 }
                 else{
 
                     $pago->update([
                         'cantidad_pagada'   => $pagar,
-                        'adeudo'            => 0,
-                        'adelanto'          => 0,
                         'estatus'           => 1,
                     ]);
-
-                    $pago_cantidad_pagada -= $pagar;
 
                     $pago = $pagos_contratas[1];
 
                     $pago->update([
-                        'cantidad_pagada'   => $pago_cantidad_pagada,
-                        'adeudo'            => $pagar - $pago_cantidad_pagada,
-                        'adelanto'          => 0,
+                        'cantidad_pagada'   => ($residuo) - ($pagar - $pago_cantidad_pagada),
                         'estatus'           => 3,
                     ]);
 
@@ -171,15 +162,17 @@ class CobranzaController extends Controller
 
             }
             else{
-                $pago_cantidad_pagada = $residuo;
+
+                $estatus = ($residuo == $pagar)? 1: 3;
+
+                $pago->update([
+                    'cantidad_pagada'   => $residuo,
+                    'estatus'           => $estatus,
+                ]);
             }
 
-            $pago->update([
-                'cantidad_pagada'   => $pago_cantidad_pagada,
-                'adeudo'            =>  $pago_adeudo,
-                'adelanto'          => 0,
-                'estatus'           => 3,
-            ]);
+            $contrata->adeudo -= $cantidad_pagada;
+            $contrata->save();
         }
         else{
         
