@@ -209,7 +209,13 @@ class CobranzaController extends Controller
                 ]);
 
                 if($contrata->adeudo != 0){
-                    $contrata->adeudo -= ($saldo - ($pagar-$saldo));
+                    $contrata->adeudo -= $saldo;
+                }
+                else{
+
+                    if($pagos_contratas->fecha_pago <= Carbon::now()->format("Y-m-d") )
+                        $contrata->adeudo += $pagar-$saldo;
+                    
                 }
                 
             }
