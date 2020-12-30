@@ -176,50 +176,44 @@ class CobranzaController extends Controller
         }
         else{
         
-
+            $index = 0;
             foreach ($pagos_contratas as $pago)
             {
                 if($residuo < $pagar) break;
 
+                if($index == 0 && $pago->cantidad_pagada > 0){
+                    $residuo += $pago->cantidad_pagada;
+                    $contrata->adeudo -= ($pagar - $pago->cantidad_pagada);
+                }
+                else{
+                    $contrata->adeudo -= $pagar;
+                }
+
                 $pago->update([
                     'cantidad_pagada'   => $pagar,
-                    'adeudo'            => 0,
-                    'adelanto'          => 0,
                     'estatus'           => 1,
                 ]);
 
                 $idAux = $pago->id;
                 $residuo -= $pagar;
 
-                
+                $index++;
             }
             $saldo = $residuo % $pagar;
             if($residuo % $pagar)
             {
                 $pagos_contratas = PagosContratas::findOrFail($idAux + 1);
-                
-
                 $pagos_contratas->update([
                     'cantidad_pagada'   => $saldo,
-                    'adeudo'            => $contrata->pagos_contrata - $saldo,
-                    'adelanto'          => 0,
                     'estatus'           => 3,
                 ]);
+
+                if($contrata->adeudo != 0){
+                    $contrata->adeudo -= ($saldo - ($pagar-$saldo));
+                }
                 
             }
-
-            if( $cantidad_pagada >= $contrata->adeudo )
-            {
-                $contrata->adeudo = $contrata->pagos_contrata - $saldo;
-                $contrata->save();
-            }
-            else
-            {
-                $contrata->adeudo += $contrata->pagos_contrata - $saldo;
-                $contrata->save();
-            }
-
-
+            $contrata->save();
         }
         // else if( $cantidad_pagada < $totalPagarAdeudo )
         // {
