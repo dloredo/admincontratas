@@ -34,8 +34,8 @@
             <tbody id="tbody">
                 @foreach($fechas as $fecha)
                     <tr>
-                        <td>{{$fecha->fecha_inicio}}</td>
-                        <td>{{$fecha->fecha_termino}}</td>
+                        <td>{{date('d-m-Y', strtotime($fecha->fecha_inicio))}}</td>
+                        <td>{{date('d-m-Y', strtotime($fecha->fecha_termino))}}</td>
                         <td>{{$fecha->descripcion}}</td>
                         <td>
                             <div class="btn-group" role="group">

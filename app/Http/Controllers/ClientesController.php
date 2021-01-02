@@ -220,7 +220,9 @@ class ClientesController extends Controller
     public function verContratas($id)
     {
         $cliente = Clientes::where('id', $id)->firstOrFail();
-        $contratas = Contratas::where("id_cliente",$id)->get();
+        $contratas = Contratas::where("id_cliente",$id)
+                                ->where("renovacion",0)
+                                ->get();
         return view('clientes.verContratas' , compact('cliente','contratas'));
     }
 

@@ -185,6 +185,10 @@ Route::post('/liquidar-cliente/{id}' , 'PrincipalController@liquidar_cobrador')-
 */
 Route::get('/capital-corte' , 'CapitalController@index')->name('vista.capital.cortes');
 Route::get('/generarCorte' , 'CapitalController@generarCorte')->name('generar.corte');
+
+Route::post('/generarCorteGastos' , 'CapitalController@generarCorteGastos')->name('generarCorteGastos');
+Route::post('/generargenerarCorteComisionesCorte' , 'CapitalController@generarCorteComisiones')->name('generarCorteComisiones');
+
 Route::get('/capital-movimientos' , 'CapitalController@movimientosCapital')->name('vista.capital.movimientos');
 Route::post('/crearMovimientoCapital' , 'CapitalController@crearMovimientoCapital')->name('create.movimientoCapital');
 /*

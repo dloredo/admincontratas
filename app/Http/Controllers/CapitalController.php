@@ -57,6 +57,50 @@ class CapitalController extends Controller
         return back();
     }
 
+    public function generarCorteGastos(Request $request)
+    {
+        Cortes::create([
+            'clientes'          => $request['clientes'],
+            'contratas'         => $request['contratas'],
+            'prestamos_totales' => $request['prestamos_totales'],
+            'gastos'            => $request['gastos'],
+            'capital_acumulado' => $request['capital_acumulado'],
+            'comisiones'        => $request['comisiones'],
+            'capital_parcial'   => $request['capital_parcial'],
+            'saldo_efectivo'    => $request['saldo_efectivo'],
+            'capital_total'     => $request['capital_total'],
+        ]);
+        
+        $capital = Capital::find(1);
+        $capital->capital_acumulado -= $request['gastos'];
+        $capital->gastos = 0;
+        $capital->save();
+
+        return back();
+    }
+
+    public function generarCorteComisiones(Request $request)
+    {
+        Cortes::create([
+            'clientes'          => $request['clientes'],
+            'contratas'         => $request['contratas'],
+            'prestamos_totales' => $request['prestamos_totales'],
+            'gastos'            => $request['gastos'],
+            'capital_acumulado' => $request['capital_acumulado'],
+            'comisiones'        => $request['comisiones'],
+            'capital_parcial'   => $request['capital_parcial'],
+            'saldo_efectivo'    => $request['saldo_efectivo'],
+            'capital_total'     => $request['capital_total'],
+        ]);
+
+        $capital = Capital::find(1);
+        $capital->capital_acumulado += $capital->comisiones;
+        $capital->comisiones = 0;
+        $capital->save();
+
+        return back();
+    }
+
 
     function movimientosCapital()
     {
@@ -66,8 +110,13 @@ class CapitalController extends Controller
         $pagos_totales = PagosContratas::sum('cantidad_pagada');
         $comisiones = Contratas::sum('comision');
         $contratas_vigentes = Contratas::where('estatus' , 0)->count();
+        $parcial = Clientes::selectRaw(" (contratas.cantidad_pagar - sum(pagos_contratas.cantidad_pagada)) as parcial ")
+        ->join("contratas" , "clientes.id","contratas.id_cliente")
+        ->join("pagos_contratas" , "contratas.id","pagos_contratas.id_contrata")
+        ->groupBy("contratas.id")
+        ->get();
         $clientes = Clientes::count();
-        return view("capital.capital" ,['prestamos_totales' => $prestamos_totales ,'pagos_totales' => $pagos_totales, 'comisiones' => $comisiones, 'contratas_vigentes' => $contratas_vigentes , 'clientes' => $clientes], compact("capital","movimientos"));
+        return view("capital.capital" ,['prestamos_totales' => $prestamos_totales ,'pagos_totales' => $pagos_totales, 'comisiones' => $comisiones, 'contratas_vigentes' => $contratas_vigentes , 'clientes' => $clientes], compact("capital","movimientos", "parcial"));
     }
 
     function crearMovimientoCapital(Request $request)

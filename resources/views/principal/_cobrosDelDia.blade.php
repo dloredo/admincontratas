@@ -47,7 +47,7 @@
                         {{date('d-m-Y', strtotime($contrata->fecha_termino))}}
                     </td>
                     <td width="30%">
-                        <form action="{{ route('agregarPago' , $contrata->idPago) }}" method="post" id="form_{{ $contrata->idPago }}">
+                        <form action="{{ route('agregarPagoPrototipo' , $contrata->idPago) }}" method="post" id="form_{{ $contrata->idPago }}">
                             @csrf
                             <input type="number" name="cantidad_pagada" id="cantidad_pagada" class="form-control" style="min-width:150px !important; ">
                             

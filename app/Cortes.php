@@ -7,5 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Cortes extends Model
 {
     protected $table = "cortes";
-    protected $fillable = ["capital_total","capital_neto","capital_en_prestamo","comisiones"];
+    protected $fillable = ["capital_acumulado","saldo_efectivo","capital_parcial","comisiones",
+                           "clientes","contratas","prestamos_totales","gastos","capital_total"];
 }
