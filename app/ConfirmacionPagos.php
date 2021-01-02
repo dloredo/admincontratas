@@ -11,4 +11,8 @@ class ConfirmacionPagos extends Model
     protected $fillable = [
         'id_pago_contrata','id_cobrador','id_contrata' , 'cantidad_pagada' , 'adeudo' , 'adelanto','estatus'
     ];
+    protected $attributes = [
+        'adeudo' => 0,
+        'adelanto' => 0,
+    ];
 }

@@ -128,7 +128,7 @@ $cantidad_pagar = 0;
                 </div>
                 <div class="block-content">
                 <h3>Por pagar: {{"$" . number_format(round(((float) $cantidad_pagar_esperada  )),0,'.',',') }}</h3>
-                    <form action="{{ route('agregarPagoPrototipo' , $pago->id) }}" method="post">
+                    <form action="{{ route('agregarPago' , $pago->id) }}" method="post">
                         @csrf
                         <div class="form-row align-items-center">
                         <label>Cantidad a pagar</label>

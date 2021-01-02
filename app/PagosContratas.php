@@ -12,6 +12,10 @@ class PagosContratas extends Model
         'id_contrata' , 'fecha_pago' , 'cantidad_pagada' , 'adeudo' , 'adelanto','estatus','confirmacion'
     ];
 
+    protected $attributes = [
+        'adeudo' => 0,
+        'adelanto' => 0,
+    ];
 
     static function confirmarPagos($idCobrador)
     {
@@ -23,31 +27,6 @@ class PagosContratas extends Model
                                                 pc.estatus = cp.estatus,
                                                 pc.confirmacion = 2
                         where id_cobrador = $idCobrador");
-
-
-        $pagos = self::select("pagos_contratas.*")
-                        ->join("confirmacion_pagos","confirmacion_pagos.id_pago_contrata","pagos_contratas.id")                
-                        ->where("confirmacion_pagos.id_cobrador",$idCobrador)
-                        ->groupBy("id_contrata")
-                        ->get();
-
-        foreach($pagos as $pago){
-            $adeudo = self::where("id_contrata", $pago->id_contrata)
-                            ->where("id","<", $pago->id)
-                            ->orderBy("id", "desc")
-                            ->first();
-
-            if($adeudo->estatus != 1 && $pago->cantidad_pagada >= $adeudo->adeudo ){
-
-                self::where("id_contrata", $adeudo->id_contrata)
-                        ->where("fecha_pago","<", $adeudo->fecha_pago)
-                        ->update([
-                            "estatus" => 1
-                        ]);
-            }
-
-            
-        }
 
     }
 
