@@ -33,7 +33,7 @@
                     </td>
                     
                     <td width="30%">
-                        <form action="{{ route('agregarPagoPrototipo' , $contrata) }}" method="post" id="form_deudores{{ $contrata->idPago }}">
+                        <form action="{{ route('agregarPagoAdeudo' , $contrata) }}" method="post" id="form_deudores{{ $contrata->idPago }}">
                             @csrf
                             <input type="number" name="cantidad_pagada" id="cantidad_pagada" class="form-control" style="min-width:150px !important; ">
                             

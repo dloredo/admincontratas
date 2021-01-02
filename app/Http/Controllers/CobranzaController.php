@@ -390,7 +390,6 @@ class CobranzaController extends Controller
         catch(Exception $e)
         {
             DB::rollBack();
-
             return back()->with('message', 'Hubo un error al agregar el pago.')->with('estatus',false);
         }
 
@@ -405,6 +404,7 @@ class CobranzaController extends Controller
                                             ->first();
 
         $this->agregarPago($pagos_contratas->id,$request);
+        return back()->with('message', 'Se agrego el pago con éxito.')->with('estatus',true);
     }
 
     function hitorialCobros($fecha = null , $cobrador = null)
