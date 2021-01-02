@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Capital;
 use Exception;
-use PagosContrata;
 use Maatwebsite\Excel\Facades\Excel;
 use App\PagosContratas;
 use App\Exports\PagosDiariosExportBook; 
@@ -158,22 +157,6 @@ class CobranzaController extends Controller
 
             }
             else{
-
-                // $pago_cantidad_pagada = $pagos_con->cantidad_pagada;
-
-                // $pagos_con->update([
-                //     'cantidad_pagada'   => $pagar,
-                //     'estatus'           => 1,
-                // ]);
-
-                // $pagos_con = PagosContratas::findOrFail($id+1);
-
-                // $pagos_con->update([
-                //     'cantidad_pagada'   => ($cantidad_pagada) - ($pagar - $pago_cantidad_pagada),
-                //     'estatus'           => 3,
-                // ]);
-
-
                 $index = 0;
                 foreach ($pagos_contratas as $pago)
                 {
@@ -308,20 +291,6 @@ class CobranzaController extends Controller
             }
             $contrata->save();
         }
-        // else if( $cantidad_pagada < $totalPagarAdeudo )
-        // {
-        //     $pagos_con->update([
-        //         'cantidad_pagada'   => $cantidad_pagada,
-        //         'adeudo'            => ($pagar + $contrata->adeudo) - $cantidad_pagada,
-        //         'adelanto'          => 0,
-        //         'estatus'           => 3,
-        //     ]);
-        //     $contrata->adeudo += ($pagar + $contrata->adeudo) - $cantidad_pagada;
-        //     $contrata->save();
-        // }
-        
-        
-        
 
         return back()->with('message', 'Se agrego el cobro con éxito.')->with('estatus',true);
         
