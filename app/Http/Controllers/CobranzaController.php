@@ -545,8 +545,14 @@ class CobranzaController extends Controller
                     }
                 }
 
-                $contrata->control_pago += $cobro->total_pagado;
+                $contrata->control_pago += $cobro->cantidad;
+                
+                if($contrata->control_pago == $contrata->cantidad_pagar )
+                    $contrata->estatus = 1;
+
                 $contrata->update();
+
+                
             }
 
 
