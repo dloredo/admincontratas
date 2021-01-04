@@ -220,3 +220,8 @@ Route::post('/edit-gastos/{id}' , 'TiposGastosController@edit_gasto_categoria')-
 
 Route::post('/entregar-cobrador/{id}' , 'TiposGastosController@Entregar')->name('entregar.cobrador');
 Route::post('/recibi-cobrador/{id}' , 'TiposGastosController@Recibi')->name('recibi.cobrador');
+
+
+#Cobradores (historial de cobradores con filtros)
+Route::get('/cobradores' , 'CobradoresController@cobradores')->name('vista.cobradores');
+Route::get('/historial-saldo-cobradores' , 'CobradoresController@historial_cobradores')->name('vista.historial_cobradores');

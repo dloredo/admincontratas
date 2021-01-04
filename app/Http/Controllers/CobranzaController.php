@@ -740,7 +740,7 @@ class CobranzaController extends Controller
             DB::beginTransaction();
 
             $cobros = HistorialCobrosDia::where('id_cobrador', Auth::user()->id)->get();
-
+            return $cobros;
             HistorialCobrosDia::where('id_cobrador', Auth::user()->id)->update(["confirmado" => 1]);
             
             PagosContratas::confirmarPagos(Auth::user()->id);
@@ -753,7 +753,7 @@ class CobranzaController extends Controller
             
             foreach($cobros as $cobro)
             {
-                $contrata = Contratas::findOrFail($cobro->id_contrata);
+                $contrata = Contratas::find($cobro->id_contrata);
 
                 if($contrata->adeudo > 0)
                 {
@@ -784,8 +784,8 @@ class CobranzaController extends Controller
             DB::commit();
         }
         catch(Exception $e){
-
             DB::rollBack();
+            return $e;
             return redirect()->route('historialCobranza')->with('message', "Hubo un error al confirmar : ". $e->getMessage())->with('estatus',false);
         }
 

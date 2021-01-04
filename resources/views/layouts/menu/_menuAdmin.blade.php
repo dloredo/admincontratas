@@ -27,7 +27,10 @@
     </li>
 
     <li>
-        <a href="{{ route('vista.categorias') }}"><i class="fa fa-clipboard"></i><span class="sidebar-mini-hide">Categorias de gastos</span></a>
+        <a href="{{ route('vista.categorias') }}"><i class="fa fa-clipboard"></i><span class="sidebar-mini-hide">Categorias</span></a>
+    </li>
+    <li>
+        <a href="{{ route('vista.cobradores') }}"><i class="fa fa-address-book-o"></i><span class="sidebar-mini-hide">Cobradores</span></a>
     </li>
     <li>
         <a href="{{ route('numerosHabiles') }}"><i class="fa fa-address-book-o"></i><span class="sidebar-mini-hide">Clientes vacantes</span></a>
