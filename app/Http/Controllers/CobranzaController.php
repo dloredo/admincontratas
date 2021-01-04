@@ -739,9 +739,11 @@ class CobranzaController extends Controller
         try{
             DB::beginTransaction();
 
-            $cobros = HistorialCobrosDia::where('id_cobrador', Auth::user()->id)->get();
+            $cobros = HistorialCobrosDia::where('id_cobrador', Auth::user()->id)
+                                        ->where("confirmado",0)
+                                        ->get();
 
-            HistorialCobrosDia::where('id_cobrador', Auth::user()->id)->update(["confirmado" => 1]);
+            
             
             PagosContratas::confirmarPagos(Auth::user()->id);
     
@@ -780,7 +782,7 @@ class CobranzaController extends Controller
             $cobrador->update();
 
             ConfirmacionPagos::where("id_cobrador",Auth::user()->id)->delete();
-
+            HistorialCobrosDia::where('id_cobrador', Auth::user()->id)->update(["confirmado" => 1]);
             DB::commit();
         }
         catch(Exception $e){
