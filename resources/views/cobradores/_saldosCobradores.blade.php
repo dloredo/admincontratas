@@ -4,6 +4,7 @@
         <thead>
             <tr style="text-align: center;">
                 <th scope="col">Nombre</th>
+                <th scope="col">Saldo</th>
             </tr>
         </thead>
         <tbody>
