@@ -65,6 +65,7 @@ class ReportesController extends Controller
         ->selectRaw(" (contratas.cantidad_pagar - sum(pagos_contratas.cantidad_pagada)) as parcial ")
         ->selectRaw(" (sum(pagos_contratas.cantidad_pagada)) as abono ")
         ->where("renovacion" , 0)
+        ->where("contratas.estatus" , 0)
         ->groupBy("contratas.id")
         ->orderBy("contratas.numero_contrata")
         ->get();

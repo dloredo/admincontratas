@@ -106,7 +106,7 @@ class CapitalController extends Controller
     {
         $capital = Capital::find(1);
         $movimientos = Movimiento::all();
-        $prestamos_totales = Contratas::where('estatus' , 0)->sum('cantidad_prestada');
+        $prestamos_totales = Contratas::where('estatus' , 0)->sum('cantidad_pagar');
         $pagos_totales = PagosContratas::sum('cantidad_pagada');
         $comisiones = Contratas::sum('comision');
         $contratas_vigentes = Contratas::where('estatus' , 0)->count();
@@ -116,7 +116,7 @@ class CapitalController extends Controller
         ->groupBy("contratas.id")
         ->get();
         $clientes = Clientes::count();
-        return view("capital.capital" ,['prestamos_totales' => $prestamos_totales ,'pagos_totales' => $pagos_totales, 'comisiones' => $comisiones, 'contratas_vigentes' => $contratas_vigentes , 'clientes' => $clientes], compact("capital","movimientos", "parcial"));
+        return view("capital.capital", ['prestamos_totales' => $prestamos_totales ,'pagos_totales' => $pagos_totales, 'comisiones' => $comisiones , 'contratas_vigentes' => $contratas_vigentes , 'clientes' => $clientes], compact("capital","movimientos","parcial"));
     }
 
     function crearMovimientoCapital(Request $request)

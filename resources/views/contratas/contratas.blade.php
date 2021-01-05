@@ -26,6 +26,7 @@
                             <th scope="col">Prestamo sin Comisión</th>
                             <th scope="col">Comisión</th>
                             <th scope="col">Prestamo total</th>
+                            <th scope="col">Estatus</th>
                             <th scope="col">Acciones</th>
                         </tr>
                     </thead>
@@ -39,6 +40,13 @@
                                     <td style="text-align: center;"><?php echo "$" . number_format(round(((float)$contrata->cantidad_prestada)),0,'.',',');?> </td>
                                     <td style="text-align: center;"><?php echo "$" . number_format(round(((float)$contrata->comision)),0,'.',',');?> </td>
                                     <td style="text-align: center;"><?php echo "$" . number_format(round(((float)$contrata->cantidad_pagar)),0,'.',',');?> </td>
+                                    <td>
+                                        @if( $contrata->estatus == 1 )
+                                            <div class="p-2 bg-success text-white">
+                                                Pagado
+                                            </div>
+                                        @endif
+                                    </td>
                                     <td>
                                     <div class="btn-group" role="group">
                                     <button type="button" class="btn btn-rounded btn-outline-primary" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
