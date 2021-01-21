@@ -224,4 +224,8 @@ Route::post('/recibi-cobrador/{id}' , 'TiposGastosController@Recibi')->name('rec
 
 #Cobradores (historial de cobradores con filtros)
 Route::get('/cobradores' , 'CobradoresController@cobradores')->name('vista.cobradores');
+//Admin
 Route::get('/historial-saldo-cobradores' , 'CobradoresController@historial_cobradores')->name('vista.historial_cobradores');
+
+//Cobrador
+Route::get('/historial-saldo-cobrador' , 'CobradoresController@historial_cobrador')->name('vista.historial_cobrador');

@@ -37,7 +37,10 @@ class PrincipalController extends Controller
         }
 
         if(\Request::is('principal')){
-            $data["infoTable"] = User::where('id_rol' , 2)->get();
+            if(Auth::user()->id_rol == 1)
+                $data["infoTable"] = User::where('id_rol' , 2)->get();
+            else
+                $data["infoTable"] = User::where('id_rol' , 2)->where('id' , Auth::user()->id)->get();
         }
         else{
 

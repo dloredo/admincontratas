@@ -8,6 +8,6 @@ class HistorialCobrador extends Model
 {
     protected $table = "historial_saldo_cobrador";
     protected $fillable = [
-        'cantidad' , 'id_cobrador' , 'tipo'
+        'cantidad' , 'id_cobrador' , 'tipo', 'confirmado'
     ];
 }

@@ -14,7 +14,6 @@
             <th scope="row">{{ $cobrador->id }}</th>
             <td>
                 {{substr(ucwords(strtolower($cobrador->nombres)), 0, 18)}}
-                <button class="btn btn-primary" data-toggle="modal" data-target="#historial{{ $cobrador->id }}">Historial</button>
             </td>
             <td>{{ "$" . number_format(round(((float)$cobrador->saldo)),0,'.',',') }}</td>
             @if(auth()->user()->id_rol == 1)

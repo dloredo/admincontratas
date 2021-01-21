@@ -1,16 +1,23 @@
-<h3>Saldo de cobradores</h3>
-<div class="table-responsive">
-    <table class="table">
-        <thead>
-            <tr style="text-align: center;">
-                <th scope="col">Nombre</th>
-                <th scope="col">Saldo</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr style="text-align: center;">
-                <td style="text-align: left;"></td>
-            </tr>
-        </tbody>
-    </table>
+@extends('layouts.layout')
+
+@section('main')
+<h2 class="content-heading">Historial de saldo</h2>
+<div class="block">
+    <div class="block-content">
+        <p class="text-center py-100">...</p>
+    </div>
 </div>
+@endsection
+
+@section('styles')
+    
+@endsection
+
+
+@section('scripts')
+
+    <script>
+ 
+    </script>
+
+@endsection
