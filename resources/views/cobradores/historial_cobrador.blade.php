@@ -1,7 +1,31 @@
 @extends('layouts.layout')
 
 @section('main')
+<div class="row js-appear-enabled animated fadeIn" data-toggle="appear">
+    <div class="col-6 col-xl-4">
+        <a class="block block-link-shadow text-right" href="javascript:void(0)">
+            <div class="block-content block-content-full clearfix">
+                <div class="float-left mt-10 d-none d-sm-block">
+                    <i class="si si-wallet fa-3x text-body-bg-dark"></i>
+                </div>
+                <div class="font-size-h3 font-w600"><span data-toggle="countTo" data-speed="1000" data-to="780" class="js-count-to-enabled">{{ "$" . number_format(round(((float)$saldo_cobrador)),0,'.',',') }}</span></div>
+                <div class="font-size-sm font-w600 text-uppercase text-muted">Saldo actual</div>
+            </div>
+        </a>
+    </div>
+</div>
 <h2 class="content-heading">Historial de saldo</h2>
+<div style="float: left">
+    <form action="{{ route('filtroSaldoCobrador') }}" method="get" id="filtrar_fecha">
+        <div class="form-group">
+            <input type="date" class="form-control" name="fecha" id="fecha" value="{{ date('Y-m-d') }}">
+        </div>
+    </form>
+</div>
+<button type="button" class="btn btn-success" onclick="document.getElementById('filtrar_fecha').submit()">Filtrar</button>
+
+<br> <br>
+
 <div class="block">
     <div class="block-content">
         <div class="responsive-table">

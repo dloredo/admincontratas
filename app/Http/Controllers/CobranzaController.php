@@ -15,7 +15,8 @@ use App\Capital;
 use Exception;
 use Maatwebsite\Excel\Facades\Excel;
 use App\PagosContratas;
-use App\Exports\PagosDiariosExportBook; 
+use App\Exports\PagosDiariosExportBook;
+use App\HistorialCobrador;
 
 class CobranzaController extends Controller
 {
@@ -533,8 +534,15 @@ class CobranzaController extends Controller
             
             foreach($cobros as $cobro)
             {
+                HistorialCobrador::create([
+                    'cantidad' => $cobro->cantidad,
+                    'id_cobrador' => $cobro->id_cobrador,
+                    'tipo' => "Cargo",
+                    'descripcion' => "",
+                    'id_cliente' => $cobro->id_cliente,
+                    'fecha' => Carbon::now()->format("Y-m-d")
+                ]);
                 $contrata = Contratas::find($cobro->id_contrata);
-
                 if($contrata->adeudo > 0)
                 {
                     if($contrata->adeudo <= $cobro->cantidad){

@@ -165,7 +165,10 @@ class TiposGastosController extends Controller
         HistorialCobrador::create([
             'cantidad' => $cantidad,
             'id_cobrador' => $id,
-            'tipo' => "Cargo"
+            'tipo' => "Cargo",
+            'descripcion' => "",
+            'id_cliente' => 0,
+            'fecha' => Carbon::now()->format("Y-m-d")
         ]);
 
         $id_cobrador->saldo += $cantidad;
@@ -185,7 +188,10 @@ class TiposGastosController extends Controller
         HistorialCobrador::create([
             'cantidad' => $cantidad,
             'id_cobrador' => $id,
-            'tipo' => "Abono"
+            'tipo' => "Abono",
+            'descripcion' => "",
+            'id_cliente' => 0,
+            'fecha' => Carbon::now()->format("Y-m-d")
         ]);
         $id_cobrador->saldo -= $cantidad;
         $id_cobrador->save();

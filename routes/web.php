@@ -229,3 +229,4 @@ Route::get('/historial-saldo-cobradores' , 'CobradoresController@historial_cobra
 
 //Cobrador
 Route::get('/historial-saldo-cobrador' , 'CobradoresController@historial_cobrador')->name('vista.historial_cobrador');
+Route::get('/historial-saldo-cobrador-filtro' , 'CobradoresController@historial_cobrador_filtro')->name('filtroSaldoCobrador');
