@@ -90,6 +90,7 @@ class CobradoresController extends Controller
     }
     public function historial_cobrador_filtro(Request $request)
     {
+        $fecha = $request['fecha'];
         $saldo_cobrador = User::select("saldo")
         ->where("id" , Auth::user()->id)
         ->sum("saldo");
@@ -102,6 +103,6 @@ class CobradoresController extends Controller
         ->where("tipo" , "Abono")
         ->where("fecha" , $fecha)
         ->get();
-        return view('cobradores.historial_cobrador' ,["saldo_cobrador" => $saldo_cobrador] , compact("cargos" , "abonos"));
+        return view('cobradores.historial_cobrador' , compact("cargos" , "abonos" , "saldo_cobrador" , "fecha"));
     }
 }

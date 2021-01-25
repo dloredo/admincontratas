@@ -18,7 +18,7 @@
 <div>
     <form class="form-inline" action="{{ route('filtroSaldoCobrador') }}" method="get" id="filtrar_fecha">
         <div class="form-group">
-            <input type="date" class="form-control" name="fecha" id="fecha" value="{{ date('Y-m-d') }}">
+            <input type="date" class="form-control" name="fecha" id="fecha" value="{{ $fecha ?? date('Y-m-d')}}">
         </div>
         <button type="button" class="btn btn-success" onclick="document.getElementById('filtrar_fecha').submit()">Filtrar</button>
     </form>
