@@ -14,11 +14,17 @@
         </a>
     </div>
 </div>
-<h2 class="content-heading">Historial de saldo</h2>
+<h2 class="content-heading">Historial de saldo de cobradores</h2>
 <div>
-    <form class="form-inline" action="{{ route('filtroSaldoCobrador') }}" method="get" id="filtrar_fecha">
+    <form class="form-inline" action="{{ route('filtroSaldoCobradores') }}" method="get" id="filtrar_fecha">
         <div class="form-group">
-            <input type="date" class="form-control" name="fecha" id="fecha" value="{{ date('Y-m-d') }}">
+            <select name="id_cobrador" id="id_cobrador" class="form-control">
+                <option value=""  selected>Cobrador..</option>
+                @foreach ($cobradores as $cobrador)
+                <option value="{{$cobrador->id}}">{{$cobrador->nombres}}</option>
+                @endforeach
+            </select>
+            <input type="date" class="form-control" name="fecha" id="fecha" value="{{ $fecha ?? date('Y-m-d')}}">
         </div>
         <button type="button" class="btn btn-success" onclick="document.getElementById('filtrar_fecha').submit()">Filtrar</button>
     </form>
@@ -33,11 +39,12 @@
                 <table class="table">
                     <thead>
                         <tr style="text-align: center;">
-                            <th scope="col"  colspan="2">Cargos</th>
+                            <th scope="col"  colspan="3">Cargos</th>
                         </tr>
                         <tr  style="text-align: center;">
                             <th scope="col">Concepto</th>
                             <th scope="col">Cantidad</th>
+                            <th scope="col">Cobrador</th>
                         </tr>
                     </thead>
                     @php
@@ -48,6 +55,7 @@
                             <tr style="text-align: center;">
                                 <td>{{ $cargo->tipo }}</td>
                                 <td>{{ "$" . number_format(round(((float)$cargo->cantidad)),0,'.',',') }}</td>
+                                <td>{{ $cargo->nombres }}</td>
                                 @php
                                     $cargo_suma+=$cargo->cantidad;
                                 @endphp
@@ -55,9 +63,9 @@
                         @endforeach
                     </tbody>
                     <tbody>
-                        <tr  style="text-align: right;">
-                            <td scope="col"> Total: </td>
-                            <td scope="col" style="text-align: left">{{ "$" . number_format(round(((float)$cargo_suma)),0,'.',',') }}</td>
+                        <tr>
+                            <td style="text-align: right;"> Total: </td>
+                            <td style="text-align: center">{{ "$" . number_format(round(((float)$cargo_suma)),0,'.',',') }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -72,11 +80,12 @@
                 <table class="table">
                     <thead>
                         <tr style="text-align: center;">
-                            <th scope="col"  colspan="2">Abonos</th>
+                            <th scope="col"  colspan="3">Abonos</th>
                         </tr>
                         <tr  style="text-align: center;">
                             <th scope="col">Concepto</th>
                             <th scope="col">Cantidad</th>
+                            <th scope="col">Cobrador</th>
                         </tr>
                     </thead>
                     @php
@@ -87,6 +96,7 @@
                             <tr style="text-align: center;">
                                 <td>{{ $abono->tipo }}</td>
                                 <td>{{ "$" . number_format(round(((float)$abono->cantidad)),0,'.',',') }}</td>
+                                <td>{{ $cargo->nombres }}</td>
                                 @php
                                     $abonos_suma += $abono->cantidad;
                                 @endphp
@@ -94,9 +104,9 @@
                         @endforeach
                     </tbody>
                     <tbody>
-                        <tr  style="text-align: right;">
-                            <td scope="col">Total:</td>
-                            <td scope="col" style="text-align: left">{{ "$" . number_format(round(((float)$abonos_suma)),0,'.',',') }}</td>
+                        <tr>
+                            <td style="text-align: right;"> Total: </td>
+                            <td style="text-align: center">{{ "$" . number_format(round(((float)$abonos_suma)),0,'.',',') }}</td>
                         </tr>
                     </tbody>
                 </table>

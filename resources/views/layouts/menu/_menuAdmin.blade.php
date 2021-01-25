@@ -14,10 +14,9 @@
     <li>
         <a href="{{ route('historialCobranza') }}"><i class="fa fa-clipboard"></i><span class="sidebar-mini-hide">Historial de cobros</span></a>
     </li>
-    <!--<li>
-        <a href="{{ route('vista.contratas') }}"><i class="fa fa-clipboard"></i><span class="sidebar-mini-hide">Contratas</span></a>
-    </li>-->
-
+    <li>
+        <a href="{{ route('vista.historial_cobradores') }}"><i class="fa fa-clipboard"></i><span class="sidebar-mini-hide">Historial saldo cobradores</span></a>
+    </li>
     <li>
         <a href="{{ route('vista.noPagadas') }}"><i class="fa fa-clipboard"></i><span class="sidebar-mini-hide">Listados</span></a>
     </li>
