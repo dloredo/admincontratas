@@ -215,6 +215,12 @@ Route::post('/edit/{id}' , 'TiposGastosController@edit')->name('edit.categoria')
 Route::get('/destroy/{id}' , 'TiposGastosController@destroy')->name('destroy');
 
 Route::get('/gastos' , 'TiposGastosController@vista_gastos')->name('vista.gastos');
+Route::post('/gastos/getCategories' , 'TiposGastosController@getCategories');
+Route::get('/gastos/create' , 'TiposGastosController@create')->name('vista.gastos.create');
+Route::post('/gastos/store' , 'TiposGastosController@store')->name('vista.gastos.store');
+Route::get('/gastos/editGasto/{gasto}' , 'TiposGastosController@editGasto')->name('vista.gastos.edit');
+Route::put('/gastos/updateGasto/{gasto}' , 'TiposGastosController@updateGasto')->name('vista.gastos.update');
+
 Route::post('/agregarGasto' , 'TiposGastosController@agregarGasto')->name('agregarGasto');
 Route::post('/edit-gastos/{id}' , 'TiposGastosController@edit_gasto_categoria')->name('editarGasto');
 

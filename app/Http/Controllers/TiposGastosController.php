@@ -23,62 +23,165 @@ class TiposGastosController extends Controller
 
     public function vista_gastos(Request $request)
     {
-        $categoria = $request['buscar_categoria'];
+        $categoria = $request['categoria_id'];
+        $subcategoria = $request['subcategoria_id'];
         $usuario_id = $request['usuario_id'];
 
-        $categorias = Categorias::all();
         $users = User::allDebtCollector();
 
-        $gastos = Gastos::select("gastos.*","usuarios.nombres")
-                            ->join("usuarios", "usuarios.id", "gastos.id_user")
-                            ->where('id_user' , Auth::user()->id)
-                            ->paginate(6);
+        if(auth()->user()->id_rol == 1){
+            $gastos = Gastos::select("gastos.*","usuarios.nombres")
+            ->join("usuarios", "usuarios.id", "gastos.id_user")
+            ->orderBy('id' , 'DESC')
+            ->categoria($categoria)
+            ->subcategoria($subcategoria)
+            ->user($usuario_id)
+            ->paginate(6);
+        }
+        else{
 
-        $gastos_admin = Gastos::select("gastos.*","usuarios.nombres")
-                        ->join("usuarios", "usuarios.id", "gastos.id_user")
-                        ->orderBy('id' , 'DESC')
-                        ->categoria($categoria)
-                        ->user($usuario_id)
-                        ->paginate(6);
+            $gastos = Gastos::select("gastos.*","usuarios.nombres")
+                                ->join("usuarios", "usuarios.id", "gastos.id_user")
+                                ->where('id_user' , Auth::user()->id)
+                                ->paginate(6);
+        }
 
-        return view('gastos.gastos' , compact('categorias' , 'gastos' , 'gastos_admin','users'));
+        
+
+        return view('gastos.gastos' , compact( 'gastos' , 'users', "categoria", "subcategoria","usuario_id"));
+    }
+
+    public function create()
+    {
+        return view("gastos.create");
     }
     
-    public function agregarGasto(Request $request)
+    public function getCategories()
     {
-        $id_cobrador = User::findOrFail(Auth::user()->id);
-        $gasto = $request['cantidad'];
-        $capital = Capital::find(1);
-        if($request['categoria'] == "Contratas")
+        $categorias = Categorias::select("id", "categoria")->get();
+        $subCategorias = SubCategorias::select("id", "id_categoria", "sub_categoria")->get();
+
+        return [
+            "categorias" => $categorias,
+            "subcategorias" => $subCategorias
+        ];
+    }
+
+    public function store(Request $request)
+    {
+        $rules = [
+            "cantidad" => "required",
+            "informacion" => "required"
+        ];
+
+        if(auth()->user()->id_rol == 1)
         {
-            Gastos::create([
-                'cantidad'    => $request['cantidad'],
-                'categoria'   => "Sin categoria",
-                'informacion' => $request['informacion'],
-                'fecha_gasto' => Carbon::now(),
-                'id_user'     => Auth::user()->id,
+            $rules = array_merge($rules,[
+                "categoria_id" => "required",
+                "subcategoria_id" => "required"
             ]);
-            $capital->gastos += $gasto;
+        }
+
+        $request->validate($rules);
+
+        $data = array_merge($request->all(),[
+            'fecha_gasto' => Carbon::now(),
+            'id_user'     => auth()->user()->id,
+            'categoria'   => "",
+        ]);
+
+        Gastos::create($data);
+
+        $gasto = $data['cantidad'];
+
+        if(auth()->user()->id_rol != 1)
+        {
+            $cobrador = User::findOrFail(auth()->user()->id);
+            $cobrador->saldo -= $gasto;
+            $cobrador->save();
+        }
+        else{
+
+            $capital = Capital::find(1);
+
+            if($data['categoria_id'] == 1)
+            {
+                $capital->gastos += $gasto;
+            }
+            else
+            {
+                $capital->saldo_efectivo -= $gasto;
+                $capital->gastos += $gasto;
+            }
+
             $capital->save();
         }
-        else
+
+        return redirect()->route('vista.gastos');
+    }
+
+    public function editGasto(Gastos $gasto)
+    {
+        return view("gastos.edit", compact("gasto"));
+    }
+
+    public function updateGasto(Request $request,Gastos $gasto)
+    {
+        $request->validate([
+            "categoria_id" => "required",
+            "subcategoria_id" => "required",
+            "cantidad" => "required",
+            "informacion" => "required"
+        ]);
+
+        $oldCantidad = $gasto->cantidad;
+        $oldCategoria = $gasto->categoria_id;
+
+        $gasto->cantidad = $request->cantidad;
+        $gasto->categoria_id = $request->categoria_id;
+        $gasto->subcategoria_id = $request->subcategoria_id;
+        $gasto->informacion = $request->informacion;
+        $gasto->save();
+
+        $capital = Capital::find(1);
+        $cobrador = User::findOrFail($gasto->id_user);
+
+        if($gasto->cantidad != $oldCantidad)
         {
-            Gastos::create([
-                'cantidad'    => $request['cantidad'],
-                'categoria'   => "Sin categoria",
-                'informacion' => $request['informacion'],
-                'fecha_gasto' => Carbon::now(),
-                'id_user'     => Auth::user()->id,
-            ]);
-            $capital->saldo_efectivo -= $gasto;
-            $capital->gastos += $gasto;
+            $capital->gastos -= $oldCantidad;
+            $capital->gastos += $gasto->cantidad;
+            if($oldCategoria != 1)
+            {
+                $capital->saldo_efectivo += $oldCantidad;
+                $capital->saldo_efectivo -= $gasto->cantidad;
+            }
+
             $capital->save();
+
+            if($cobrador->id_rol != 1)
+            {
+                $cobrador->saldo += $oldCantidad;
+                $cobrador->saldo -= $gasto->cantidad;
+                $cobrador->save();
+            }
+
+        }
+        else{
+            if(!$oldCategoria){
+    
+                $capital->gastos += $gasto->cantidad;
+                $capital->saldo_efectivo -= $gasto->cantidad;
+                $capital->save();
+    
+                if($cobrador->id_rol != 1)
+                {
+                    $cobrador->saldo -= $gasto->cantidad;
+                    $cobrador->save();
+                }
+            }
         }
         
 
-        $id_cobrador->update([
-            'saldo' => $id_cobrador->saldo-=$gasto,
-        ]);
         return redirect()->route('vista.gastos');
     }
 

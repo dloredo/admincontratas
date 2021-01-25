@@ -771,3 +771,44 @@
         return redirect()->route('historialCobranza')->with('message', 'Se confirmaron los pagos con éxito.')->with('estatus',true);
     }
 }
+
+
+
+public function agregarGasto(Request $request)
+{
+    $id_cobrador = User::findOrFail(Auth::user()->id);
+    $gasto = $request['cantidad'];
+    $capital = Capital::find(1);
+    if($request['categoria'] == "Contratas")
+    {
+        Gastos::create([
+            'cantidad'    => $request['cantidad'],
+            'categoria'   => "Sin categoria",
+            'informacion' => $request['informacion'],
+            'fecha_gasto' => Carbon::now(),
+            'id_user'     => Auth::user()->id,
+        ]);
+        $capital->gastos += $gasto;
+        $capital->save();
+    }
+    else
+    {
+        Gastos::create([
+            'cantidad'    => $request['cantidad'],
+            'categoria'   => "Sin categoria",
+            'informacion' => $request['informacion'],
+            'fecha_gasto' => Carbon::now(),
+            'id_user'     => Auth::user()->id,
+        ]);
+        $capital->saldo_efectivo -= $gasto;
+        $capital->gastos += $gasto;
+        $capital->save();
+    }
+    
+
+    $id_cobrador->update([
+        'saldo' => $id_cobrador->saldo-=$gasto,
+    ]);
+
+    return redirect()->route('vista.gastos');
+}

@@ -15,4 +15,5 @@ mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css');
 
 
-    mix.js('resources/js/contratas.js', 'public/js/contratas');
+mix.js('resources/js/contratas.js', 'public/js/contratas');
+mix.js('resources/js/agregarGastos.js', 'public/js/agregarGastos');
