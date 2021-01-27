@@ -538,7 +538,7 @@ class CobranzaController extends Controller
                     'cantidad' => $cobro->cantidad,
                     'id_cobrador' => $cobro->id_cobrador,
                     'tipo' => "Cargo",
-                    'descripcion' => "",
+                    'descripcion' => "Cobranza",
                     'id_cliente' => $cobro->id_cliente,
                     'fecha' => Carbon::now()->format("Y-m-d")
                 ]);

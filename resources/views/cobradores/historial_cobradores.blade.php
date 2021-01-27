@@ -43,7 +43,7 @@
                         </tr>
                         <tr  style="text-align: center;">
                             <th scope="col">Concepto</th>
-                            <th scope="col">Cantidad</th>
+                            <th scope="col">Cargo</th>
                             <th scope="col">Cobrador</th>
                         </tr>
                     </thead>
@@ -53,7 +53,7 @@
                     <tbody>
                         @foreach ($cargos as $cargo)
                             <tr style="text-align: center;">
-                                <td>{{ $cargo->tipo }}</td>
+                                <td>{{ $cargo->descripcion }}</td>
                                 <td>{{ "$" . number_format(round(((float)$cargo->cantidad)),0,'.',',') }}</td>
                                 <td>{{ $cargo->nombres }}</td>
                                 @php
@@ -84,7 +84,7 @@
                         </tr>
                         <tr  style="text-align: center;">
                             <th scope="col">Concepto</th>
-                            <th scope="col">Cantidad</th>
+                            <th scope="col">Abono</th>
                             <th scope="col">Cobrador</th>
                         </tr>
                     </thead>
@@ -94,7 +94,7 @@
                     <tbody>
                         @foreach ($abonos as $abono)
                             <tr style="text-align: center;">
-                                <td>{{ $abono->tipo }}</td>
+                                <td>{{ $abono->descripcion }}</td>
                                 <td>{{ "$" . number_format(round(((float)$abono->cantidad)),0,'.',',') }}</td>
                                 <td>{{ $cargo->nombres }}</td>
                                 @php

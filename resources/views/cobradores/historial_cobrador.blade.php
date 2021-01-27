@@ -46,7 +46,7 @@
                     <tbody>
                         @foreach ($cargos as $cargo)
                             <tr style="text-align: center;">
-                                <td>{{ $cargo->tipo }}</td>
+                                <td>{{ $cargo->descripcion }}</td>
                                 <td>{{ "$" . number_format(round(((float)$cargo->cantidad)),0,'.',',') }}</td>
                                 @php
                                     $cargo_suma+=$cargo->cantidad;
@@ -85,7 +85,7 @@
                     <tbody>
                         @foreach ($abonos as $abono)
                             <tr style="text-align: center;">
-                                <td>{{ $abono->tipo }}</td>
+                                <td>{{ $abono->descripcion }}</td>
                                 <td>{{ "$" . number_format(round(((float)$abono->cantidad)),0,'.',',') }}</td>
                                 @php
                                     $abonos_suma += $abono->cantidad;

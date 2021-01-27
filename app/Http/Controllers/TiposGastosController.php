@@ -6,6 +6,7 @@ use App\Categorias;
 use App\Gastos;
 use App\User;
 use App\Capital;
+use App\ControlSaldos;
 use App\Historial;
 use App\HistorialCobrador;
 use App\SubCategorias;
@@ -269,7 +270,7 @@ class TiposGastosController extends Controller
             'cantidad' => $cantidad,
             'id_cobrador' => $id,
             'tipo' => "Cargo",
-            'descripcion' => "",
+            'descripcion' => $request['tipo'],
             'id_cliente' => 0,
             'fecha' => Carbon::now()->format("Y-m-d")
         ]);
@@ -292,10 +293,19 @@ class TiposGastosController extends Controller
             'cantidad' => $cantidad,
             'id_cobrador' => $id,
             'tipo' => "Abono",
-            'descripcion' => "",
+            'descripcion' => $request['tipo'],
             'id_cliente' => 0,
             'fecha' => Carbon::now()->format("Y-m-d")
         ]);
+
+        ControlSaldos::create([
+            'cargos' => 0,
+            'abonos' => $cantidad,
+            'saldo' => 0,
+            'id_cobrador' => $id,
+            'fecha' => Carbon::now()->format("Y-m-d")
+        ]);
+
         $id_cobrador->saldo -= $cantidad;
         $id_cobrador->save();
         return back();

@@ -89,6 +89,8 @@
                             @csrf
                             <label>Cantidad a entregar</label>
                             <input type="number" name="cantidad" id="cantidad" class="form-control">
+                            <label>Concepto del cargo</label>
+                            <textarea name="tipo" id="tipo" cols="30" rows="5" class="form-control"></textarea>
                     </div>
                 </div>
                 <br>
@@ -120,7 +122,9 @@
                         <form  action="{{ route('recibi.cobrador' , $cobrador->id) }}" method="post">
                             @csrf
                             <label>Cantidad a recibir</label>
-                            <input type="number" class="form-control" id="cantidad" name="cantidad" value="0">
+                            <input type="number" class="form-control" id="cantidad" name="cantidad">
+                            <label>Concepto del cargo</label>
+                            <textarea name="tipo" id="tipo" cols="30" rows="5" class="form-control"></textarea>
                     </div>
                 </div>
                 <br>

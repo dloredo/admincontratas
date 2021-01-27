@@ -38,9 +38,31 @@ class PrincipalController extends Controller
 
         if(\Request::is('principal')){
             if(Auth::user()->id_rol == 1)
-                $data["infoTable"] = User::where('id_rol' , 2)->get();
+                $data["infoTable"] = User::select("usuarios.*")
+                ->leftjoin("control_saldos" , function($query){
+                    $query->on("control_saldos.id_cobrador" , "usuarios.id");
+                    //$query->selectRaw(" (sum(control_saldos.abonos)) as abonos");
+                    $query->where('control_saldos.fecha' , Carbon::now()->format("Y-m-d"));
+                })
+                ->selectRaw(" (sum(control_saldos.abonos)) as abonos")
+                ->where("id_rol" , 2)
+                ->orderBy("usuarios.id")
+                ->groupBy("usuarios.id")
+                ->get();
             else
-                $data["infoTable"] = User::where('id_rol' , 2)->where('id' , Auth::user()->id)->get();
+                // $data["infoTable"] = User::where('id_rol' , 2)->where('id' , Auth::user()->id)->get();
+                $data["infoTable"] = User::select("usuarios.*")
+                ->leftjoin("control_saldos" , function($query){
+                    $query->on("control_saldos.id_cobrador" , "usuarios.id");
+                    //$query->selectRaw(" (sum(control_saldos.abonos)) as abonos");
+                    $query->where('control_saldos.fecha' , Carbon::now()->format("Y-m-d"));
+                })
+                ->selectRaw(" (sum(control_saldos.abonos)) as abonos")
+                ->where("usuarios.id_rol" , 2)
+                ->where('usuarios.id' , Auth::user()->id)
+                ->orderBy("usuarios.id")
+                ->groupBy("usuarios.id")
+                ->get();
         }
         else{
 
