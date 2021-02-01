@@ -528,6 +528,7 @@ class CobranzaController extends Controller
 
         PagosContratas::where("id_contrata",$contrata_id)->where("confirmacion",1)->update(["confirmacion" => 0]);
         ConfirmacionPagos::where("id_contrata",$contrata_id)->delete();
+        ConfirmacionPagoAnualidad::where("id_contrata",$contrata_id)->delete();
         HistorialCobrosDia::where("id_contrata",$contrata_id)->where("confirmado","!=",1)->delete();
         
         return back()->with('message', 'Se elimino el cobro con éxito.')->with('estatus',true);
