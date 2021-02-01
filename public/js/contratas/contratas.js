@@ -14404,6 +14404,7 @@ new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   data: {
     prestamo: '',
     diasPlan: '',
+    anualidad: false,
     comisionPrestamo: 0,
     cantidadPago: '0',
     tipoPagos: 'Pagos diarios',
@@ -14456,13 +14457,17 @@ new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
           return;
         }
 
-        this.cantidadPago = (parseInt(this.prestamo) + parseInt(this.comisionPrestamo)) / dias;
+        var prestamo = this.anualidad ? parseInt(this.prestamo) : parseInt(this.prestamo) + parseInt(this.comisionPrestamo);
+        this.cantidadPago = prestamo / dias;
         return;
       }
 
       if (type == 2) {
         if (parseInt(this.diasPlan) == 0 || String(this.diasPlan) == "") return;
-        this.cantidadPago = (parseInt(this.prestamo) + parseInt(this.comisionPrestamo)) / dias;
+
+        var _prestamo = this.anualidad ? parseInt(this.prestamo) : parseInt(this.prestamo) + parseInt(this.comisionPrestamo);
+
+        this.cantidadPago = _prestamo / dias;
         return;
       }
 
@@ -14474,7 +14479,10 @@ new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
 
       if (type == 4) {
         if ((parseInt(this.diasPlan) == 0 || String(this.diasPlan) == "") && (parseInt(this.comisionPrestamo) < 0 || String(this.comisionPrestamo) == "")) return;
-        this.cantidadPago = (parseInt(this.prestamo) + parseInt(this.comisionPrestamo)) / dias;
+
+        var _prestamo2 = this.anualidad ? parseInt(this.prestamo) : parseInt(this.prestamo) + parseInt(this.comisionPrestamo);
+
+        this.cantidadPago = _prestamo2 / dias;
         return;
       }
     },

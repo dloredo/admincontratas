@@ -59,11 +59,10 @@ class ReportesController extends Controller
 
     public function SaldoGlobalClientes()
     {
-        $clientes = Clientes::select("contratas.numero_contrata" , "clientes.nombres","contratas.cantidad_pagar","pagos_contratas.cantidad_pagada" )
+        $clientes = Clientes::select("contratas.numero_contrata","contratas.control_pago as abono" , "clientes.nombres","contratas.cantidad_pagar","pagos_contratas.cantidad_pagada" )
         ->join("contratas" , "clientes.id","contratas.id_cliente")
         ->join("pagos_contratas" , "contratas.id","pagos_contratas.id_contrata")
-        ->selectRaw(" (contratas.cantidad_pagar - sum(pagos_contratas.cantidad_pagada)) as parcial ")
-        ->selectRaw(" (sum(pagos_contratas.cantidad_pagada)) as abono ")
+        ->selectRaw(" (contratas.cantidad_pagar - contratas.control_pago) as parcial ")
         ->where("renovacion" , 0)
         ->where("contratas.estatus" , 0)
         ->groupBy("contratas.id")

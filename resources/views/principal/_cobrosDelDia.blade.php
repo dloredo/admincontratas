@@ -11,6 +11,8 @@
                 <th scope="col">Pago total</th>
                 <th scope="col">Fecha de vencimiento</th>
                 <th scope="col" style="text-align: left;">Pago</th>
+                <th scope="col" style="text-align: left;">Anualidad</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -46,13 +48,24 @@
                     <td>
                         {{date('d-m-Y', strtotime($contrata->fecha_termino))}}
                     </td>
+                    <form action="{{ route('agregarPago' , $contrata->idPago) }}" method="post" id="form_{{ $contrata->idPago }}">
                     <td width="30%">
-                        <form action="{{ route('agregarPago' , $contrata->idPago) }}" method="post" id="form_{{ $contrata->idPago }}">
-                            @csrf
-                            <input type="number" name="cantidad_pagada" id="cantidad_pagada" class="form-control" style="min-width:150px !important; ">
-                            
-                        </form>
+                        @csrf
+                        <input type="number" name="cantidad_pagada" id="cantidad_pagada" class="form-control" style="min-width:150px !important; ">  
                     </td>
+                    <td width="30%">
+
+                        @if ($contrata->anualidad)
+                            @if (is_null($contrata->fecha_pago_anualidad))
+                                <input type="checkbox" name="anualidad" id="anualidad" value="true" class="form-control-checkbox">
+                            @else
+                                Anualidad pagada
+                            @endif
+                        @else
+                            Sin anualidad
+                        @endif
+                    </td>
+                    </form>
                     <td>
                         <button style="font-size: 12px;" type="button" class="btn btn-primary btn-sm" onclick=" document.getElementById('form_{{ $contrata->idPago }}').submit() " >Agregar</button>
                     </td>

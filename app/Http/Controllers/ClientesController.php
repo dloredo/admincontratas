@@ -327,6 +327,7 @@ class ClientesController extends Controller
                 $contrata->bonificacion          = 0;    
                 $contrata->control_pago          = 0;
                 $contrata->adeudo                = 0;
+                $contrata->anualidad             = boolval($request['anualidad']);
                 $contrata->save();
 
                 PagosContratas::where("id_contrata",$contrata->id)->delete();
@@ -351,6 +352,7 @@ class ClientesController extends Controller
                     'control_pago'          => 0,
                     'adeudo'                => 0,
                     'numero_contrata'       => $request['numero_contrata'],
+                    'anualidad'             => boolval($request['anualidad'])
                 ]);
             }
 

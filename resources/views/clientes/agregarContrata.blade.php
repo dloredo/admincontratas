@@ -91,8 +91,16 @@
                             <label class="custom-control-label" for="domingo">Domingo</label>
                         </div>
                     </div>
-                 </div> 
+                </div> 
 
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <div class="custom-control custom-checkbox custom-control-inline mb-5">
+                        <input class="custom-control-input" type="checkbox" v-model="anualidad" value="true" v-on:change="calcularDatos(1)" name="anualidad" id="anualidad"/>
+                        <label class="custom-control-label" for="anualidad">Contrata con anualidad</label>
+                    </div>
+                </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-4">

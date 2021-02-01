@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use App\PagosContratas;
 use App\ConfirmacionPagos;
+use App\ConfirmacionPagoAnualidad;
 use App\HistorialCobrosDia;
 use App\Contratas;
 use App\User;
@@ -143,6 +144,18 @@ class corteDelDia extends Command
                 if($contrata->control_pago == $contrata->cantidad_pagar )
                     $contrata->estatus = 1;
                     
+
+                if($contrata->anualidad)
+                {
+                    $pago_anualidad = ConfirmacionPagoAnualidad::where("id_cobrador",$idCobrador)
+                                                                ->where("id_contrata", $contrata->id)
+                                                                ->first();
+                    if($pago_anualidad)
+                    {
+                        $contrata->fecha_pago_anualidad = $pago_anualidad->fecha_anualidad;
+                    }
+                }
+
                 $contrata->update();
             }
 
@@ -157,6 +170,7 @@ class corteDelDia extends Command
             $cobrador->update();
 
             ConfirmacionPagos::where("id_cobrador",$idCobrador)->delete();
+            ConfirmacionPagoAnualidad::where("id_cobrador",$idCobrador)->delete();
             HistorialCobrosDia::where('id_cobrador', $idCobrador)->update(["confirmado" => 1]);
 
             DB::commit();

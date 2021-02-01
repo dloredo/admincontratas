@@ -87,6 +87,14 @@
             </div>
             <div class="form-row">
                 <div class="form-group col-md-4">
+                    <div class="custom-control custom-checkbox custom-control-inline mb-5">
+                        <input class="custom-control-input" type="checkbox" v-model="anualidad" value="true" v-on:change="calcularDatos(1)" name="anualidad" id="anualidad"/>
+                        <label class="custom-control-label" for="anualidad">Contrata con anualidad</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
                     <label>Cantidad de dias o semanas</label>
                     <div class="input-group-prepend">
                         <input type="number" class="form-control @error('dias_plan_contrata') is-invalid @enderror" id="dias_plan_contrata" name="dias_plan_contrata" v-on:keyup="diasPlanKeyUp" placeholder="Ejem: 80 dias, 10 semanas" value="{{ old('dias_plan_contrata') }}" v-model="diasPlan">

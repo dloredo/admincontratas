@@ -200,6 +200,7 @@ class ContratasController extends Controller
                 'bonificacion'          => 0,    
                 'control_pago'          => 0,
                 'adeudo'                => 0,
+                'anualidad'             => boolval($request['anualidad'])
             ]);
 
             if(empty($pagos))
@@ -339,6 +340,7 @@ class ContratasController extends Controller
                 'control_pago'          => 0,
                 'adeudo'                => 0,
                 'numero_contrata'       => $numero_contrata,
+                'anualidad'             => boolval($request['anualidad'])
             ]);
 
             foreach ($fechasPagos as $fecha)
