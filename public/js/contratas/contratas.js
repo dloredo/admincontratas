@@ -14415,7 +14415,7 @@ new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   mounted: function mounted() {},
   computed: {
     porcentajeComision: function porcentajeComision() {
-      return (this.comisionPrestamo * 100 / this.prestamo / 30).toFixed(2);
+      return ((this.comisionPrestamo * 100 / this.prestamo / this.diasPlan)*30).toFixed(2);
     }
   },
   watch: {
