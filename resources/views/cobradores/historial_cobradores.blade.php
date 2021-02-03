@@ -96,7 +96,7 @@
                             <tr style="text-align: center;">
                                 <td>{{ $abono->descripcion }}</td>
                                 <td>{{ "$" . number_format(round(((float)$abono->cantidad)),0,'.',',') }}</td>
-                                <td>{{ $cargo->nombres }}</td>
+                                <td>{{ $abono->nombres }}</td>
                                 @php
                                     $abonos_suma += $abono->cantidad;
                                 @endphp
