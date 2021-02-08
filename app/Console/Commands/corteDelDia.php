@@ -73,21 +73,21 @@ class corteDelDia extends Command
                 foreach($pagos as $pago)
                 {
                     $contrata = Contratas::findOrFail($pago->id_contrata);
-                    $pagoAnterior = PagosContratas::where("id","<",$pago->id)
-                                    ->where("id_contrata",$pago->id_contrata)
-                                    ->orderBy("id","asc")
-                                    ->get()
-                                    ->first();
+                    // $pagoAnterior = PagosContratas::where("id","<",$pago->id)
+                    //                 ->where("id_contrata",$pago->id_contrata)
+                    //                 ->orderBy("id","asc")
+                    //                 ->get()
+                    //                 ->first();
     
-                    if($pagoAnterior){
+                    
 
                         if($pago->estatus == 0)
                         {
-                            $contrata->adeudo += $contrata->pagos_contrata;
+                            $contrata->adeudo += ($pago->anualidad)? $contrata->pago_anualidad :$contrata->pagos_contrata;
                         }
                         else if($pago->estatus == 3)
                         {
-                            $adeudo = $contrata->pagos_contrata - $pago->cantidad_pagada;
+                            $adeudo = ($pago->anualidad)? $contrata->pago_anualidad - $pago->cantidad_pagada :$contrata->pagos_contrata - $pago->cantidad_pagada;
                             $contrata->adeudo += $adeudo;
                         }
         
@@ -95,8 +95,7 @@ class corteDelDia extends Command
         
                         $pago->update();
                         $contrata->update();
-                    }
-                    
+                                        
                 }
             }
 
@@ -145,16 +144,7 @@ class corteDelDia extends Command
                     $contrata->estatus = 1;
                     
 
-                if($contrata->anualidad)
-                {
-                    $pago_anualidad = ConfirmacionPagoAnualidad::where("id_cobrador",$idCobrador)
-                                                                ->where("id_contrata", $contrata->id)
-                                                                ->first();
-                    if($pago_anualidad)
-                    {
-                        $contrata->fecha_pago_anualidad = $pago_anualidad->fecha_anualidad;
-                    }
-                }
+               
 
                 $contrata->update();
             }
@@ -170,7 +160,6 @@ class corteDelDia extends Command
             $cobrador->update();
 
             ConfirmacionPagos::where("id_cobrador",$idCobrador)->delete();
-            ConfirmacionPagoAnualidad::where("id_cobrador",$idCobrador)->delete();
             HistorialCobrosDia::where('id_cobrador', $idCobrador)->update(["confirmado" => 1]);
 
             DB::commit();

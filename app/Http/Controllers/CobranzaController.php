@@ -110,30 +110,30 @@ class CobranzaController extends Controller
 
        
         $cantidad_pagada = $request['cantidad_pagada'];
-        $anualidad = boolval($request['anualidad']);
-        $pagar = $contrata->pagos_contrata;
+        //$anualidad = boolval($request['anualidad']);
+        $pagar = ($pagos_con->anualidad)? $contrata->pago_anualidad :$contrata->pagos_contrata;
         $residuo = $cantidad_pagada;
 
         try{
             DB::beginTransaction();
 
-            if($anualidad)
-            {
-                ConfirmacionPagoAnualidad::create([
-                    "id_cobrador" => auth()->user()->id,
-                    "id_contrata" => $contrata->id,
-                    "fecha_anualidad" => $pagos_con->fecha_pago
-                ]);
+            // if($anualidad)
+            // {
+            //     ConfirmacionPagoAnualidad::create([
+            //         "id_cobrador" => auth()->user()->id,
+            //         "id_contrata" => $contrata->id,
+            //         "fecha_anualidad" => $pagos_con->fecha_pago
+            //     ]);
 
-                $cantidad_pagada -= $contrata->comision;
-            }
+            //     $cantidad_pagada -= $contrata->comision;
+            // }
 
 
             $idAux = 0;
             if($contrata->adeudo == 0)
             {
 
-                if($cantidad_pagada <= $pagar){
+                if($cantidad_pagada < $pagar){
 
                     if($pagos_con->cantidad_pagada == 0){
 
@@ -204,6 +204,16 @@ class CobranzaController extends Controller
 
                     }
 
+                }
+                elseif($cantidad_pagada == $pagar){
+
+                    ConfirmacionPagos::create([
+                        "id_pago_contrata"  => $pagos_con->id,
+                        'id_cobrador'       => Auth::user()->id,
+                        'id_contrata'       => $contrata->id,
+                        'cantidad_pagada'   => $cantidad_pagada,
+                        'estatus'           => 1,
+                    ]);
                 }
                 else{
                     $index = 0;
@@ -295,6 +305,8 @@ class CobranzaController extends Controller
 
                         $pago = $pagos_contratas[1];
 
+                        $pagar = ($pago->anualidad)? $contrata->pago_anualidad :$contrata->pagos_contrata;
+
                         $pago->update([
                             'confirmacion'           => 1,
                         ]);
@@ -339,6 +351,10 @@ class CobranzaController extends Controller
                         $residuo += $pago->cantidad_pagada;
                     }
 
+                    if($index > 0){
+                        $pagar = ($pago->anualidad)? $contrata->pago_anualidad :$contrata->pagos_contrata;
+                    }
+
                     $pago->update([
                         'confirmacion'           => 1,
                     ]);
@@ -361,6 +377,8 @@ class CobranzaController extends Controller
                 {
                     $pagos_contratas = PagosContratas::findOrFail($idAux + 1);
 
+                    $pagar = ($pagos_contratas->anualidad)? $contrata->pago_anualidad :$contrata->pagos_contrata;
+
                     $pagos_contratas->update([
                         'confirmacion'           => 1,
                     ]);
@@ -379,7 +397,7 @@ class CobranzaController extends Controller
 
             HistorialCobrosDia::create([
                 'id_cobrador' => Auth::user()->id,
-                'cantidad' => $cantidad_pagada += $contrata->comision,
+                'cantidad' => $cantidad_pagada,
                 'id_contrata' => $contrata->id,
                 'id_cliente' => $contrata->id_cliente,
                 'confirmado' => 0,
@@ -391,7 +409,7 @@ class CobranzaController extends Controller
         catch(Exception $e)
         {
             DB::rollBack();
-            throw new Exception($e->getMessage());
+            throw $e;
         }
         
     }
@@ -408,6 +426,7 @@ class CobranzaController extends Controller
         }
         catch(Exception $e)
         {
+            throw $e;
             dd($e->getMessage());
             return back()->with('message', 'Hubo un error al agregar el pago.')->with('estatus',false);
         }
@@ -528,7 +547,7 @@ class CobranzaController extends Controller
 
         PagosContratas::where("id_contrata",$contrata_id)->where("confirmacion",1)->update(["confirmacion" => 0]);
         ConfirmacionPagos::where("id_contrata",$contrata_id)->delete();
-        ConfirmacionPagoAnualidad::where("id_contrata",$contrata_id)->delete();
+        //ConfirmacionPagoAnualidad::where("id_contrata",$contrata_id)->delete();
         HistorialCobrosDia::where("id_contrata",$contrata_id)->where("confirmado","!=",1)->delete();
         
         return back()->with('message', 'Se elimino el cobro con éxito.')->with('estatus',true);
@@ -575,17 +594,6 @@ class CobranzaController extends Controller
                     $contrata->estatus = 1;
 
 
-                if($contrata->anualidad)
-                {
-                    $pago_anualidad = ConfirmacionPagoAnualidad::where("id_cobrador",Auth::user()->id)
-                                                                ->where("id_contrata", $contrata->id)
-                                                                ->first();
-                    if($pago_anualidad)
-                    {
-                        $contrata->fecha_pago_anualidad = $pago_anualidad->fecha_anualidad;
-                    }
-                }
-
                 $contrata->update();
                 
             }
@@ -601,7 +609,7 @@ class CobranzaController extends Controller
             $cobrador->update();
 
             ConfirmacionPagos::where("id_cobrador",Auth::user()->id)->delete();
-            ConfirmacionPagoAnualidad::where("id_cobrador",Auth::user()->id)->delete();
+            //ConfirmacionPagoAnualidad::where("id_cobrador",Auth::user()->id)->delete();
             HistorialCobrosDia::where('id_cobrador', Auth::user()->id)->update(["confirmado" => 1]);
             DB::commit();
         }

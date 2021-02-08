@@ -11,7 +11,11 @@ new Vue({
         cantidadPago: '0',
         tipoPagos: 'Pagos diarios',
         opcionesPago: 1,
-        daysOfWeek: [1, 2, 3, 4, 5]
+        daysOfWeek: [1, 2, 3, 4, 5],
+        fechasPagos:[],
+        fechasAnualidad:[],
+        pagoAnualidad:'',
+        totalAnualidades: 0
     },
     created: function() {
 
@@ -50,8 +54,20 @@ new Vue({
         resetEndDate: function() {
             document.getElementById("fecha_termino").value = "";
         },
+        resetAnualidad: function(){
+
+            calcularDatos(1)
+        },
+        calcularPagosConAnualidad:function(){
+
+            if(this.fechasAnualidad.length == 0 || this.pagoAnualidad == "" )return;
+
+            this.totalAnualidades = this.pagoAnualidad * this.fechasAnualidad.length
+
+            this.calcularDatos(1)
+        },
         calcularDatos: function(type) {
-            let dias = this.diasPlan
+            let dias = (!this.anualidad) ? this.diasPlan : this.diasPlan - this.fechasAnualidad.length
 
             if (this.prestamo == 0 || this.prestamo == "") return;
 
@@ -60,7 +76,7 @@ new Vue({
                     return;
                 }
 
-                let prestamo = (this.anualidad) ? parseInt(this.prestamo) : parseInt(this.prestamo) + parseInt(this.comisionPrestamo)
+                let prestamo = (this.anualidad) ? (parseInt(this.prestamo) + parseInt(this.comisionPrestamo)) - this.totalAnualidades : parseInt(this.prestamo) + parseInt(this.comisionPrestamo)
                 this.cantidadPago = (prestamo) / (dias);
                 return;
 
@@ -71,7 +87,7 @@ new Vue({
                 if (parseInt(this.diasPlan) == 0 || String(this.diasPlan) == "")
                     return;
 
-                let prestamo = (this.anualidad) ? parseInt(this.prestamo) : parseInt(this.prestamo) + parseInt(this.comisionPrestamo)
+                let prestamo = (this.anualidad) ? (parseInt(this.prestamo) + parseInt(this.comisionPrestamo)) - this.totalAnualidades : parseInt(this.prestamo) + parseInt(this.comisionPrestamo)
                 this.cantidadPago = (prestamo) / (dias);
                 return;
             }
@@ -81,7 +97,12 @@ new Vue({
                 if (parseInt(this.diasPlan) == 0 || String(this.diasPlan) == "")
                     return;
 
-                this.comisionPrestamo = (this.cantidadPago * dias) - this.prestamo;
+                let comision = (this.cantidadPago * dias) - this.prestamo;
+
+                if(this.anualidad){
+                    comision += this.totalAnualidades
+                }
+                this.comisionPrestamo = comision;
                 return;
             }
 
@@ -90,7 +111,7 @@ new Vue({
                 if ((parseInt(this.diasPlan) == 0 || String(this.diasPlan) == "") && (parseInt(this.comisionPrestamo) < 0 || String(this.comisionPrestamo) == ""))
                     return;
 
-                let prestamo = (this.anualidad) ? parseInt(this.prestamo) : parseInt(this.prestamo) + parseInt(this.comisionPrestamo)
+                let prestamo = (this.anualidad) ? (parseInt(this.prestamo) + parseInt(this.comisionPrestamo)) - this.totalAnualidades : parseInt(this.prestamo) + parseInt(this.comisionPrestamo)
                 this.cantidadPago = (prestamo) / (dias);
                 return;
 
@@ -99,7 +120,17 @@ new Vue({
         getEndTime: function(e) {
 
             if (this.diasPlan == "")
+            {
+
+                if(this.anualidad){
+                    this.fechasAnualidad = []
+                    this.fechasPagos = []
+                    this.pagoAnualidad = ''
+                    this.totalAnualidades = 0
+                }
+
                 return;
+            }
 
             if (this.tipoPagos == "Pagos diarios" && this.opcionesPago == 2 && this.daysOfWeek.length == 0)
                 return;
@@ -110,12 +141,20 @@ new Vue({
                 tipoPagos: this.tipoPagos,
                 diasPlan: this.diasPlan,
                 opcionesPago: this.opcionesPago,
-                daysOfWeek: this.daysOfWeek
+                daysOfWeek: this.daysOfWeek,
+                anualidad: this.anualidad
             }
 
             axios.post("/obtenerFechasPagos", sendDataObject)
                 .then(response => {
                     document.getElementById("fecha_termino").value = response.data.endTime
+
+                    if(this.anualidad){
+                        this.fechasAnualidad = []
+                        this.pagoAnualidad = ''
+                        this.totalAnualidades = 0
+                        this.fechasPagos = response.data.pagos
+                    }
                 })
         }
 

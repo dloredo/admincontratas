@@ -11,7 +11,6 @@
                 <th scope="col">Pago total</th>
                 <th scope="col">Fecha de vencimiento</th>
                 <th scope="col" style="text-align: left;">Pago</th>
-                <th scope="col" style="text-align: left;">Anualidad</th>
                 <th></th>
             </tr>
         </thead>
@@ -30,8 +29,8 @@
                         {{$contrata->numero_contrata}}
                     </td>
                     <td>
-                        {{"$" . number_format(round(((float)$contrata->pagos_contrata)),0,'.',',')}}
-                        <?php $actual_total += $contrata->pagos_contrata ?>
+                        {{"$" . number_format(round(((float)($contrata->dia_pago_anualidad)? $contrata->pago_anualidad :$contrata->pagos_contrata)),0,'.',',')}}
+                        <?php $actual_total += ($contrata->dia_pago_anualidad)? $contrata->pago_anualidad :$contrata->pagos_contrata ?>
                     </td>
                     <td>
                         {{"$" . number_format(round(((float)$contrata->adeudo)),0,'.',',')}}
@@ -42,8 +41,8 @@
                         <?php $adelanto_total += $contrata->cantidad_pagada ?>
                     </td>
                     <td>
-                        {{"$" . number_format(round(((float)$contrata->pagos_contrata + $contrata->adeudo - $contrata->cantidad_pagada)),0,'.',',')}}
-                        <?php $pago_total += $contrata->pagos_contrata + $contrata->adeudo - $contrata->cantidad_pagada ?>
+                        {{"$" . number_format(round(((float)(($contrata->dia_pago_anualidad)? $contrata->pago_anualidad :$contrata->pagos_contrata) + $contrata->adeudo - $contrata->cantidad_pagada)),0,'.',',')}}
+                        <?php $pago_total += (($contrata->dia_pago_anualidad)? $contrata->pago_anualidad :$contrata->pagos_contrata) + $contrata->adeudo - $contrata->cantidad_pagada ?>
                     </td>
                     <td>
                         {{date('d-m-Y', strtotime($contrata->fecha_termino))}}
@@ -52,18 +51,6 @@
                     <td width="30%">
                         @csrf
                         <input type="number" name="cantidad_pagada" id="cantidad_pagada" class="form-control" style="min-width:150px !important; ">  
-                    </td>
-                    <td width="30%">
-
-                        @if ($contrata->anualidad)
-                            @if (is_null($contrata->fecha_pago_anualidad))
-                                <input type="checkbox" name="anualidad" id="anualidad" value="true" class="form-control-checkbox">
-                            @else
-                                Anualidad pagada
-                            @endif
-                        @else
-                            Sin anualidad
-                        @endif
                     </td>
                     </form>
                     <td>

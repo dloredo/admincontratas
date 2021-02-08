@@ -33,6 +33,11 @@
                     </select>
                 </div>
 
+                <div class="form-group col-md-4">
+                    <label>Hora de cobro</label>
+                    <input type="text" class="form-control @error('hora_cobro') is-invalid @enderror" id="hora_cobro" name="hora_cobro" value="{{ old('hora_cobro') }}" autocomplete="hora_cobro" placeholder="De 3 a 4 de la tarde">
+                </div>
+
                 <div class="form-group col-md-4" v-if="(tipoPagos == 'Pagos diarios')">
                     <div class="form-group row">
                         <label class="col-12">Opciones de pago</label>
@@ -143,11 +148,37 @@
                     </span>
                     @enderror
                 </div>
-                <div class="form-group col-md-4">
-                    <label>Hora de cobro</label>
-                    <input type="text" class="form-control @error('hora_cobro') is-invalid @enderror" id="hora_cobro" name="hora_cobro" value="{{ old('hora_cobro') }}" autocomplete="hora_cobro" placeholder="De 3 a 4 de la tarde">
-                </div>
+               
             </div>
+
+            <div class="form-row" v-if="anualidad">
+                <div class="form-group col-md-4">
+                    <label>Pago de anualidad</label>
+                    <div class="input-group-prepend">
+                        <input type="number" class="form-control @error('dias_plan_contrata') is-invalid @enderror" id="pagoAnualidad" name="pagoAnualidad" v-on:keyup="calcularPagosConAnualidad" v-model="pagoAnualidad">
+                    </div>
+                </div>
+                
+
+                <div class="form-group col-md-6">
+                    <label>Fechas anualidad</label> <br>
+                    <div style="max-height: 200px; overflow-y:scroll;">
+
+                        <table class="table table-striped" >
+                            <tr v-for="fecha in fechasPagos">
+                                <td>
+                                    <div class="custom-control custom-checkbox custom-control-inline mb-5">
+                                        <input class="custom-control-input" type="checkbox" v-on:change="calcularPagosConAnualidad" name="fechasAnualidad[]" v-model="fechasAnualidad" :id="fecha"  v-bind:value="fecha">
+                                        <label class="custom-control-label" :for="fecha">@{{fecha}}</label>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                
+            </div>
+
             <button type="submit" class="btn btn-primary">Editar o renovar contrata a {{ $dato->nombres }}</button>
         </form>
 

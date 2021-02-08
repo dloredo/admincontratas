@@ -136,6 +136,7 @@ class ClientesController extends Controller
         $data = [];
         $desestimateDays = $this->getDesestimateDays(); 
         $date = Carbon::createFromFormat('Y-m-d', $request->input("initDate"));
+        $type = 1;
 
         if($request->input("tipoPagos") == "Pagos diarios")
         {
@@ -151,11 +152,20 @@ class ClientesController extends Controller
 
             $this->getEndDate($date, $request->input("diasPlan"),$desestimateDays, 1,$dow);
         }
-        else
+        else{
+            $type = 2;
+            $dow = [$date->dayOfWeek];
             $this->getEndDate($date, $request->input("diasPlan"),$desestimateDays, 2);
+        }
 
 
         $data["endTime"] = $date->format("Y-m-d");
+
+        if($request->anualidad){
+            $desestimateDays = $this->getDesestimateDays(); 
+            $data['pagos'] = $this->obtenerDiasPagos($request->input("initDate"),$data["endTime"],$desestimateDays,$type,$dow);
+        }
+        
 
         return $data;
     }
@@ -267,6 +277,7 @@ class ClientesController extends Controller
             'fecha_inicio'       => 'required',
             'fecha_termino'      => 'required',
             'hora_cobro'         => 'required',
+            'pagoAnualidad'      => 'required_if:anualidad,true'
         ]);
 
 
@@ -328,6 +339,7 @@ class ClientesController extends Controller
                 $contrata->control_pago          = 0;
                 $contrata->adeudo                = 0;
                 $contrata->anualidad             = boolval($request['anualidad']);
+                $contrata->pago_anualidad        = $request['pagoAnualidad'] ?? 0;
                 $contrata->save();
 
                 PagosContratas::where("id_contrata",$contrata->id)->delete();
@@ -352,7 +364,8 @@ class ClientesController extends Controller
                     'control_pago'          => 0,
                     'adeudo'                => 0,
                     'numero_contrata'       => $request['numero_contrata'],
-                    'anualidad'             => boolval($request['anualidad'])
+                    'anualidad'             => boolval($request['anualidad']),
+                    'pago_anualidad'        => $request['pagoAnualidad'] ?? 0
                 ]);
             }
 
@@ -366,6 +379,7 @@ class ClientesController extends Controller
                     'adelanto' => 0,
                     'estatus' => 0,
                     'confirmacion' => 0,
+                    'anualidad' => (boolval($request->anualidad) && in_array($fecha,$request->fechasAnualidad)) 
                 ]);
             }
             

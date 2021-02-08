@@ -13,7 +13,7 @@ class Contratas extends Model
         'id_cliente' , 'cantidad_prestada' , 'comision' , 'comision_porcentaje' , 'cantidad_pagar',
         'dias_plan_contrata' , 'pagos_contrata' , 'tipo_plan_contrata' , 'fecha_inicio',
         'estatus' , 'fecha_termino' , 'bonificacion' , 'control_pago','fecha_entrega','dias_pago','adeudo' , 'hora_cobro',
-        'numero_contrata', 'renovacion','anualidad'
+        'numero_contrata', 'renovacion','anualidad','pago_anualidad'
     ];
 
 

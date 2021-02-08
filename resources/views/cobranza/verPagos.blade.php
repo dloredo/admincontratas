@@ -13,6 +13,8 @@ $cantidad_pagar = 0;
             <h2 class="content-heading">Control de pagos: <br> 
                                         <span style="float: right;">
                                             Cantidad pagada: <?php echo "$" . number_format(round(((float)$total_pagado)),2,'.',',');?> 
+                                            <br>
+                                            Cantidad por pagar: <?php echo "$" . number_format(round(((float)$contrata->cantidad_pagar-$total_pagado)),2,'.',',');?>
                                         </span>
                                         @if ($pagos_contrata->cantidad_pagada > 0)
                                             Cantidad a pagar: <?php echo "$" . number_format(round(((float)$contrata->pagos_contrata)),2,'.',',');?> <br>
@@ -30,10 +32,6 @@ $cantidad_pagar = 0;
                                         @endif
             </h2>
 
-            <span style="float: right;">
-                Cantidad pagada: <?php echo "$" . number_format(round(((float)$total_pagado)),2,'.',',');?> <br>
-                Cantidad por pagar: <?php echo "$" . number_format(round(((float)$contrata->cantidad_pagar-$total_pagado)),2,'.',',');?>
-            </span>
         @endforeach
     @endforeach
 @else
@@ -41,16 +39,13 @@ $cantidad_pagar = 0;
         <h2 class="content-heading">Control de pagos: <br> 
                                     <span style="float: right;">
                                         Cantidad pagada: <?php echo "$" . number_format(round(((float)$total_pagado)),2,'.',',');?> 
+                                        <br>
+                                        Cantidad por pagar: <?php echo "$" . number_format(round(((float)$contrata->cantidad_pagar-$total_pagado)),2,'.',',');?>
                                     </span>
                                     Cantidad a pagar: <?php echo "$" . number_format(round(((float)$contrata->pagos_contrata)),2,'.',',');?> <br>
                                     Adeudo: <?php echo "$" . number_format(round(((float)$contrata->adeudo)),2,'.',',');?> <br>
                                     Total a pagar: <?php echo "$" . number_format(round(((float)$contrata->pagos_contrata + $contrata->adeudo)),2,'.',',');?> 
         </h2>
-
-        <span style="float: right;">
-            Cantidad pagada: <?php echo "$" . number_format(round(((float)$total_pagado)),2,'.',',');?> <br>
-            Cantidad por pagar: <?php echo "$" . number_format(round(((float)$contrata->cantidad_pagar-$total_pagado)),2,'.',',');?>
-        </span>
         <?php $cantidad_pagar_esperada =  $contrata->pagos_contrata + $contrata->adeudo?> 
         <?php $cantidad_pagar = $contrata->pagos_contrata; ?>
     @endforeach

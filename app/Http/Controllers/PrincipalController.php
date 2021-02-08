@@ -67,7 +67,7 @@ class PrincipalController extends Controller
         else{
 
             if(Auth::user()->id_rol == 1){
-            $data["infoTable"] = Contratas::select("contratas.*","clientes.nombres",'pagos_contratas.id as idPago' , 'pagos_contratas.cantidad_pagada' )
+            $data["infoTable"] = Contratas::select("contratas.*","clientes.nombres",'pagos_contratas.id as idPago' , 'pagos_contratas.cantidad_pagada','pagos_contratas.anualidad as dia_pago_anualidad')
                             ->join("clientes","clientes.id","contratas.id_cliente")
                             ->join("pagos_contratas","pagos_contratas.id_contrata","contratas.id")
                             ->where('pagos_contratas.fecha_pago', Carbon::now()->format("Y-m-d") )
@@ -76,7 +76,7 @@ class PrincipalController extends Controller
                             ->get();
 
 
-            $data["infoTableDeudores"] = Contratas::select("contratas.*","clientes.nombres")
+            $data["infoTableDeudores"] = Contratas::select("contratas.*","clientes.nombres",'pagos_contratas.anualidad as dia_pago_anualidad')
                             ->join("clientes","clientes.id","contratas.id_cliente")
                             ->join("pagos_contratas","pagos_contratas.id_contrata","contratas.id")
                             ->where('contratas.tipo_plan_contrata', 'Pagos por semana')
@@ -88,7 +88,7 @@ class PrincipalController extends Controller
             }
             else{
 
-                $data["infoTable"] = Contratas::select("contratas.*","clientes.nombres",'pagos_contratas.id as idPago' , 'pagos_contratas.cantidad_pagada')
+                $data["infoTable"] = Contratas::select("contratas.*","clientes.nombres",'pagos_contratas.id as idPago' , 'pagos_contratas.cantidad_pagada','pagos_contratas.anualidad as dia_pago_anualidad')
                             ->join("clientes",function($join){
                                 $join->on("clientes.id","contratas.id_cliente");
                                 $join->where("clientes.cobrador_id",Auth::user()->id);
@@ -99,7 +99,7 @@ class PrincipalController extends Controller
                             ->where('pagos_contratas.confirmacion', 0 )
                             ->get();
 
-                $data["infoTableDeudores"] = Contratas::select("contratas.*","clientes.nombres")
+                $data["infoTableDeudores"] = Contratas::select("contratas.*","clientes.nombres",'pagos_contratas.anualidad as dia_pago_anualidad')
                             ->join("clientes",function($join){
                                 $join->on("clientes.id","contratas.id_cliente");
                                 $join->where("clientes.cobrador_id",Auth::user()->id);
