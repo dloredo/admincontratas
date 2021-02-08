@@ -30,10 +30,10 @@
   
     @foreach ($clientes as $cliente)
     <tr style="text-align: center; font-size: 15px;">
-      <td>{{ $cliente->nombres }}</td>
-      <td>{{ $cliente->direccion }}</td>
-      <td>{{ $cliente->colonia }}</td>
-      <td>{{ $cliente->ciudad }}</td>
+      <td>{{substr(ucwords(strtolower($cliente->nombres)), 0, 25)}}..</td>
+      <td>{{substr(ucwords(strtolower($cliente->direccion)), 0, 18)}}</td>
+      <td>{{substr(ucwords(strtolower($cliente->colonia)), 0, 18)}}</td>
+      <td>{{substr(ucwords(strtolower($cliente->ciudad)), 0, 18)}}</td>
       <td>{{ $cliente->telefono }}</td>
       <td>{{ $cliente->telefono_2 }}</td>
     </tr>

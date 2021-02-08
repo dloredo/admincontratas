@@ -1,10 +1,10 @@
 <style>
-  table, th, td {
-    border: 1px solid black;
-    height: 30px;
-    border-collapse: collapse;
-  }
-</style>
+    table, th, td {
+      border: 1px solid black;
+      border-collapse: collapse;
+      font-family: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+    }
+  </style>
 
 <table style="width: 100%;">
     <thead>
@@ -29,17 +29,20 @@
         </tr>
     </thead>
     <tbody>
-        <?php $pago_total = 0 ?>
-        <?php $atraso_total = 0 ?>
-        <?php $adelanto_total = 0 ?>
-        <?php $actual_total = 0 ?>
+        @php
+            $pago_total = 0; 
+            $atraso_total = 0; 
+            $adelanto_total = 0; 
+            $actual_total = 0; 
+        @endphp
+        
         @foreach($cobranza as $contrata)
             <tr style="text-align: center;">
                 <td>
                     {{$contrata->numero_contrata}}
                 </td>
                 <td>
-                    {{substr(ucwords(strtolower($contrata->nombres)), 0, 18)}}
+                    {{substr(ucwords(strtolower($contrata->nombres)), 0, 15)}}
                 </td>
                 <td>
                     {{"$" . number_format(round(((float)$contrata->pagos_contrata)),0,'.',',')}}
@@ -58,9 +61,9 @@
                     <?php $pago_total += $contrata->pagos_contrata + $contrata->adeudo - $contrata->cantidad_pagada ?>
                 </td>
                 <td>
-                    {{ date('d-m-Y', strtotime($contrata->fecha_termino)) }}
+                    {{ date('d-m', strtotime($contrata->fecha_termino)) }}
                 </td>
-                <td>
+                <td style="height: 3.5%;">
            
                 </td>
             </tr>
