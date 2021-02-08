@@ -71,4 +71,37 @@ class ReportesController extends Controller
         $pdf = \PDF::loadView('reportes.saldo_global_clientes' , compact('clientes'));
         return $pdf->stream('Reporte-saldo-global-clientes.pdf');
     }
+
+    public function comisiones_acumuladas()
+    {
+        return view('reportes.comisiones_acumuladas');
+    }
+    public function comisiones_gastos(Request $request)
+    {
+        return view('reportes.comisiones_gastos');
+    }
+    public function control_efectivo(Request $request)
+    {
+        return view('reportes.control_efectivo');
+    }
+    public function gastos(Request $request)
+    {
+        return view('reportes.gastos');
+    }
+    public function recuperacion_general_dia()
+    {
+        return view('reportes.recuperacion_general_dia');
+    }
+    public function prestamos_comisiones_dia()
+    {
+        return view('reportes.reporte_general_prestamos_comisiones_dia');
+    }
+    public function retiros_aportaciones(Request $request)
+    {
+        return view('reportes.retiros_aportaciones');
+    }
+    public function saldo_cobradores(Request $request)
+    {
+        return view('reportes.saldo_cobradores');
+    }
 }

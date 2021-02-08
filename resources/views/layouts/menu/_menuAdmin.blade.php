@@ -43,22 +43,37 @@
         <a class="nav-submenu" data-toggle="nav-submenu" href="#"><span class="sidebar-mini-hide">Tipos de reportes</span></a>
         <ul>
             <li>
-                <a target="_blank" href="{{ route('reporteDirectorios') }}">Direcctorio de clientes</a>
+                <a href="{{ route('reporteDirectorios') }}">Direcctorio de clientes</a>
             </li>
             <li>
-                <a target="_blank" href="{{ route('reporte_general_cobranza') }}">Reporte general de cobranza</a>
+                <a href="{{ route('reporte_general_cobranza') }}">Reporte general de cobranza</a>
             </li>
             <li>
-                <a target="_blank" href="{{ route('SaldoGlobalClientes') }}">Saldo global de clientes</a>
+                <a href="{{ route('SaldoGlobalClientes') }}">Saldo global de clientes</a>
             </li>
             <li>
-                <a target="_blank" href="">Reporte de saldos, comisiones y gastos</a>
+                <a href="{{ route('comisiones_gastos') }}">Reporte de saldos, comisiones y gastos</a>
             </li>
             <li>
-                <a target="_blank" href="">Reporte de retiros y aportaciones</a>
+                <a href="{{ route('retiros_aportaciones') }}">Reporte de retiros y aportaciones</a>
             </li>
             <li>
-                <a target="_blank" href="">Reporte control de efectivo</a>
+                <a href="{{ route('control_efectivo') }}">Reporte control de efectivo</a>
+            </li>
+            <li>
+                <a href="{{ route('comisiones_acumuladas') }}">Reporte comisiones acumuladas</a>
+            </li>
+            <li>
+                <a href="{{ route('reporte-gastos') }}">Reporte gastos</a>
+            </li>
+            <li>
+                <a href="{{ route('recuperacion_general_dia') }}">Reporte recuperacion general por dia</a>
+            </li>
+            <li>
+                <a href="{{ route('prestamos_comisiones_dia') }}">Reporte prestamos y comisiones por dia</a>
+            </li>
+            <li>
+                <a href="{{ route('saldo_cobradores') }}">Reporte saldo de cobradores</a>
             </li>
         </ul>
     </li>

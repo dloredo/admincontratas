@@ -81,6 +81,15 @@ Route::get('/directorios' , 'ReportesController@reporteDirectorios')->name('repo
 Route::get('/reporte_general_cobranza' , 'ReportesController@reporte_general_cobranza')->name('reporte_general_cobranza');
 Route::get('/estadoCuenta/{id}' , 'ReportesController@estadoCuenta')->name('estadoCuenta');
 Route::get('/saldo-global-clientes' , 'ReportesController@SaldoGlobalClientes')->name('SaldoGlobalClientes');
+
+Route::get('/comisiones_acumuladas' , 'ReportesController@comisiones_acumuladas')->name('comisiones_acumuladas');
+Route::get('/comisiones_gastos' , 'ReportesController@comisiones_gastos')->name('comisiones_gastos');
+Route::get('/control_efectivo' , 'ReportesController@control_efectivo')->name('control_efectivo');
+Route::get('/reporte-gastos' , 'ReportesController@gastos')->name('reporte-gastos');
+Route::get('/recuperacion_general_dia' , 'ReportesController@recuperacion_general_dia')->name('recuperacion_general_dia');
+Route::get('/prestamos_comisiones_dia' , 'ReportesController@prestamos_comisiones_dia')->name('prestamos_comisiones_dia');
+Route::get('/retiros_aportaciones' , 'ReportesController@retiros_aportaciones')->name('retiros_aportaciones');
+Route::get('/saldo_cobradores' , 'ReportesController@saldo_cobradores')->name('saldo_cobradores');
 /*
 |--------------------------------------------------------------------------
 |            FIN    REPORTES
