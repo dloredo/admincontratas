@@ -9,20 +9,25 @@ $cantidad_pagar = 0;
 
 
 <h2 class="content-heading">Control de pagos: <br> 
+    <span style="float: right;">
+        Cantidad pagada: <?php echo "$" . number_format(round(((float)$total_pagado)),2,'.',',');?> 
+        <br>
+        Cantidad por pagar: <?php echo "$" . number_format(round(((float)$contrata->cantidad_pagar-$contrata->control_pago)),2,'.',',');?>
+    </span>
     <span style="float: left;">
-        @if ($contrata->dia_pago_anualidad)
+        @if (!is_null($contrata->dia_pago_anualidad))
 
             Pago actual: {{"$" . number_format(round(((float)($contrata->dia_pago_anualidad) ? $contrata->pago_anualidad :$contrata->pagos_contrata)),0,'.',',')}}
             <br>
         @endif
         Adeudo: {{"$" . number_format(round(((float)$contrata->adeudo)),0,'.',',')}}<br>
 
-        @if ($contrata->dia_pago_anualidad)
+        @if (!is_null($contrata->dia_pago_anualidad))
 
             Adelanto: {{"$" . number_format(round(((float)$contrata->cantidad_pagada)),0,'.',',')}} <br>
             Pago total: {{"$" . number_format(round(((float)(($contrata->dia_pago_anualidad)? $contrata->pago_anualidad :$contrata->pagos_contrata) + $contrata->adeudo - $contrata->cantidad_pagada)),0,'.',',')}}
         
-        @else
+        @endif
 
     </span>
 </h2>

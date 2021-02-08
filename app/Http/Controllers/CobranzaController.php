@@ -70,16 +70,19 @@ class CobranzaController extends Controller
         //     $validar = 2;
         //     return view('cobranza.verPagos' , ['total_pagado' => $total_pagado , 'id_contrata' => $id_contrata , 'validar' => $validar] ,compact('pagos' , 'contrata'));
         // }
+        $total_pagado = PagosContratas::where('id_contrata' , $id)->sum('cantidad_pagada');
         $contrata = Contratas::select("contratas.*","clientes.nombres",'pagos_contratas.id as idPago' , 'pagos_contratas.cantidad_pagada','pagos_contratas.anualidad as dia_pago_anualidad')
                             ->join("clientes","clientes.id","contratas.id_cliente")
-                            ->leftjoin("pagos_contratas","pagos_contratas.id_contrata","contratas.id")
-                            ->where('pagos_contratas.fecha_pago', Carbon::now()->format("Y-m-d") )
-                            ->whereRaw("(pagos_contratas.estatus = 0 or pagos_contratas.estatus = 3 )")
-                            ->where('pagos_contratas.confirmacion', 0 )
+                            ->leftjoin("pagos_contratas" , function($query){
+                                $query->on("pagos_contratas.id_contrata","contratas.id");
+                                $query->where('pagos_contratas.fecha_pago', Carbon::now()->format("Y-m-d"));
+                                $query->whereRaw("(pagos_contratas.estatus = 0 or pagos_contratas.estatus = 3 )");
+                                $query->where('pagos_contratas.confirmacion', 0 );
+                            })
                             ->where('contratas.id' , $id_contrata)
                             ->first();
         //dd($contrata);
-        return view('cobranza.verPagos' , compact('pagos' , 'contrata'));
+        return view('cobranza.verPagos' , compact('pagos' , 'contrata' , 'total_pagado'));
     }
 
     function descargarTarjetaContrata($id)
