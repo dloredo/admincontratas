@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Clientes;
 use Carbon\Carbon;
 use App\Contratas;
+use App\Cortes;
+use App\HistorialCobrosDia;
 use Illuminate\Support\Facades\DB;
 
 class ReportesController extends Controller
@@ -78,7 +80,18 @@ class ReportesController extends Controller
     }
     public function comisiones_gastos(Request $request)
     {
-        return view('reportes.comisiones_gastos');
+        $fecha_inicio = $request['fecha_inicio'];
+        $fecha_fin = $request['fecha_fin'];
+        
+        if($fecha_inicio == null && $fecha_fin == null)
+            $comisiones_gastos = Cortes::orderBy('created_at')->get();
+        else if($fecha_inicio == $fecha_fin){
+            $comisiones_gastos = Cortes::whereDate('created_at' , $fecha_inicio)->orderBy('created_at')->get();
+        }else{
+            $comisiones_gastos = Cortes::whereBetween('created_at' , [$fecha_inicio, $fecha_fin] )->orderBy('created_at')->get();
+        }
+        
+        return view('reportes.comisiones_gastos' , compact('comisiones_gastos' , 'fecha_inicio' , 'fecha_fin'));
     }
     public function control_efectivo(Request $request)
     {
@@ -90,11 +103,34 @@ class ReportesController extends Controller
     }
     public function recuperacion_general_dia()
     {
-        return view('reportes.recuperacion_general_dia');
+        $recuperacion = HistorialCobrosDia::select('fecha')
+        ->selectRaw(' sum(cantidad) as recuperacion_gral')
+        ->groupBy('fecha')
+        ->orderBy('fecha')
+        ->get();
+        //dd($recuperacion);
+        return view('reportes.recuperacion_general_dia' , compact('recuperacion'));
     }
-    public function prestamos_comisiones_dia()
+    public function prestamos_comisiones_dia(Request $request)
     {
-        return view('reportes.reporte_general_prestamos_comisiones_dia');
+        $fecha_inicio = $request['fecha_inicio'];
+        $fecha_fin = $request['fecha_fin'];
+        if($fecha_inicio == null && $fecha_fin == null)
+            $prestamos = Contratas::select('fecha_entrega','cantidad_prestada' , 'comision')
+            ->orderBy('fecha_entrega')
+            ->get();
+        else if($fecha_inicio == $fecha_fin){
+            $prestamos = Contratas::select('fecha_entrega','cantidad_prestada' , 'comision')
+            ->whereDate('fecha_entrega' , $fecha_inicio)
+            ->orderBy('fecha_entrega')
+            ->get();
+        }else{
+            $prestamos = Contratas::select('fecha_entrega','cantidad_prestada' , 'comision')
+            ->whereBetween('fecha_entrega' , [$fecha_inicio , $fecha_fin])
+            ->orderBy('fecha_entrega')
+            ->get();
+        }
+        return view('reportes.reporte_general_prestamos_comisiones_dia' , compact('prestamos' , 'fecha_inicio' , 'fecha_fin'));
     }
     public function retiros_aportaciones(Request $request)
     {

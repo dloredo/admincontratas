@@ -99,7 +99,7 @@
                                 <i class="si si-wallet fa-2x text-warning"></i>
                             </div>
                             <div class="font-size-h3 font-w600 text-warning"><span data-toggle="countTo" data-speed="1000" data-to="{{$capital->saldo_efectivo}}" class="js-count-to-enabled"><?php echo "$" . number_format(round(((float)$capital->capital_acumulado+$capital->comisiones-$parcial_suma-$capital->gastos)),2,'.',',');?></span></div>
-                            <div class="font-size-sm font-w600 text-uppercase text-warning-light">Saldo efectivo</div>
+                            <div class="font-size-sm font-w600 text-uppercase text-warning-light">Capital efectivo</div>
                         </div>
                         <div class="py-15 px-20 clearfix border-black-op-b">
                             <div class="float-right mt-15 d-none d-sm-block">
@@ -153,6 +153,21 @@
                                     <i class="si si-plus"></i> Generar corte por gastos
                                 </button>
                             </form>
+                            <form action="{{ route('generarCorteComisionesGastos') }}" method="post">
+                                <input type="hidden" name="clientes" value="{{ $clientes }}">
+                                @csrf
+                                    <input type="hidden" name="contratas" value="{{ $contratas_vigentes }}">
+                                    <input type="hidden" name="prestamos_totales" value="{{ $prestamos_totales }}">
+                                    <input type="hidden" name="gastos" value="{{ $capital->gastos }}">
+                                    <input type="hidden" name="capital_acumulado" value="{{ $capital->capital_acumulado }}">
+                                    <input type="hidden" name="comisiones" value="{{ $capital->comisiones }}">
+                                    <input type="hidden" name="capital_parcial" value="{{ $parcial_suma }}">
+                                    <input type="hidden" name="saldo_efectivo" value="{{ $capital->capital_acumulado+$capital->comisiones-$parcial_suma-$capital->gastos }}">
+                                    <input type="hidden" name="capital_total" value="{{ $parcial_suma+$capital->capital_acumulado+$capital->comisiones-$parcial_suma-$capital->gastos }}">
+                                    <button type="submit"  onclick="javascript:return confirm('Esta seguro de generar un corte por gastos?')" class="btn-block-option" data-toggle="block-option" data-action="state_toggle" data-action-mode="demo">
+                                        <i class="si si-plus"></i> Generar corte por comisiones y gastos
+                                    </button>
+                                </form>
                             @else
                             <button type="button" class="btn-block-option" onclick="showForm()">
                                 <i class="si si-plus"></i> Agregar movimiento

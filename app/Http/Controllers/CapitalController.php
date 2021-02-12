@@ -79,6 +79,30 @@ class CapitalController extends Controller
         return back();
     }
 
+    public function generarCorteComisionesGastos(Request $request)
+    {
+        Cortes::create([
+            'clientes'          => $request['clientes'],
+            'contratas'         => $request['contratas'],
+            'prestamos_totales' => $request['prestamos_totales'],
+            'gastos'            => $request['gastos'],
+            'capital_acumulado' => $request['capital_acumulado'],
+            'comisiones'        => $request['comisiones'],
+            'capital_parcial'   => $request['capital_parcial'],
+            'saldo_efectivo'    => $request['saldo_efectivo'],
+            'capital_total'     => $request['capital_total'],
+        ]);
+        
+        $capital = Capital::find(1);
+        $capital->capital_acumulado -= $request['gastos'];
+        $capital->capital_acumulado += $request['comisiones'];
+        $capital->gastos = 0;
+        $capital->comisiones = 0;
+        $capital->save();
+
+        return back();
+    }
+
     public function generarCorteComisiones(Request $request)
     {
         Cortes::create([
