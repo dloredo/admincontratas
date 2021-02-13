@@ -119,7 +119,7 @@
                                 <tr>
                                     <td style="width: 10%;">{{$count}}</td>
                                     <td style="width: 25%;">{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</td>
-                                    <td style="width: 15%;">${{$contrata->pagos_contrata}}</td>
+                                    <td style="width: 15%;">${{ ($fechas[$i-1]["anualidad"])? $contrata->pago_anualidad : $contrata->pagos_contrata}}</td>
                                     <td style="width: 50%;">
 
                                         @if (in_array($fechas[$i-1]["estatus"], [1]) )
@@ -155,7 +155,7 @@
                                 <tr>
                                 <td style="width: 10%;">{{$count}}</td>
                                     <td style="width: 25%;">{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</td>
-                                    <td style="width: 15%;">${{$contrata->pagos_contrata}}</td>
+                                    <td style="width: 15%;">${{($fechas[$i-1]["anualidad"])? $contrata->pago_anualidad : $contrata->pagos_contrata}}</td>
                                     <td style="width: 50%;">
                                         @if (in_array($fechas[$i-1]["estatus"], [1]) )
                                            <strong>
@@ -190,7 +190,7 @@
                                 <tr>
                                 <td style="width: 10%;">{{$count}}</td>
                                     <td style="width: 25%;">{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</td>
-                                    <td style="width: 15%;">${{$contrata->pagos_contrata}}</td>
+                                    <td style="width: 15%;">${{($fechas[$i-1]["anualidad"])? $contrata->pago_anualidad : $contrata->pagos_contrata}}</td>
                                     <td style="width: 50%;">
                                         @if (in_array($fechas[$i-1]["estatus"], [1]) )
                                            <strong>
@@ -225,7 +225,7 @@
                                 <tr>
                                 <td style="width: 10%;">{{$count}}</td>
                                     <td style="width: 25%;">{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</td>
-                                    <td style="width: 15%;">${{$contrata->pagos_contrata}}</td>
+                                    <td style="width: 15%;">${{($fechas[$i-1]["anualidad"])? $contrata->pago_anualidad : $contrata->pagos_contrata}}</td>
                                     <td style="width: 50%;">
                                         @if (in_array($fechas[$i-1]["estatus"], [1]) )
                                            <strong>

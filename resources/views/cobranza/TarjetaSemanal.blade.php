@@ -119,7 +119,7 @@
                            <td style="width: 10%; padding:5px 0px"><p>{{$count}}</p></td>
                            <td style="width: 20%; padding:5px 0px"><p><strong>PAGO</strong></p></td>
                            <td style="width: 30%; padding:5px 0px"><p><strong>{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</strong></p></td>
-                           <td style="width: 30%; padding:5px 0px"><p><strong>${{$contrata->pagos_contrata}}</strong></p></td>
+                           <td style="width: 30%; padding:5px 0px"><p><strong>${{($fechas[$i-1]["anualidad"])? $contrata->pago_anualidad : $contrata->pagos_contrata}}</strong></p></td>
                        </tr>
                        <tr>
                            <td colspan="2" style="width: 30%; padding:5px 0px"><p>RECIBÍ</p></td>
@@ -151,7 +151,7 @@
                             <td style="width: 10%; padding:5px 0px"><p>{{$count}}</p></td>
                             <td style="width: 20%; padding:5px 0px"><p><strong>PAGO</strong></p></td>
                             <td style="width: 30%; padding:5px 0px"><p><strong>{{ date('d-m-Y', strtotime( $fechas[$i-1]["fecha_pago"])) }}</strong></p></td>
-                            <td style="width: 30%; padding:5px 0px"><p><strong>${{$contrata->pagos_contrata}}</strong></p></td>
+                            <td style="width: 30%; padding:5px 0px"><p><strong>${{($fechas[$i-1]["anualidad"])? $contrata->pago_anualidad : $contrata->pagos_contrata}}</strong></p></td>
                         </tr>
                         <tr>
                             <td colspan="2" style="width: 30%; padding:5px 0px"><p>RECIBÍ</p></td>
