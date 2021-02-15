@@ -200,7 +200,8 @@ class ContratasController extends Controller
                 'bonificacion'          => 0,    
                 'control_pago'          => 0,
                 'adeudo'                => 0,
-                'anualidad'             => boolval($request['anualidad'])
+                'anualidad'             => boolval($request['anualidad']),
+                'pago_anualidad'        => $request['pagoAnualidad'] ?? 0
             ]);
 
             if(empty($pagos))
@@ -215,6 +216,7 @@ class ContratasController extends Controller
                         'adelanto' => 0,
                         'estatus' => 0,
                         'confirmacion' => 0,
+                        'anualidad' => (boolval($request->anualidad) && in_array($fecha,$request->fechasAnualidad)) 
                     ]);
                 }   
             }
@@ -231,6 +233,7 @@ class ContratasController extends Controller
                         'adelanto' => 0,
                         'estatus' => 0,
                         'confirmacion' => 0,
+                        'anualidad' => (boolval($request->anualidad) && in_array($fecha,$request->fechasAnualidad)) 
                     ]);
                 }
             }
@@ -353,6 +356,7 @@ class ContratasController extends Controller
                     'adelanto' => 0,
                     'estatus' => 0,
                     'confirmacion' => 0,
+                    'anualidad' => (boolval($request->anualidad) && in_array($fecha,$request->fechasAnualidad)) 
                 ]);
             }
             
