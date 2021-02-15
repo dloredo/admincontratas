@@ -126,10 +126,20 @@ class CapitalController extends Controller
     }
 
 
-    function movimientosCapital()
+    function movimientosCapital(Request $request)
     {
+        $fecha_inicio = $request['fecha_inicio'];
+        $fecha_fin = $request['fecha_fin'];
+
+        if($fecha_inicio == null && $fecha_fin == null)
+            $movimientos = Movimiento::orderBy('created_at')->get();
+        else if($fecha_inicio == $fecha_fin){
+            $movimientos = Movimiento::whereDate('created_at' , $fecha_inicio)->orderBy('created_at')->get();
+        }else{
+            $movimientos = Movimiento::whereBetween('created_at' , [$fecha_inicio, $fecha_fin] )->orderBy('created_at')->get();
+        }
+
         $capital = Capital::find(1);
-        $movimientos = Movimiento::all();
         $prestamos_totales = Contratas::where('estatus' , 0)->sum('cantidad_pagar');
         $pagos_totales = PagosContratas::sum('cantidad_pagada');
         $comisiones = Contratas::sum('comision');
@@ -140,7 +150,7 @@ class CapitalController extends Controller
         ->groupBy("contratas.id")
         ->get();
         $clientes = Clientes::count();
-        return view("capital.capital", ['prestamos_totales' => $prestamos_totales ,'pagos_totales' => $pagos_totales, 'comisiones' => $comisiones , 'contratas_vigentes' => $contratas_vigentes , 'clientes' => $clientes], compact("capital","movimientos","parcial"));
+        return view("capital.capital", ['prestamos_totales' => $prestamos_totales ,'pagos_totales' => $pagos_totales, 'comisiones' => $comisiones , 'contratas_vigentes' => $contratas_vigentes , 'clientes' => $clientes], compact("capital","movimientos","parcial",'fecha_inicio' , 'fecha_fin'));
     }
 
     function crearMovimientoCapital(Request $request)
@@ -174,6 +184,7 @@ class CapitalController extends Controller
     {
         return Validator::make($data, [
             'tipo_movimiento' => ['required'],
+            'concepto' => ['required'],
             'total' => ['required', 'integer']
         ]);
     }

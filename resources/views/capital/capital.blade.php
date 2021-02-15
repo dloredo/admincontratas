@@ -234,6 +234,16 @@
                                 @enderror
                             </div>
 
+                            <div class="form-group col-md-12">
+                                <label for="total">Concepto</label>
+                                <input type="text" class="form-control @error('concepto') is-invalid @enderror" value="{{ old('concepto') }}" id="concepto" name="concepto" placeholder="">
+                                @error('concepto')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+
                         </div>
 
                     </form>
@@ -251,7 +261,8 @@
 @endsection
 
 @section('styles')
-
+    <link rel="stylesheet" href="{{asset('assets/js/plugins/datatables/dataTables.bootstrap4.css') }}">
+    <link rel="stylesheet" href="{{asset('assets/js/plugins/datatables/buttons-bs4/buttons.bootstrap4.css') }}">
 @endsection
 
 
@@ -266,6 +277,30 @@
     function submitForm() {
         document.getElementById("saveMoviento").submit();
     }
+</script>
+<script src="{{ asset('assets/js/plugins/datatables/jquery.dataTables.min.js')  }}"></script>
+<script src="{{ asset('assets/js/plugins/datatables/dataTables.bootstrap4.min.js')  }}"></script>
+
+<script src="{{ asset('assets/js/plugins/datatables/buttons/dataTables.buttons.min.js')  }}"></script>
+<script src="{{ asset('assets/js/plugins/datatables/buttons-bs4/buttons.bootstrap4.min.js')  }}"></script>
+<script src="{{ asset('assets/js/plugins/datatables/buttons/buttons.colVis.min.js')  }}"></script>
+<script src="{{ asset('assets/js/plugins/datatables/buttons/buttons.html5.min.js')  }}"></script>
+<script src="{{ asset('assets/js/plugins/datatables/buttons/buttons.flash.min.js')  }}"></script>
+<script src="{{ asset('assets/js/plugins/datatables/buttons/buttons.print.min.js')  }}"></script>
+<script src="{{ asset('assets/js/plugins/datatables/buttons/jszip.min.js')  }}"></script>
+<script src="{{ asset('assets/js/plugins/datatables/buttons/pdfmake.min.js')  }}"></script>
+<script src="{{ asset('assets/js/plugins/datatables/buttons/vfs_fonts.js')  }}"></script>
+<script>
+
+$('#tableMovimientos').DataTable({
+    dom: 'Blfrtip',
+    buttons: [    
+        {
+            extend: 'print',
+            title: 'REPORTE DE RETIROS Y APORTACIONES',
+        }
+    ]
+});
 </script>
 @endif
 
