@@ -243,13 +243,20 @@ class ContratasController extends Controller
             if($fechaActual > $fechaInicio->format("Y-m-d"))
             {
                 $fechasPagos = PagosContratas::where("id_contrata",$contrata->id)->where("fecha_pago","<", $fechaActual)->get();
-
+                //dd($fechasPagos);
                 $adeudo = 0;
                 foreach ($fechasPagos as $fecha)
                 {
-                    $adeudo += $contrata->pagos_contrata;
-                    $fecha->adeudo = $adeudo;
-                    $fecha->estatus = 3;
+                    if($fecha->anualidad == 1)
+                    {
+                        $adeudo += $contrata->pago_anualidad;
+                        $fecha->adeudo = $adeudo;
+                        $fecha->estatus = 3;
+                    }else{
+                        $adeudo += $contrata->pagos_contrata;
+                        $fecha->adeudo = $adeudo;
+                        $fecha->estatus = 3;
+                    }
                     $fecha->update();
                 }
                 $contrata->adeudo = $adeudo;
@@ -264,6 +271,7 @@ class ContratasController extends Controller
         }
         catch(\Exception $e){
             DB::rollback();
+            //dd($e);
             return redirect()->route('vista.contratas')->with('estatus',false)->with('message', 'Hubo un error al guardar la contrata, verifique la información');
         }
         
@@ -368,9 +376,16 @@ class ContratasController extends Controller
                 $adeudo = 0;
                 foreach ($fechasPagos as $fecha)
                 {
-                    $adeudo += $contrata->pagos_contrata;
-                    $fecha->adeudo = $adeudo;
-                    $fecha->estatus = 3;
+                    if($fecha->anualidad == 1)
+                    {
+                        $adeudo += $contrata->pago_anualidad;
+                        $fecha->adeudo = $adeudo;
+                        $fecha->estatus = 3;
+                    }else{
+                        $adeudo += $contrata->pagos_contrata;
+                        $fecha->adeudo = $adeudo;
+                        $fecha->estatus = 3;
+                    }
                     $fecha->update();
                 }
                 $contrata->adeudo = $adeudo;
