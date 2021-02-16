@@ -391,9 +391,16 @@ class ClientesController extends Controller
                 $adeudo = 0;
                 foreach ($fechasPagos as $fecha)
                 {
-                    $adeudo += $contrata->pagos_contrata;
-                    $fecha->adeudo = $adeudo;
-                    $fecha->estatus = 3;
+                    if($fecha->anualidad == 1)
+                    {
+                        $adeudo += $contrata->pago_anualidad;
+                        $fecha->adeudo = $adeudo;
+                        $fecha->estatus = 3;
+                    }else{
+                        $adeudo += $contrata->pagos_contrata;
+                        $fecha->adeudo = $adeudo;
+                        $fecha->estatus = 3;
+                    }
                     $fecha->update();
                 }
                 $contrata->adeudo = $adeudo;
