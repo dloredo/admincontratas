@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use App\Contratas;
 use App\Cortes;
 use App\HistorialCobrosDia;
+use App\Movimiento;
 use Illuminate\Support\Facades\DB;
 
 class ReportesController extends Controller
@@ -95,7 +96,9 @@ class ReportesController extends Controller
     }
     public function control_efectivo(Request $request)
     {
-        return view('reportes.control_efectivo');
+        $historial_cobros_dia = HistorialCobrosDia::select('fecha' , 'cantidad');
+        $movimientos_capital = Movimiento::select('created_at' , 'tipo_movimiento' ,'cantidad');
+        return view('reportes.control_efectivo' , compact('historial_cobros_dia' , 'movimientos_capital'));
     }
     public function gastos(Request $request)
     {

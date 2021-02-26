@@ -54,9 +54,9 @@
             <li>
                 <a href="{{ route('comisiones_gastos') }}">Reporte de saldos, comisiones y gastos</a>
             </li>
-            <li>
+            <!--    <li>
                 <a href="{{ route('retiros_aportaciones') }}">Reporte de retiros y aportaciones</a>
-            </li>
+            </li> -->
             <li>
                 <a href="{{ route('control_efectivo') }}">Reporte control de efectivo</a>
             </li>

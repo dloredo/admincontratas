@@ -17,7 +17,7 @@
                 <td colspan="4">Fecha: {{ date('d-m-Y') }}</td>
             </tr>
             <tr style="text-align: center;"> 
-                <th colspan="4" scope="col" style="font-size: 24px;" >REPORTE GENERAL DE PRESTAMOS Y COMISIONES POR DIA</th>
+                <th colspan="4" scope="col" style="font-size: 24px;" >REPORTE CONTROL DE EFECTIVO</th>
             </tr>
             <tr style="text-align: center;"> 
                 <th colspan="4" scope="col"> <br> </th>

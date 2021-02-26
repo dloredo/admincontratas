@@ -11,7 +11,8 @@
             </div>
             <button type="button" class="btn btn-success" onclick="document.getElementById('filtrar_rango_fecha').submit()">Filtrar</button>
         </form>
-        <table style="width: 100%;" class="table">
+        <br>
+        <table id="tableComisionesGastos" class="table table-bordered table-striped table-vcenter js-dataTable-full">
             <thead>
             <tr style="text-align: center;">
                 <td colspan="4">Fecha: {{ date('d-m-Y') }}</td>
@@ -60,8 +61,28 @@
 
 @section('scripts')
 
-    <script>
- 
-    </script>
+<script src="{{ asset('assets/js/plugins/datatables/jquery.dataTables.min.js')  }}"></script>
+<script src="{{ asset('assets/js/plugins/datatables/dataTables.bootstrap4.min.js')  }}"></script>
+
+<script src="{{ asset('assets/js/plugins/datatables/buttons/dataTables.buttons.min.js')  }}"></script>
+<script src="{{ asset('assets/js/plugins/datatables/buttons-bs4/buttons.bootstrap4.min.js')  }}"></script>
+<script src="{{ asset('assets/js/plugins/datatables/buttons/buttons.colVis.min.js')  }}"></script>
+<script src="{{ asset('assets/js/plugins/datatables/buttons/buttons.html5.min.js')  }}"></script>
+<script src="{{ asset('assets/js/plugins/datatables/buttons/buttons.flash.min.js')  }}"></script>
+<script src="{{ asset('assets/js/plugins/datatables/buttons/buttons.print.min.js')  }}"></script>
+<script src="{{ asset('assets/js/plugins/datatables/buttons/jszip.min.js')  }}"></script>
+<script src="{{ asset('assets/js/plugins/datatables/buttons/pdfmake.min.js')  }}"></script>
+<script src="{{ asset('assets/js/plugins/datatables/buttons/vfs_fonts.js')  }}"></script>
+<script>
+    $('#tableComisionesGastos').DataTable({
+    dom: 'Blfrtip',
+    buttons: [    
+        {
+            extend: 'print',
+            title: 'REPORTE COMISIONES Y GASTOS',
+        }
+    ]
+});
+</script>
 
 @endsection
